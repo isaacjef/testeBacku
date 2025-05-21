@@ -10,13 +10,12 @@ export class Emprestimo extends ModeloBase {
     status?: StatusEmprestimo;
 
     constructor(
-        //id: string,
         livroID: string,
         usuarioID: string,
         dataEmprestimo: Date,
         dataVencimento: Date
     ) {
-        super();
+        super(id);
         this.livroID = livroID;
         this.usuarioID = usuarioID;
         this.dataEmprestimo = dataEmprestimo;

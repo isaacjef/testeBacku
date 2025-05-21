@@ -9,7 +9,7 @@ export interface IUsuarioRepository {
 *
 */
 
-    //adicionarUsuario(usuario: Usuario): Promise<string>
+    save(name: string, email: string): Promise<void>
     findByEmail(email: string): Promise<Usuario | null>
     listarUsuarios(): void
 

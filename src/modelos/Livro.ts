@@ -4,26 +4,25 @@ import { ModeloBase } from "./ModeloBase"
 
 export class Livro extends ModeloBase {
     private titulo: string;
-    private autor?: Autor;
     private isbn: string;
+    private autor?: Autor;
     private categoria?: CategoriaLivro;
     private anoPublicacao?: number;
     private copiasDisponiveis?: number;
     private totalCopias?: number;
 
     constructor(
-        //id: string,
         titulo: string,
-        autor: Autor,
         isbn: string,
+        autor: Autor,
         categoria: CategoriaLivro,
         anoPublicacao: number,
         totalCopias: number
     ) {
-        super();
+        super(id);
         this.titulo = titulo;
-        this.autor = autor;
         this.isbn = isbn;
+        this.autor = autor;
         this.categoria = categoria;
         this.anoPublicacao = anoPublicacao;
         this.copiasDisponiveis = totalCopias;

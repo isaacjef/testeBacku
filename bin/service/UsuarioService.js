@@ -13,16 +13,12 @@ exports.UsuarioService = void 0;
 const index_1 = require("../index");
 const UsuarioRepository_1 = require("../repository/UsuarioRepository");
 class UsuarioService {
+    //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
+    //algo do tipo: Promise { <pending> }
     adicionarUsuario(name, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            //palavra-chave await é extremamente necessária neste caso!!!
-            const usuario = yield index_1.prisma.usuario.create({
-                data: {
-                    name: `${name}`,
-                    email: `${email}`,
-                },
-            });
-            console.log(usuario);
+            const repositorio = new UsuarioRepository_1.UsuarioRepository();
+            repositorio.save(name, email);
             yield index_1.prisma.$disconnect();
             return new Promise((resolve) => {
                 setTimeout(() => {
@@ -31,8 +27,6 @@ class UsuarioService {
             });
         });
     }
-    //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
-    //algo do tipo: Promise { <pending> }
     login(name, email) {
         return __awaiter(this, void 0, void 0, function* () {
             const n = new UsuarioRepository_1.UsuarioRepository();

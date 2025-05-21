@@ -3,15 +3,11 @@ import { UsuarioRepository } from '../repository/UsuarioRepository';
 
 export class UsuarioService {
 
+	//Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
+    //algo do tipo: Promise { <pending> }
     async adicionarUsuario(name: string, email: string): Promise<string> {
-        //palavra-chave await é extremamente necessária neste caso!!!
-        const usuario = await prisma.usuario.create({
-            data: {
-                name: `${name}`,
-                email: `${email}`,
-            },
-        })
-        console.log(usuario);
+        const repositorio = new UsuarioRepository();
+        repositorio.save(name, email);
 
         await prisma.$disconnect();
 
@@ -20,10 +16,8 @@ export class UsuarioService {
             	resolve("ASync teste");
         	}, 10);
     	});
-
     }
-    //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
-    //algo do tipo: Promise { <pending> }
+    
     async login(name: string, email: string): Promise<string> {
 		const n = new UsuarioRepository();
 		console.log("Testando usuario service " + email)
@@ -38,6 +32,4 @@ export class UsuarioService {
         	});
     	});
     }
-
-
 }

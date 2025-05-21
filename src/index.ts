@@ -1,10 +1,9 @@
-//import { Livro } from './modelos/Livro';
-//import { Usuario } from './modelos/Usuario';
 //import { Emprestimo } from './modelos/Emprestimo';
 //import { Formulario } from './console/Formulario';
 import { PrismaClient } from '../src/generated/prisma/client';
 import { UsuarioRepository } from './repository/UsuarioRepository';
 import { UsuarioService } from './service/UsuarioService';
+import { LivroService } from './service/LivroService';
 
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 export const prisma = new PrismaClient({ log: ['query'] });
@@ -22,26 +21,15 @@ async function main() {
 	form.cadastrarUsuario();
 	const usuario = new UsuarioService();
 	//usuario.adicionarUsuario("name", "email@gmail.com");
-	usuario.login("name", "email@gmail.com");*/
+	usuario.login("name", "email@gmail.com");
 	
-	const listar = await prisma.usuario.findMany();
-	console.log(listar);
+	const livroT = new LivroService();
+	livroT.adicionarLivro("Livro 2222", "12391239");
+	const test = await prisma.livro.findMany();
+	console.log(test)*/
 	
-	const livro = await prisma.livro.create({
-        data: {
-            titulo: 'asdasd',
-            isbn: 'asdasd',
-        },
-    })
-	console.log(livro)
-
-    const emprestimo = await prisma.emprestimo.create({
-        data: {
-            livroID: 1,
-            usuarioID: 1,
-        },
-    })
-    console.log(emprestimo);
+	const rep = new LivroRepository();
+	console.log(rep.findByISBN("asdasd"));
 }
 
 main()

@@ -1,6 +1,11 @@
+import { Livro } from '../modelos/Livro';
+
 export interface ILivroRepository {
 
-    //findByEmail(email: string): Promise<Usuario | null>
-    //listarUsuarios(): void
+	//findByTitulo, Titulo & ISBN, etc...
+
+
+	save(titulo: string, email: string): Promise<void>
+    findByISBN(isbn: string): Promise<void>
 
 }

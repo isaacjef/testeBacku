@@ -10,8 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
-//import { Livro } from './modelos/Livro';
-//import { Usuario } from './modelos/Usuario';
 //import { Emprestimo } from './modelos/Emprestimo';
 //import { Formulario } from './console/Formulario';
 const client_1 = require("../src/generated/prisma/client");
@@ -31,23 +29,14 @@ function main() {
         form.cadastrarUsuario();
         const usuario = new UsuarioService();
         //usuario.adicionarUsuario("name", "email@gmail.com");
-        usuario.login("name", "email@gmail.com");*/
-        const listar = yield exports.prisma.usuario.findMany();
-        console.log(listar);
-        const livro = yield exports.prisma.livro.create({
-            data: {
-                titulo: 'asdasd',
-                isbn: 'asdasd',
-            },
-        });
-        console.log(livro);
-        const emprestimo = yield exports.prisma.emprestimo.create({
-            data: {
-                livroID: 1,
-                usuarioID: 1,
-            },
-        });
-        console.log(emprestimo);
+        usuario.login("name", "email@gmail.com");
+        
+        const livroT = new LivroService();
+        livroT.adicionarLivro("Livro 2222", "12391239");
+        const test = await prisma.livro.findMany();
+        console.log(test)*/
+        const rep = new LivroRepository();
+        console.log(rep.findByISBN("asdasd"));
     });
 }
 main()

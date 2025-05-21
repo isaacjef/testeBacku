@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModeloBase = void 0;
 class ModeloBase {
-    constructor() {
+    constructor(id) {
+        this.id = id;
         this.DataCriacao = new Date();
         this.DataUpdate = new Date();
     }
