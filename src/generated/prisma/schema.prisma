@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+// Enums não são suportados no SQLite
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  binaryTargets = ["native", "windows"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+  //  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  name       String
+  Emprestimo Emprestimo[]
+}
+
+model Livro {
+  id         Int          @id @default(autoincrement())
+  titulo     String
+  isbn       String       @unique
+  Emprestimo Emprestimo[]
+}
+
+model Emprestimo {
+  livroID   Int
+  usuarioID Int
+  livro     Livro   @relation(fields: [livroID], references: [id])
+  usuario   Usuario @relation(fields: [usuarioID], references: [id])
+
+  @@id([livroID, usuarioID])
+}
