@@ -4,7 +4,7 @@ exports.Emprestimo = void 0;
 const StatusLivro_1 = require("../enumeracao/StatusLivro");
 const ModeloBase_1 = require("./ModeloBase");
 class Emprestimo extends ModeloBase_1.ModeloBase {
-    constructor(livroID, usuarioID, dataEmprestimo, dataVencimento) {
+    constructor(id, livroID, usuarioID, dataEmprestimo, dataVencimento) {
         super(id);
         this.livroID = livroID;
         this.usuarioID = usuarioID;

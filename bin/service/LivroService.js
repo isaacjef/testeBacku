@@ -9,27 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LivroRepository = void 0;
+exports.LivroService = void 0;
 const index_1 = require("../index");
-const Livro_1 = require("../modelos/Livro");
-class LivroRepository {
-    save(titulo, isbn) {
+const LivroRepository_1 = require("../repository/LivroRepository");
+/*Livro:
+titulo
+isbn*/
+class LivroService {
+    adicionarLivro(titulo, isbn) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield index_1.prisma.livro.create({
-                data: {
-                    titulo: titulo,
-                    isbn: isbn,
-                },
+            const repositorio = new LivroRepository_1.LivroRepository();
+            repositorio.save(titulo, isbn);
+            yield index_1.prisma.$disconnect();
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve("ASync teste");
+                }, 10);
             });
         });
     }
-    //O email, neste caso, é único
-    findByISBN(isbn) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const livro = yield index_1.prisma.livro.findUnique({ where: { isbn: isbn } });
-            console.log("Passei pelo BD. REp");
-            return new Livro_1.Livro(livro.id, livro.titulo, livro.isbn);
-        });
-    }
 }
-exports.LivroRepository = LivroRepository;
+exports.LivroService = LivroService;

@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ModeloBase = void 0;
 class ModeloBase {
+    //DataCriacao?: Date;
+    //DataUpdate?: Date;
     constructor(id) {
         this.id = id;
-        this.DataCriacao = new Date();
-        this.DataUpdate = new Date();
+        //this.DataCriacao = new Date();
+        //this.DataUpdate = new Date();
     }
 }
 exports.ModeloBase = ModeloBase;

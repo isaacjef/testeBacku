@@ -14,9 +14,9 @@ export class LivroRepository implements ILivroRepository {
 	}
 
 	//O email, neste caso, é único
-    async findByISBN(isbn: string): Promise<void> {
-        const livro = prisma.livro.findUnique({ where: { isbn: isbn } });
-        console.log(livro);
-        //return new Livro();
+    async findByISBN(isbn: string): Promise<Livro | null> {
+        const livro = await prisma.livro.findUnique({ where: { isbn: isbn } });
+        console.log("Passei pelo BD. REp");
+        return new Livro(livro.id, livro.titulo, livro.isbn);
     }
 }

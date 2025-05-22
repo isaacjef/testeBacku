@@ -1,7 +1,8 @@
-//import { Emprestimo } from './modelos/Emprestimo';
+import { Livro } from './modelos/Livro';
 //import { Formulario } from './console/Formulario';
 import { PrismaClient } from '../src/generated/prisma/client';
 import { UsuarioRepository } from './repository/UsuarioRepository';
+import { LivroRepository } from './repository/LivroRepository';
 import { UsuarioService } from './service/UsuarioService';
 import { LivroService } from './service/LivroService';
 
@@ -26,10 +27,15 @@ async function main() {
 	const livroT = new LivroService();
 	livroT.adicionarLivro("Livro 2222", "12391239");
 	const test = await prisma.livro.findMany();
-	console.log(test)*/
+	console.log(test)
+	
+	//{ id: 1, titulo: 'asdasd', isbn: 'asdasd' }
+	
+	const teste = { id: 1, titulo: "asdasd", isbn: 'asdasd' }
+	const livro = new Livro(teste.id, teste.titulo, teste.isbn);*/
 	
 	const rep = new LivroRepository();
-	console.log(rep.findByISBN("asdasd"));
+	console.log(await rep.findByISBN('asdasd'));
 }
 
 main()

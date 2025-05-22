@@ -5,28 +5,30 @@ import { ModeloBase } from "./ModeloBase"
 export class Livro extends ModeloBase {
     private titulo: string;
     private isbn: string;
-    private autor?: Autor;
+    /*private autor?: Autor;
     private categoria?: CategoriaLivro;
     private anoPublicacao?: number;
     private copiasDisponiveis?: number;
-    private totalCopias?: number;
+    private totalCopias?: number;*/
 
     constructor(
+    	id: number,
         titulo: string,
         isbn: string,
-        autor: Autor,
-        categoria: CategoriaLivro,
-        anoPublicacao: number,
-        totalCopias: number
+        /*autor?: Autor,
+        categoria?: CategoriaLivro,
+        anoPublicacao?: number,
+        copiasDisponiveis?: number,
+        totalCopias?: number*/
     ) {
         super(id);
         this.titulo = titulo;
         this.isbn = isbn;
-        this.autor = autor;
+        /*this.autor = autor;
         this.categoria = categoria;
         this.anoPublicacao = anoPublicacao;
         this.copiasDisponiveis = totalCopias;
-        this.totalCopias = totalCopias;
+        this.totalCopias = totalCopias;*/
     }
 }
 

@@ -10,6 +10,7 @@ export class Emprestimo extends ModeloBase {
     status?: StatusEmprestimo;
 
     constructor(
+    	id: number,
         livroID: string,
         usuarioID: string,
         dataEmprestimo: Date,
