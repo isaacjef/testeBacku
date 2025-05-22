@@ -23,12 +23,18 @@ class LivroRepository {
             });
         });
     }
-    //O email, neste caso, é único
+    //O try...catch pode ser implementado em LivroService, quando este chamar por findByISBN.
     findByISBN(isbn) {
         return __awaiter(this, void 0, void 0, function* () {
+            //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.
             const livro = yield index_1.prisma.livro.findUnique({ where: { isbn: isbn } });
-            console.log("Passei pelo BD. REp");
-            return new Livro_1.Livro(livro.id, livro.titulo, livro.isbn);
+            console.log("Possível mensagem de log. Repository.");
+            if (livro) { //Se livro tiver um valor
+                return new Livro_1.Livro(livro.id, livro.titulo, livro.isbn);
+            }
+            else {
+                return null;
+            }
         });
     }
 }

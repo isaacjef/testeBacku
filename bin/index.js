@@ -10,13 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
-//import { Formulario } from './console/Formulario';
+//import { Livro } from './modelos/Livro';
+const Formulario_1 = require("./console/Formulario");
 const client_1 = require("../src/generated/prisma/client");
-const LivroRepository_1 = require("./repository/LivroRepository");
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        const form = new Formulario_1.Formulario();
+        form.iniciar();
         /*const user = await prisma.usuario.create({
             data: {
                 name: 'Alice',
@@ -25,23 +27,18 @@ function main() {
         })
     
         const rep = new UsuarioRepository();
-        const form = new Formulario();
-        form.cadastrarUsuario();
         const usuario = new UsuarioService();
         //usuario.adicionarUsuario("name", "email@gmail.com");
         usuario.login("name", "email@gmail.com");
         
-        const livroT = new LivroService();
-        livroT.adicionarLivro("Livro 2222", "12391239");
-        const test = await prisma.livro.findMany();
-        console.log(test)
-        
-        //{ id: 1, titulo: 'asdasd', isbn: 'asdasd' }
-        
         const teste = { id: 1, titulo: "asdasd", isbn: 'asdasd' }
-        const livro = new Livro(teste.id, teste.titulo, teste.isbn);*/
-        const rep = new LivroRepository_1.LivroRepository();
-        console.log(yield rep.findByISBN('asdasd'));
+        const livro = new Livro(teste.id, teste.titulo, teste.isbn);
+        
+        const ger = new GerenciarLivro();
+        ger.cadastrarLivro();
+        
+        const test = await prisma.livro.findMany();
+        console.log(test)*/
     });
 }
 main()
@@ -53,17 +50,18 @@ main()
     yield exports.prisma.$disconnect();
     process.exit(1);
 }));
-//const form = new Formulario();
-//form.cadastrarUsuario();
-/* DESCRIÇÃO:
- *  Necessária instalação da dependencia TypeROM:
- *  npm install typeorm reflect-metadata sqlite3
+/* const form = new Formulario();
+ * form.cadastrarUsuario();
  *
+ * Consultar livro via ISBN. Neste aqui, o ISBN não existe, o método retorna null.
+ * const rep = new LivroRepository();
+ * console.log(await rep.findByISBN('asdasd12312'));
+ *
+ *
+ *
+ * model Usuario {
+ * 	id    Int    @id @default(autoincrement())
+ * 	email String @unique
+ * 	name  String
+ *  }
  */
-/*
-model Usuario {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String
-}
-*/

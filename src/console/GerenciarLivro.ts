@@ -1,4 +1,7 @@
-/*class GerenciarLivro {
+import * as readlineSync from 'readline-sync';
+import { LivroService } from '../service/LivroService'
+
+export class GerenciarLivro {
 
     cadastrarLivro(): void {
 		console.log(`|---------------Cadastrar Livro---------------|`)
@@ -7,12 +10,12 @@
 			const titulo = readlineSync.question(`| Título:`)
 			const genero = readlineSync.question(`| Gênero:`)
 			const isbn = readlineSync.question(`| ISBN:`)
-			const usuario = new UsuarioService();
-        	usuario.adicionarUsuario(name, email);
+			const livro = new LivroService();
+        	livro.adicionarLivro(titulo, isbn);
 		} catch (error: any) {
                     console.error("Erro:", error.message);
         }
 		console.log(`|---------------------------------------------|`)
 	}
 
-}*/
+}

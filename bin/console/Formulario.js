@@ -37,12 +37,29 @@ exports.Formulario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
 class Formulario {
+    iniciar() {
+        console.log(`|---------------Iniciando Sistema---------------|`);
+        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+        console.log(`| . . . . . . . . [1] Cadastro  . . . . . . . . |`);
+        console.log(`| . . . . . . . . [2] Login     . . . . . . . . |`);
+        try {
+            const resp = readlineSync.question(`                     `, { limit: [1, 2] });
+            if (resp == '1')
+                this.cadastrarUsuario();
+            else
+                this.logarUsuario();
+        }
+        catch (error) {
+            console.error("Erro:", error.message);
+        }
+        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+        console.log(`|-----------------------------------------------|`);
+    }
     cadastrarUsuario() {
-        console.log(`|---------------Teste de User---------------|`);
-        console.log(`| Olá . . . Admin . . . 					 |`);
+        console.log(`|-----------------Teste de User-----------------|`);
+        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
         try {
             const name = readlineSync.question(`| Nome:`);
-            //Controller  adicionáar valores ao bd, atraveś do model ORM
             const email = readlineSync.question(`| E-mail:`);
             const usuario = new UsuarioService_1.UsuarioService();
             usuario.adicionarUsuario(name, email);
@@ -50,14 +67,14 @@ class Formulario {
         catch (error) {
             console.error("Erro:", error.message);
         }
-        console.log(`|-------------------------------------------|`);
+        console.log(`|-----------------------------------------------|`);
     }
     logarUsuario() {
         console.log(`|---------------    Login    ---------------|`);
         console.log(`|                        					 |`);
         try {
             const name = readlineSync.question(`| Nome:`);
-            //Posteriormente, substituir nome por senha.
+            //Posteriormente, substituir nome por senha...
             const email = readlineSync.question(`| E-mail:`);
             const usuario = new UsuarioService_1.UsuarioService();
             usuario.login(name, email);
