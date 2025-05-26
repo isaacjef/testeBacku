@@ -7,9 +7,10 @@
 // Enums não são suportados no SQLite
 
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../src/generated/prisma"
-  binaryTargets = ["native", "windows"]
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["typedSql"]
+  binaryTargets   = ["native", "windows"]
 }
 
 datasource db {
@@ -25,6 +26,7 @@ model Usuario {
   Emprestimo Emprestimo[]
 }
 
+//Atributo Emprestimo Emprestimo[] não aparece nos retornos do banco de dados para a tabela Livro, somento indica a relação entre Livro e Emprestimo
 model Livro {
   id         Int          @id @default(autoincrement())
   titulo     String

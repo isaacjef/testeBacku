@@ -10,29 +10,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
-//import { Livro } from './modelos/Livro';
-const Formulario_1 = require("./console/Formulario");
+const InterfaceConsulta_1 = require("./console/InterfaceConsulta");
 const client_1 = require("../src/generated/prisma/client");
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const form = new Formulario_1.Formulario();
+        //const test = await prisma.livro.findMany();
+        //console.log(test);
+        //const con = new ConsultaRepository();
+        //con.consultarLivro("isbn LIKE '%a%'");
+        const ala = new InterfaceConsulta_1.InterfaceConsulta();
+        ala.iniciarConsulta();
+        /*------------------------------------------------------------------------------------------------------------
+        const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%a%' AND isbn LIKE 'asdasd'`);
+        console.log(result)
+        
+        const column = 'isbn'
+        const teste = 'a'
+        const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/
+        /*
+        const form = new InterfaceUSuario();
         form.iniciar();
-        /*const user = await prisma.usuario.create({
-            data: {
-                name: 'Alice',
-                email: 'alic1e@gmail.com',
-            },
-        })
     
         const rep = new UsuarioRepository();
         const usuario = new UsuarioService();
-        //usuario.adicionarUsuario("name", "email@gmail.com");
-        usuario.login("name", "email@gmail.com");
-        
-        const teste = { id: 1, titulo: "asdasd", isbn: 'asdasd' }
-        const livro = new Livro(teste.id, teste.titulo, teste.isbn);
         
         const ger = new GerenciarLivro();
         ger.cadastrarLivro();

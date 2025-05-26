@@ -33,17 +33,17 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Formulario = void 0;
+exports.InterfaceUsuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
-class Formulario {
+class InterfaceUsuario {
     iniciar() {
         console.log(`|---------------Iniciando Sistema---------------|`);
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
         console.log(`| . . . . . . . . [1] Cadastro  . . . . . . . . |`);
         console.log(`| . . . . . . . . [2] Login     . . . . . . . . |`);
         try {
-            const resp = readlineSync.question(`                      `, { limit: [1, 2] });
+            const resp = readlineSync.question(`                      `, { limit: [1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
             if (resp == '1')
                 this.cadastrarUsuario();
             else
@@ -88,4 +88,4 @@ class Formulario {
         console.log(`|-----------------------------------------------|`);
     }
 }
-exports.Formulario = Formulario;
+exports.InterfaceUsuario = InterfaceUsuario;

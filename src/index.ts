@@ -1,41 +1,51 @@
-//import { Livro } from './modelos/Livro';
-import { Formulario } from './console/Formulario';
+import * as readlineSync from 'readline-sync';
+import { Livro } from './modelos/Livro';
+import { InterfaceUsuario } from './console/InterfaceUsuario';
+import { InterfaceConsulta } from './console/InterfaceConsulta';
 import { GerenciarLivro } from './console/GerenciarLivro';
 import { PrismaClient } from '../src/generated/prisma/client';
-import { UsuarioRepository } from './repository/UsuarioRepository';
+//import { testeQueries } from '../src/generated/prisma/sql';
+import { ConsultaRepository } from './repository/ConsultaRepository';
 import { LivroRepository } from './repository/LivroRepository';
-import { UsuarioService } from './service/UsuarioService';
+import { UsuarioRepository } from './repository/UsuarioRepository';
+import { ConsultaService } from './service/ConsultaService';
 import { LivroService } from './service/LivroService';
+import { UsuarioService } from './service/UsuarioService';
 
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 export const prisma = new PrismaClient({ log: ['query'] });
 
 async function main() {
-	const form = new Formulario();
-	form.iniciar();
 	
-	/*const user = await prisma.usuario.create({
-		data: {
-			name: 'Alice',
-			email: 'alic1e@gmail.com',
-		},
-	})
+	//const test = await prisma.livro.findMany();
+	//console.log(test);
+	
+	//const con = new ConsultaRepository();
+	//con.consultarLivro("isbn LIKE '%a%'");
+	
+	const ala = new InterfaceConsulta();
+	ala.iniciarConsulta();
+	
+	/*------------------------------------------------------------------------------------------------------------
+	const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%a%' AND isbn LIKE 'asdasd'`);
+	console.log(result)
+	
+	const column = 'isbn'
+	const teste = 'a'
+	const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/
+	
+	/*
+	const form = new InterfaceUSuario();
+	form.iniciar();
 
 	const rep = new UsuarioRepository();
 	const usuario = new UsuarioService();
-	//usuario.adicionarUsuario("name", "email@gmail.com");
-	usuario.login("name", "email@gmail.com");
-	
-	const teste = { id: 1, titulo: "asdasd", isbn: 'asdasd' }
-	const livro = new Livro(teste.id, teste.titulo, teste.isbn);
 	
 	const ger = new GerenciarLivro();
 	ger.cadastrarLivro();
 	
 	const test = await prisma.livro.findMany();
 	console.log(test)*/
-	
-	
 }
 
 main()

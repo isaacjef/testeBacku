@@ -1,7 +1,7 @@
 import * as readlineSync from 'readline-sync';
 import { UsuarioService } from '../service/UsuarioService'
 
-export class Formulario {
+export class InterfaceUsuario {
 	
 	iniciar(): void {
 		console.log(`|---------------Iniciando Sistema---------------|`)
@@ -9,7 +9,7 @@ export class Formulario {
 		console.log(`| . . . . . . . . [1] Cadastro  . . . . . . . . |`)
 		console.log(`| . . . . . . . . [2] Login     . . . . . . . . |`)
 		try {
-			const resp = readlineSync.question(`                      `, {limit: [1, 2]});
+			const resp = readlineSync.question(`                      `, {limit: [1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
 			if (resp == '1')
 				this.cadastrarUsuario();
 			else

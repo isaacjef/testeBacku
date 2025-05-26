@@ -145,7 +145,9 @@ const config = {
         "value": "windows"
       }
     ],
-    "previewFeatures": [],
+    "previewFeatures": [
+      "typedSql"
+    ],
     "sourceFilePath": "/home/isaac/T-N2/prisma/schema.prisma",
     "isCustomOutput": true
   },
@@ -168,8 +170,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\n// Enums não são suportados no SQLite\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"windows\"]\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n  //  url      = env(\"DATABASE_URL\")\n}\n\nmodel Usuario {\n  id         Int          @id @default(autoincrement())\n  email      String       @unique\n  name       String\n  Emprestimo Emprestimo[]\n}\n\nmodel Livro {\n  id         Int          @id @default(autoincrement())\n  titulo     String\n  isbn       String       @unique\n  Emprestimo Emprestimo[]\n}\n\nmodel Emprestimo {\n  livroID   Int\n  usuarioID Int\n  livro     Livro   @relation(fields: [livroID], references: [id])\n  usuario   Usuario @relation(fields: [usuarioID], references: [id])\n\n  @@id([livroID, usuarioID])\n}\n",
-  "inlineSchemaHash": "9998ba2136f98b91ebd9d4987f08e4f85dd7bc682959c22989a0006ea1b51ad6",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\n// Enums não são suportados no SQLite\n\ngenerator client {\n  provider        = \"prisma-client-js\"\n  output          = \"../src/generated/prisma\"\n  previewFeatures = [\"typedSql\"]\n  binaryTargets   = [\"native\", \"windows\"]\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n  //  url      = env(\"DATABASE_URL\")\n}\n\nmodel Usuario {\n  id         Int          @id @default(autoincrement())\n  email      String       @unique\n  name       String\n  Emprestimo Emprestimo[]\n}\n\n//Atributo Emprestimo Emprestimo[] não aparece nos retornos do banco de dados para a tabela Livro, somento indica a relação entre Livro e Emprestimo\nmodel Livro {\n  id         Int          @id @default(autoincrement())\n  titulo     String\n  isbn       String       @unique\n  Emprestimo Emprestimo[]\n}\n\nmodel Emprestimo {\n  livroID   Int\n  usuarioID Int\n  livro     Livro   @relation(fields: [livroID], references: [id])\n  usuario   Usuario @relation(fields: [usuarioID], references: [id])\n\n  @@id([livroID, usuarioID])\n}\n",
+  "inlineSchemaHash": "0f58dae3cdb12f3025a71cbf8c597e8b4a12ce149706a52655137457da02f755",
   "copyEngine": true
 }
 config.dirname = '/'

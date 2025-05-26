@@ -33,10 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Formulario = void 0;
+exports.InterfaceUSuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
-class Formulario {
+class InterfaceUSuario {
     iniciar() {
         console.log(`|---------------Iniciando Sistema---------------|`);
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
@@ -88,4 +88,4 @@ class Formulario {
         console.log(`|-----------------------------------------------|`);
     }
 }
-exports.Formulario = Formulario;
+exports.InterfaceUSuario = InterfaceUSuario;
