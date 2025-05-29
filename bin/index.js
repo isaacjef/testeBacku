@@ -10,29 +10,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
-const InterfaceConsulta_1 = require("./console/InterfaceConsulta");
+const InterfaceUsuario_1 = require("./console/InterfaceUsuario");
 const client_1 = require("../src/generated/prisma/client");
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        //const test = await prisma.livro.findMany();
-        //console.log(test);
+        const form = new InterfaceUsuario_1.InterfaceUsuario();
+        form.iniciar();
+        /*const test = await prisma.usuario.findMany();
+        console.log(test);
+        const rep = new UsuarioRepository();
+        const n = await rep.findByEmail("teste@gaao.com");
+        console.log(n);
+        
         //const con = new ConsultaRepository();
         //con.consultarLivro("isbn LIKE '%a%'");
-        const ala = new InterfaceConsulta_1.InterfaceConsulta();
-        ala.iniciarConsulta();
-        /*------------------------------------------------------------------------------------------------------------
-        const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%a%' AND isbn LIKE 'asdasd'`);
-        console.log(result)
         
-        const column = 'isbn'
-        const teste = 'a'
-        const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/
-        /*
-        const form = new InterfaceUSuario();
-        form.iniciar();
+        //const ala = new InterfaceConsulta();
+        //ala.iniciarConsulta();
     
+        
+        /*
         const rep = new UsuarioRepository();
         const usuario = new UsuarioService();
         
@@ -67,3 +66,10 @@ main()
  * 	name  String
  *  }
  */
+/*------------------------------------------------------------------------------------------------------------
+const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%a%' AND isbn LIKE 'asdasd'`);
+console.log(result)
+
+const column = 'isbn'
+const teste = 'a'
+const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/

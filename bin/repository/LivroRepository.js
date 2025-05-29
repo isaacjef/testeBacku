@@ -24,6 +24,7 @@ class LivroRepository {
         });
     }
     //O try...catch pode ser implementado em LivroService, quando este chamar por findByISBN.
+    //Tratar possível retorno nulo em LivroService, ou em InterfaceLivro
     findByISBN(isbn) {
         return __awaiter(this, void 0, void 0, function* () {
             //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.

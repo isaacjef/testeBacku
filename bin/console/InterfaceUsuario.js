@@ -32,10 +32,20 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceUsuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
+const InterfaceConsulta_1 = require("../console/InterfaceConsulta");
 class InterfaceUsuario {
     iniciar() {
         console.log(`|---------------Iniciando Sistema---------------|`);
@@ -72,14 +82,48 @@ class InterfaceUsuario {
         console.log(`|-----------------------------------------------|`);
     }
     logarUsuario() {
-        console.log(`|-------------------  Login  -------------------|`);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(`|-------------------  Login  -------------------|`);
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+            try {
+                const name = readlineSync.question(`| Nome:`);
+                //Posteriormente, substituir nome por senha...
+                const email = readlineSync.question(`| E-mail:`);
+                const usuario = new UsuarioService_1.UsuarioService();
+                //verifica se deu certo, se sim: entra no sistema.
+                if (yield usuario.login(name, email)) {
+                    this.home();
+                }
+                else {
+                    console.log("Credenciais incorretas! Digite novamente.");
+                    this.iniciar();
+                }
+            }
+            catch (error) {
+                console.error("Erro:", error.message);
+            }
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+            console.log(`|-----------------------------------------------|`);
+        });
+    }
+    home() {
+        //const usuario = new Usuario
+        console.log(`|-------------- Biblioteca Virtual -------------|`);
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+        console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`);
+        console.log(`| . . . [3] Consulta     |      . . . . . . . . |`);
         try {
-            const name = readlineSync.question(`| Nome:`);
-            //Posteriormente, substituir nome por senha...
-            const email = readlineSync.question(`| E-mail:`);
-            const usuario = new UsuarioService_1.UsuarioService();
-            usuario.login(name, email);
+            const resp = readlineSync.question(`                      `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
+            if (resp == '1') {
+                //this.cadastrarUsuario();
+            }
+            else if (resp == '2') {
+                //this.logarUsuario();
+            }
+            else {
+                const consulta = new InterfaceConsulta_1.InterfaceConsulta();
+                consulta.iniciarConsulta();
+            }
         }
         catch (error) {
             console.error("Erro:", error.message);

@@ -14,6 +14,7 @@ export class LivroRepository implements ILivroRepository {
 	}
 
 	//O try...catch pode ser implementado em LivroService, quando este chamar por findByISBN.
+	//Tratar possível retorno nulo em LivroService, ou em InterfaceLivro
     async findByISBN(isbn: string): Promise<Livro | null> {
         //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.
         const livro = await prisma.livro.findUnique({ where: { isbn: isbn } });

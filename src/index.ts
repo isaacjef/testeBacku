@@ -1,5 +1,7 @@
 import * as readlineSync from 'readline-sync';
 import { Livro } from './modelos/Livro';
+import { Usuario } from './modelos/Usuario';
+import { TipoUsuario } from "./enumeracao/TipoUsuario"
 import { InterfaceUsuario } from './console/InterfaceUsuario';
 import { InterfaceConsulta } from './console/InterfaceConsulta';
 import { GerenciarLivro } from './console/GerenciarLivro';
@@ -16,28 +18,24 @@ import { UsuarioService } from './service/UsuarioService';
 export const prisma = new PrismaClient({ log: ['query'] });
 
 async function main() {
+
+	const form = new InterfaceUsuario();
+	form.iniciar();
 	
-	//const test = await prisma.livro.findMany();
-	//console.log(test);
+	/*const test = await prisma.usuario.findMany();
+	console.log(test);
+	const rep = new UsuarioRepository();
+	const n = await rep.findByEmail("teste@gaao.com");
+	console.log(n);
 	
 	//const con = new ConsultaRepository();
 	//con.consultarLivro("isbn LIKE '%a%'");
 	
-	const ala = new InterfaceConsulta();
-	ala.iniciarConsulta();
-	
-	/*------------------------------------------------------------------------------------------------------------
-	const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%a%' AND isbn LIKE 'asdasd'`);
-	console.log(result)
-	
-	const column = 'isbn'
-	const teste = 'a'
-	const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/
+	//const ala = new InterfaceConsulta();
+	//ala.iniciarConsulta();
+
 	
 	/*
-	const form = new InterfaceUSuario();
-	form.iniciar();
-
 	const rep = new UsuarioRepository();
 	const usuario = new UsuarioService();
 	
@@ -73,3 +71,10 @@ main()
  * 	name  String
  *  }
  */
+/*------------------------------------------------------------------------------------------------------------
+const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%a%' AND isbn LIKE 'asdasd'`);
+console.log(result)
+
+const column = 'isbn'
+const teste = 'a'
+const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/

@@ -15,10 +15,10 @@ const UsuarioRepository_1 = require("../repository/UsuarioRepository");
 class UsuarioService {
     //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
     //algo do tipo: Promise { <pending> }
-    adicionarUsuario(name, email) {
+    adicionarUsuario(nome, email) {
         return __awaiter(this, void 0, void 0, function* () {
             const repositorio = new UsuarioRepository_1.UsuarioRepository();
-            repositorio.save(name, email);
+            repositorio.save(nome, email);
             yield index_1.prisma.$disconnect();
             return new Promise((resolve) => {
                 setTimeout(() => {
@@ -27,18 +27,23 @@ class UsuarioService {
             });
         });
     }
-    login(name, email) {
+    //Tratar retorno nulo de findByEmail
+    login(nome, email) {
         return __awaiter(this, void 0, void 0, function* () {
             const n = new UsuarioRepository_1.UsuarioRepository();
             console.log("Testando usuario service " + email);
             const t = yield n.findByEmail(email);
-            console.log(t);
-            yield index_1.prisma.$disconnect();
-            return new Promise((resolve) => {
+            if (t && nome == t.nome && email == t.email) {
+                return true;
+            }
+            else {
+                return false;
+            }
+            /*return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve("ASync teste");
                 });
-            });
+            });*/
         });
     }
 }

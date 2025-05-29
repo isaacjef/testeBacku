@@ -1149,19 +1149,22 @@ export namespace Prisma {
   export type UsuarioMinAggregateOutputType = {
     id: number | null
     email: string | null
-    name: string | null
+    nome: string | null
+    tipo: string | null
   }
 
   export type UsuarioMaxAggregateOutputType = {
     id: number | null
     email: string | null
-    name: string | null
+    nome: string | null
+    tipo: string | null
   }
 
   export type UsuarioCountAggregateOutputType = {
     id: number
     email: number
-    name: number
+    nome: number
+    tipo: number
     _all: number
   }
 
@@ -1177,19 +1180,22 @@ export namespace Prisma {
   export type UsuarioMinAggregateInputType = {
     id?: true
     email?: true
-    name?: true
+    nome?: true
+    tipo?: true
   }
 
   export type UsuarioMaxAggregateInputType = {
     id?: true
     email?: true
-    name?: true
+    nome?: true
+    tipo?: true
   }
 
   export type UsuarioCountAggregateInputType = {
     id?: true
     email?: true
-    name?: true
+    nome?: true
+    tipo?: true
     _all?: true
   }
 
@@ -1282,7 +1288,8 @@ export namespace Prisma {
   export type UsuarioGroupByOutputType = {
     id: number
     email: string
-    name: string
+    nome: string
+    tipo: string
     _count: UsuarioCountAggregateOutputType | null
     _avg: UsuarioAvgAggregateOutputType | null
     _sum: UsuarioSumAggregateOutputType | null
@@ -1307,7 +1314,8 @@ export namespace Prisma {
   export type UsuarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
-    name?: boolean
+    nome?: boolean
+    tipo?: boolean
     Emprestimo?: boolean | Usuario$EmprestimoArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
@@ -1315,22 +1323,25 @@ export namespace Prisma {
   export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
-    name?: boolean
+    nome?: boolean
+    tipo?: boolean
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
-    name?: boolean
+    nome?: boolean
+    tipo?: boolean
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectScalar = {
     id?: boolean
     email?: boolean
-    name?: boolean
+    nome?: boolean
+    tipo?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "nome" | "tipo", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Emprestimo?: boolean | Usuario$EmprestimoArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -1346,7 +1357,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       email: string
-      name: string
+      nome: string
+      tipo: string
     }, ExtArgs["result"]["usuario"]>
     composites: {}
   }
@@ -1773,7 +1785,8 @@ export namespace Prisma {
   interface UsuarioFieldRefs {
     readonly id: FieldRef<"Usuario", 'Int'>
     readonly email: FieldRef<"Usuario", 'String'>
-    readonly name: FieldRef<"Usuario", 'String'>
+    readonly nome: FieldRef<"Usuario", 'String'>
+    readonly tipo: FieldRef<"Usuario", 'String'>
   }
     
 
@@ -4355,7 +4368,8 @@ export namespace Prisma {
   export const UsuarioScalarFieldEnum: {
     id: 'id',
     email: 'email',
-    name: 'name'
+    nome: 'nome',
+    tipo: 'tipo'
   };
 
   export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
@@ -4421,14 +4435,16 @@ export namespace Prisma {
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
     id?: IntFilter<"Usuario"> | number
     email?: StringFilter<"Usuario"> | string
-    name?: StringFilter<"Usuario"> | string
+    nome?: StringFilter<"Usuario"> | string
+    tipo?: StringFilter<"Usuario"> | string
     Emprestimo?: EmprestimoListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
-    name?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
     Emprestimo?: EmprestimoOrderByRelationAggregateInput
   }
 
@@ -4438,14 +4454,16 @@ export namespace Prisma {
     AND?: UsuarioWhereInput | UsuarioWhereInput[]
     OR?: UsuarioWhereInput[]
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
-    name?: StringFilter<"Usuario"> | string
+    nome?: StringFilter<"Usuario"> | string
+    tipo?: StringFilter<"Usuario"> | string
     Emprestimo?: EmprestimoListRelationFilter
   }, "id" | "email">
 
   export type UsuarioOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
-    name?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
     _count?: UsuarioCountOrderByAggregateInput
     _avg?: UsuarioAvgOrderByAggregateInput
     _max?: UsuarioMaxOrderByAggregateInput
@@ -4459,7 +4477,8 @@ export namespace Prisma {
     NOT?: UsuarioScalarWhereWithAggregatesInput | UsuarioScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Usuario"> | number
     email?: StringWithAggregatesFilter<"Usuario"> | string
-    name?: StringWithAggregatesFilter<"Usuario"> | string
+    nome?: StringWithAggregatesFilter<"Usuario"> | string
+    tipo?: StringWithAggregatesFilter<"Usuario"> | string
   }
 
   export type LivroWhereInput = {
@@ -4557,45 +4576,52 @@ export namespace Prisma {
 
   export type UsuarioCreateInput = {
     email: string
-    name: string
+    nome: string
+    tipo: string
     Emprestimo?: EmprestimoCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateInput = {
     id?: number
     email: string
-    name: string
+    nome: string
+    tipo: string
     Emprestimo?: EmprestimoUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
     Emprestimo?: EmprestimoUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
     Emprestimo?: EmprestimoUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateManyInput = {
     id?: number
     email: string
-    name: string
+    nome: string
+    tipo: string
   }
 
   export type UsuarioUpdateManyMutationInput = {
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type UsuarioUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type LivroCreateInput = {
@@ -4713,7 +4739,8 @@ export namespace Prisma {
   export type UsuarioCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
-    name?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
   }
 
   export type UsuarioAvgOrderByAggregateInput = {
@@ -4723,13 +4750,15 @@ export namespace Prisma {
   export type UsuarioMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
-    name?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
   }
 
   export type UsuarioMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
-    name?: SortOrder
+    nome?: SortOrder
+    tipo?: SortOrder
   }
 
   export type UsuarioSumOrderByAggregateInput = {
@@ -5120,13 +5149,15 @@ export namespace Prisma {
 
   export type UsuarioCreateWithoutEmprestimoInput = {
     email: string
-    name: string
+    nome: string
+    tipo: string
   }
 
   export type UsuarioUncheckedCreateWithoutEmprestimoInput = {
     id?: number
     email: string
-    name: string
+    nome: string
+    tipo: string
   }
 
   export type UsuarioCreateOrConnectWithoutEmprestimoInput = {
@@ -5169,13 +5200,15 @@ export namespace Prisma {
 
   export type UsuarioUpdateWithoutEmprestimoInput = {
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type UsuarioUncheckedUpdateWithoutEmprestimoInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    nome?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type EmprestimoCreateManyUsuarioInput = {
