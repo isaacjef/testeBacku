@@ -30,10 +30,15 @@ function main() {
         //const ala = new InterfaceConsulta();
         //ala.iniciarConsulta();
     
+        const usuarioS = new UsuarioService();
+        const t = await usuarioS.getUsuario("facil");
+        //const usuario = new Usuario(t.id, t.nome, t.email, t.tipo);
+        console.log(t.tipo)
+        
         
         /*
         const rep = new UsuarioRepository();
-        const usuario = new UsuarioService();
+        const usuarioS = new UsuarioService();
         
         const ger = new GerenciarLivro();
         ger.cadastrarLivro();

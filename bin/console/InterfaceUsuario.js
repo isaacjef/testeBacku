@@ -46,6 +46,7 @@ exports.InterfaceUsuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
 const InterfaceConsulta_1 = require("../console/InterfaceConsulta");
+const usuarioS = new UsuarioService_1.UsuarioService();
 class InterfaceUsuario {
     iniciar() {
         console.log(`|---------------Iniciando Sistema---------------|`);
@@ -72,11 +73,10 @@ class InterfaceUsuario {
             const name = readlineSync.question(`| Nome:`);
             //utilizar readlineSync.questionEMail
             const email = readlineSync.question(`| E-mail:`);
-            const usuario = new UsuarioService_1.UsuarioService();
-            usuario.adicionarUsuario(name, email);
+            usuarioS.adicionarUsuario(name, email);
         }
         catch (error) {
-            console.error("Erro:", error.message);
+            console.error("Erro: ", error.message);
         }
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
         console.log(`|-----------------------------------------------|`);
@@ -89,10 +89,10 @@ class InterfaceUsuario {
                 const name = readlineSync.question(`| Nome:`);
                 //Posteriormente, substituir nome por senha...
                 const email = readlineSync.question(`| E-mail:`);
-                const usuario = new UsuarioService_1.UsuarioService();
+                //const usuario = new UsuarioService();
                 //verifica se deu certo, se sim: entra no sistema.
-                if (yield usuario.login(name, email)) {
-                    this.home();
+                if (yield usuarioS.login(name, email)) {
+                    this.home(email);
                 }
                 else {
                     console.log("Credenciais incorretas! Digite novamente.");
@@ -100,36 +100,40 @@ class InterfaceUsuario {
                 }
             }
             catch (error) {
-                console.error("Erro:", error.message);
+                console.error("Erro: ", error.message);
             }
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             console.log(`|-----------------------------------------------|`);
         });
     }
-    home() {
-        //const usuario = new Usuario
-        console.log(`|-------------- Biblioteca Virtual -------------|`);
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`);
-        console.log(`| . . . [3] Consulta     |      . . . . . . . . |`);
-        try {
-            const resp = readlineSync.question(`                      `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
-            if (resp == '1') {
-                //this.cadastrarUsuario();
+    home(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const usuario = yield usuarioS.getUsuario(email);
+            if (usuario && usuario.tipo == 'Membro') {
+                console.log(`|-------------- Biblioteca Virtual -------------|`);
+                console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+                console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`);
+                console.log(`| . . . [3] Consulta     |      . . . . . . . . |`);
+                try {
+                    const resp = readlineSync.question(`                      `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                    if (resp == '1') {
+                        //this.cadastrarUsuario();
+                    }
+                    else if (resp == '2') {
+                        //this.logarUsuario();
+                    }
+                    else {
+                        const consulta = new InterfaceConsulta_1.InterfaceConsulta();
+                        consulta.iniciarConsulta();
+                    }
+                }
+                catch (error) {
+                    console.error("Erro: ", error.message);
+                }
+                console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+                console.log(`|-----------------------------------------------|`);
             }
-            else if (resp == '2') {
-                //this.logarUsuario();
-            }
-            else {
-                const consulta = new InterfaceConsulta_1.InterfaceConsulta();
-                consulta.iniciarConsulta();
-            }
-        }
-        catch (error) {
-            console.error("Erro:", error.message);
-        }
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        console.log(`|-----------------------------------------------|`);
+        });
     }
 }
 exports.InterfaceUsuario = InterfaceUsuario;

@@ -2,6 +2,8 @@ import * as readlineSync from 'readline-sync';
 import { UsuarioService } from '../service/UsuarioService'
 import { InterfaceConsulta } from '../console/InterfaceConsulta'
 
+const usuarioS = new UsuarioService();
+
 export class InterfaceUsuario {
 	
 	iniciar(): void {
@@ -29,10 +31,9 @@ export class InterfaceUsuario {
 			const name = readlineSync.question(`| Nome:`)
 			//utilizar readlineSync.questionEMail
 			const email = readlineSync.question(`| E-mail:`)
-			const usuario = new UsuarioService();
-        	usuario.adicionarUsuario(name, email);
+        	usuarioS.adicionarUsuario(name, email);
 		} catch (error: any) {
-                    console.error("Erro:", error.message);
+                    console.error("Erro: ", error.message);
         }
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`|-----------------------------------------------|`)
@@ -45,41 +46,44 @@ export class InterfaceUsuario {
 			const name = readlineSync.question(`| Nome:`)
 			//Posteriormente, substituir nome por senha...
 			const email = readlineSync.question(`| E-mail:`)
-			const usuario = new UsuarioService();
+			//const usuario = new UsuarioService();
 			//verifica se deu certo, se sim: entra no sistema.
-			if (await usuario.login(name, email)) {
-				this.home();
+			if (await usuarioS.login(name, email)) {
+				this.home(email);
 			} else {
 				console.log("Credenciais incorretas! Digite novamente.");
 				this.iniciar();
 			}
 		} catch (error: any) {
-                    console.error("Erro:", error.message);
+                    console.error("Erro: ", error.message);
         }
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`|-----------------------------------------------|`)
 	}
 	
-	home(): void {
-		//const usuario = new Usuario
-		console.log(`|-------------- Biblioteca Virtual -------------|`)
-		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`)
-		console.log(`| . . . [3] Consulta     |      . . . . . . . . |`)
-		try {
-			const resp = readlineSync.question(`                      `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
-			if (resp == '1') {
-				//this.cadastrarUsuario();
-			} else if (resp == '2') {
-				//this.logarUsuario();
-			} else {
-				const consulta = new InterfaceConsulta();
-				consulta.iniciarConsulta();
-			}
-		} catch (error: any) {
-                    console.error("Erro:", error.message);
-        }
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		console.log(`|-----------------------------------------------|`)
+	async home(email: string): Promise<void> {
+
+		const usuario = await usuarioS.getUsuario(email);
+		if (usuario && usuario.tipo == 'Membro') {
+			console.log(`|-------------- Biblioteca Virtual -------------|`)
+			console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+			console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`)
+			console.log(`| . . . [3] Consulta     |      . . . . . . . . |`)
+			try {
+				const resp = readlineSync.question(`                      `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
+				if (resp == '1') {
+					//this.cadastrarUsuario();
+				} else if (resp == '2') {
+					//this.logarUsuario();
+				} else {
+					const consulta = new InterfaceConsulta();
+					consulta.iniciarConsulta();
+				}
+			} catch (error: any) {
+                    	console.error("Erro: ", error.message);
+        	}
+        	console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+			console.log(`|-----------------------------------------------|`)
+		}
 	}
 }

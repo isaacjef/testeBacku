@@ -6,7 +6,7 @@ export class Autor extends Usuario {
     livrosEscritosID: Livro[]; //Passar ID dos livros escritos
 
     constructor(id: number, nome: string, email: string, tipo: TipoUsuario, livrosEscritosID: Livro[]) {
-        super(_id, _nome, _email, _tipo);
+        super(id, nome, email, tipo);
         this.livrosEscritosID = livrosEscritosID;
     }
 }

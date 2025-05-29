@@ -28,12 +28,12 @@ class UsuarioRepository {
     //Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
     findByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const r = yield index_1.prisma.usuario.findUnique({ where: { email: email } });
-            if (r && r.tipo == 'Membro') {
-                return new Usuario_1.Usuario(r.id, r.nome, r.email, TipoUsuario_1.TipoUsuario.CLIENTE);
+            const userR = yield index_1.prisma.usuario.findUnique({ where: { email: email } });
+            if (userR && userR.tipo == 'Membro') {
+                return new Usuario_1.Usuario(userR.id, userR.nome, userR.email, TipoUsuario_1.TipoUsuario.CLIENTE);
             }
-            else if (r && r.tipo == 'Administrador') {
-                return new Usuario_1.Usuario(r.id, r.nome, r.email, TipoUsuario_1.TipoUsuario.ADMIN);
+            else if (userR && userR.tipo == 'Administrador') {
+                return new Usuario_1.Usuario(userR.id, userR.nome, userR.email, TipoUsuario_1.TipoUsuario.ADMIN);
             }
             else {
                 return null;

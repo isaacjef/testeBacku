@@ -17,11 +17,12 @@ export class UsuarioRepository implements IUsuarioRepository {
 	
 	//Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
 	async findByEmail(email: string): Promise<Usuario | null> {
-        const r = await prisma.usuario.findUnique({ where: { email: email } });
-        if(r && r.tipo == 'Membro') {
-        	return new Usuario(r.id, r.nome, r.email, TipoUsuario.CLIENTE)
-        } else if (r && r.tipo == 'Administrador') {
-        	return new Usuario(r.id, r.nome, r.email, TipoUsuario.ADMIN)
+        const userR = await prisma.usuario.findUnique({ where: { email: email } });
+
+        if(userR && userR.tipo == 'Membro') {
+        	return new Usuario(userR.id, userR.nome, userR.email, TipoUsuario.CLIENTE)
+        } else if (userR && userR.tipo == 'Administrador') {
+        	return new Usuario(userR.id, userR.nome, userR.email, TipoUsuario.ADMIN)
         } else {
         	return null;
         }

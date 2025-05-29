@@ -10,16 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioService = void 0;
-const index_1 = require("../index");
 const UsuarioRepository_1 = require("../repository/UsuarioRepository");
+const rep = new UsuarioRepository_1.UsuarioRepository();
 class UsuarioService {
     //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
     //algo do tipo: Promise { <pending> }
     adicionarUsuario(nome, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repositorio = new UsuarioRepository_1.UsuarioRepository();
-            repositorio.save(nome, email);
-            yield index_1.prisma.$disconnect();
+            //const rep = new UsuarioRepository();
+            rep.save(nome, email);
             return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve("ASync teste");
@@ -30,10 +29,10 @@ class UsuarioService {
     //Tratar retorno nulo de findByEmail
     login(nome, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const n = new UsuarioRepository_1.UsuarioRepository();
+            //const rep = new UsuarioRepository();
             console.log("Testando usuario service " + email);
-            const t = yield n.findByEmail(email);
-            if (t && nome == t.nome && email == t.email) {
+            const usuario = yield rep.findByEmail(email);
+            if (usuario && nome == usuario.nome && email == usuario.email) {
                 return true;
             }
             else {
@@ -44,6 +43,16 @@ class UsuarioService {
                     resolve("ASync teste");
                 });
             });*/
+        });
+    }
+    getUsuario(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userS = yield rep.findByEmail(email);
+            if (userS)
+                //return new Usuario(userS.id, userS.nome, userS.email, userS.tipo);
+                return userS;
+            else
+                return null;
         });
     }
 }
