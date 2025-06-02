@@ -5,9 +5,12 @@ class ModeloBase {
     //DataCriacao?: Date;
     //DataUpdate?: Date;
     constructor(id) {
-        this.id = id;
+        this._id = id;
         //this.DataCriacao = new Date();
         //this.DataUpdate = new Date();
+    }
+    get id() {
+        return this._id;
     }
 }
 exports.ModeloBase = ModeloBase;

@@ -117,7 +117,7 @@ class InterfaceUsuario {
                 try {
                     const resp = readlineSync.question(`                      `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
                     if (resp == '1') {
-                        //this.cadastrarUsuario();
+                        //this.emprestimo(email);
                     }
                     else if (resp == '2') {
                         //this.logarUsuario();
@@ -134,6 +134,19 @@ class InterfaceUsuario {
                 console.log(`|-----------------------------------------------|`);
             }
         });
+    }
+    emprestimo(email) {
+        console.log(`|----------------  Empréstimo  -----------------|`);
+        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+        //Listar todos os livros pegos pelo usuario.
+        //Seção para realizar um empréstimo
+        try {
+            const titulo = readlineSync.question(`| Título:`);
+        }
+        catch (error) {
+            console.error("Erro:", error.message);
+        }
+        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
     }
 }
 exports.InterfaceUsuario = InterfaceUsuario;

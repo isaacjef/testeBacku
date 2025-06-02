@@ -1,12 +1,16 @@
 export abstract class ModeloBase {
-    private id: number;
+    private _id: number;
     //DataCriacao?: Date;
     //DataUpdate?: Date;
   
     constructor(id: number) {
-    	this.id = id;
+    	this._id = id;
      	//this.DataCriacao = new Date();
       	//this.DataUpdate = new Date();
+    }
+    
+    public get id() {
+    	return this._id;
     }
 }
 

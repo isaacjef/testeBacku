@@ -23,6 +23,12 @@ class LivroRepository {
             });
         });
     }
+    findByID(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const livro = yield index_1.prisma.livro.findUnique({ where: { id: id } });
+            return JSON.stringify(livro);
+        });
+    }
     //O try...catch pode ser implementado em LivroService, quando este chamar por findByISBN.
     //Tratar possível retorno nulo em LivroService, ou em InterfaceLivro
     findByISBN(isbn) {

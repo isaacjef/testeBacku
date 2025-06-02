@@ -1,4 +1,5 @@
 import * as readlineSync from 'readline-sync';
+import { Usuario } from '../modelos/Usuario';
 import { UsuarioService } from '../service/UsuarioService'
 import { InterfaceConsulta } from '../console/InterfaceConsulta'
 
@@ -62,7 +63,6 @@ export class InterfaceUsuario {
 	}
 	
 	async home(email: string): Promise<void> {
-
 		const usuario = await usuarioS.getUsuario(email);
 		if (usuario && usuario.tipo == 'Membro') {
 			console.log(`|-------------- Biblioteca Virtual -------------|`)
@@ -72,7 +72,7 @@ export class InterfaceUsuario {
 			try {
 				const resp = readlineSync.question(`                      `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
 				if (resp == '1') {
-					//this.cadastrarUsuario();
+					//this.emprestimo(email);
 				} else if (resp == '2') {
 					//this.logarUsuario();
 				} else {
@@ -85,5 +85,18 @@ export class InterfaceUsuario {
         	console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 			console.log(`|-----------------------------------------------|`)
 		}
+	}
+	
+	emprestimo(email: string): void {
+		console.log(`|----------------  Empréstimo  -----------------|`)
+		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+		//Listar todos os livros pegos pelo usuario.
+		//Seção para realizar um empréstimo
+		try {
+			const titulo = readlineSync.question(`| Título:`)
+		} catch (error: any) {
+        	console.error("Erro:", error.message);
+    	}
+		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 	}
 }

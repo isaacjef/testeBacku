@@ -12,6 +12,12 @@ export class LivroRepository implements ILivroRepository {
             },
         })
 	}
+	
+	async findByID(id: number): Promise<string> {
+		const livro = await prisma.livro.findUnique({ where: { id: id } });
+		
+		return JSON.stringify(livro);
+	}
 
 	//O try...catch pode ser implementado em LivroService, quando este chamar por findByISBN.
 	//Tratar possível retorno nulo em LivroService, ou em InterfaceLivro

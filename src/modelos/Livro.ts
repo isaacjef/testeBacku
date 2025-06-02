@@ -3,13 +3,13 @@ import { Autor } from "./Autor";
 import { ModeloBase } from "./ModeloBase"
 
 export class Livro extends ModeloBase {
-    private titulo: string;
-    private isbn: string;
+    private _titulo: string;
+    private _isbn: string;
     /*private autor?: Autor;
-    private categoria?: CategoriaLivro;
-    private anoPublicacao?: number;
-    private copiasDisponiveis?: number;
-    private totalCopias?: number;*/
+    private _categoria?: CategoriaLivro;
+    private _anoPublicacao?: number;
+    private _copiasDisponiveis?: number;
+    private _totalCopias?: number;*/
 
     constructor(
     	id: number,
@@ -22,13 +22,21 @@ export class Livro extends ModeloBase {
         totalCopias?: number*/
     ) {
         super(id);
-        this.titulo = titulo;
-        this.isbn = isbn;
+        this._titulo = titulo;
+        this._isbn = isbn;
         /*this.autor = autor;
         this.categoria = categoria;
         this.anoPublicacao = anoPublicacao;
         this.copiasDisponiveis = totalCopias;
         this.totalCopias = totalCopias;*/
+    }
+    
+    public get titulo() {
+    	return this._titulo;
+    }
+    
+    public get isbn(): string {
+    	return this._isbn;
     }
 }
 

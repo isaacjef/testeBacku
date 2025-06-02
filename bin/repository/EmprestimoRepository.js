@@ -9,30 +9,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LivroService = void 0;
+exports.EmprestimoRepository = void 0;
 const index_1 = require("../index");
-const LivroRepository_1 = require("../repository/LivroRepository");
-/*Livro:
-titulo
-isbn*/
-const livRep = new LivroRepository_1.LivroRepository();
-class LivroService {
-    adicionarLivro(titulo, isbn) {
+//import { Emprestimo } from '../modelos/Emprestimo';
+class EmprestimoRepository {
+    save(livroId, usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
-            livRep.save(titulo, isbn);
-            yield index_1.prisma.$disconnect();
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve("ASync teste");
-                }, 10);
+            yield index_1.prisma.emprestimo.create({
+                data: {
+                    livroID: livroId,
+                    usuarioID: usuarioId,
+                },
             });
         });
     }
-    buscarLivro(livroId) {
+    //retur nstrings
+    findEmprestimos(usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const livro = JSON.parse(yield livRep.findByID(livroId));
-            return livro;
+            const emprestimos = yield index_1.prisma.emprestimo.findMany({
+                where: {
+                    usuarioID: usuarioId,
+                },
+                omit: {
+                    usuarioID: true,
+                },
+            });
+            if (emprestimos) {
+                return JSON.stringify(emprestimos);
+            }
+            else {
+                return '';
+            }
         });
     }
 }
-exports.LivroService = LivroService;
+exports.EmprestimoRepository = EmprestimoRepository;

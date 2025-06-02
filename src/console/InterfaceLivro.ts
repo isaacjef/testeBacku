@@ -1,7 +1,7 @@
 import * as readlineSync from 'readline-sync';
 import { LivroService } from '../service/LivroService'
 
-export class GerenciarLivro {
+export class InterfaceLivro {
 
     cadastrarLivro(): void {
 		console.log(`|---------------Cadastrar Livro---------------|`)
@@ -17,5 +17,4 @@ export class GerenciarLivro {
         }
 		console.log(`|---------------------------------------------|`)
 	}
-
 }

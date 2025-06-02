@@ -1,55 +1,70 @@
 import * as readlineSync from 'readline-sync';
 import { Livro } from './modelos/Livro';
 import { Usuario } from './modelos/Usuario';
+import { Emprestimo } from './modelos/Emprestimo';
 import { TipoUsuario } from "./enumeracao/TipoUsuario"
 import { InterfaceUsuario } from './console/InterfaceUsuario';
 import { InterfaceConsulta } from './console/InterfaceConsulta';
-import { GerenciarLivro } from './console/GerenciarLivro';
+import { InterfaceLivro } from './console/InterfaceLivro';
 import { PrismaClient } from '../src/generated/prisma/client';
-//import { testeQueries } from '../src/generated/prisma/sql';
-import { ConsultaRepository } from './repository/ConsultaRepository';
 import { LivroRepository } from './repository/LivroRepository';
 import { UsuarioRepository } from './repository/UsuarioRepository';
-import { ConsultaService } from './service/ConsultaService';
+import { ConsultaRepository } from './repository/ConsultaRepository';
+import { EmprestimoRepository } from './repository/EmprestimoRepository';
 import { LivroService } from './service/LivroService';
 import { UsuarioService } from './service/UsuarioService';
+import { ConsultaService } from './service/ConsultaService';
+import { EmprestimoService } from './service/EmprestimoService';
 
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 export const prisma = new PrismaClient({ log: ['query'] });
 
 async function main() {
 	
-
-	const form = new InterfaceUsuario();
-	form.iniciar();
+	//const repL = new LivroRepository();
+	const livS = new LivroService();
+	//livS.buscarLivro(1);
+	const repE = new EmprestimoRepository();
+	const empS = new EmprestimoService();
+	//const livros: Array<number> = JSON.parse(await repE.findEmprestimos(3)); --> LOucura
+	let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
+	console.log(typeof livros)
 	
-	/*const test = await prisma.usuario.findMany();
-	console.log(test);
-	const rep = new UsuarioRepository();
-	const n = await rep.findByEmail("teste@gaao.com");
-	console.log(n);
+	//empS.getEmprestimos("facil");
+	livros.forEach(async (value: number) => {
+    	//const livro: Livro = await livS.buscarLivro(value);
+    	//console.log(`| Título: ${livro.titulo}, ISBN: ${livro.isbn}`);
+    	//console.log(value.typeof());
+    });
 	
-	//const con = new ConsultaRepository();
-	//con.consultarLivro("isbn LIKE '%a%'");
-	
-	//const ala = new InterfaceConsulta();
-	//ala.iniciarConsulta();
-
-	const usuarioS = new UsuarioService();
-	const t = await usuarioS.getUsuario("facil");
-	//const usuario = new Usuario(t.id, t.nome, t.email, t.tipo);
-	console.log(t.tipo)
-	
+	/*let a2: Array<number> = [];
+	a2 = JSON.parse(await repE.findEmprestimos(3));
+	console.log(a2)*/
 	
 	/*
-	const rep = new UsuarioRepository();
-	const usuarioS = new UsuarioService();
+	const form = new InterfaceUsuario();
+	form.iniciar();
+	const ala = new InterfaceConsulta();
+	ala.iniciarConsulta();
 	
-	const ger = new GerenciarLivro();
-	ger.cadastrarLivro();
+	//Service e Repository para testes:
+	const repE = new EmprestimoRepository();
+	const empS = new EmprestimoService();
+	const repL = new LivroRepository();
+	const livS = new LivroService();
+	const repU = new UsuarioRepository();
+	const userS = new UsuarioService();
+	const con = new ConsultaRepository();
+	if (userS) {
+		const u = userS.getUsuario("facil")
+		form.emprestimo(u.id);
+	}
 	
+	//Listar instâncias nas tabelas:
 	const test = await prisma.livro.findMany();
-	console.log(test)*/
+	console.log(test)
+	const emp = await prisma.emprestimo.findMany();
+	console.log(emp)*/
 }
 
 main()

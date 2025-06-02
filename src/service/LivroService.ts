@@ -1,15 +1,17 @@
 import { prisma } from '../index';
+import { Livro} from '../modelos/Livro';
 import { LivroRepository } from '../repository/LivroRepository';
 
 /*Livro:
 titulo
 isbn*/
 
+const livRep = new LivroRepository();
+
 export class LivroService {
 
     async adicionarLivro(titulo: string, isbn: string): Promise<string> {
-        const repositorio = new LivroRepository();
-        repositorio.save(titulo, isbn);
+        livRep.save(titulo, isbn);
 
         await prisma.$disconnect();
 
@@ -20,4 +22,9 @@ export class LivroService {
     	});
     }
 
+	async buscarLivro(livroId: number): Promise<Livro> {
+		const livro: Livro = JSON.parse(await livRep.findByID(livroId));
+		
+		return livro;
+	}
 }
