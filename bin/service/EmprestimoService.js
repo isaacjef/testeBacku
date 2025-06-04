@@ -23,8 +23,9 @@ class EmprestimoService {
     getEmprestimos(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const usuario = yield userS.getUsuario(email);
+            //tratar if
             if (usuario) {
-                const livros = JSON.parse(yield empRep.findEmprestimos(usuario.id));
+                const livros = yield empRep.findEmprestimos(usuario.id);
                 console.log(`|------------- Empréstimos Atuais --------------|`);
                 //tratar se não tiver nenhum livro
                 livros.forEach((value) => __awaiter(this, void 0, void 0, function* () {

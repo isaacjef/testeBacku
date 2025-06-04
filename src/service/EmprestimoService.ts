@@ -17,9 +17,11 @@ export class EmprestimoService {
 	
     async getEmprestimos(email: string): Promise<void> {
         const usuario = await userS.getUsuario(email);
-
+	
+	
+		//tratar if
         if (usuario) {
-        	const livros: Array<number> = JSON.parse(await empRep.findEmprestimos(usuario.id));
+        	const livros: Array<number> = await empRep.findEmprestimos(usuario.id);
         	console.log(`|------------- Empréstimos Atuais --------------|`);
         	
         	//tratar se não tiver nenhum livro

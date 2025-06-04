@@ -11,8 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmprestimoRepository = void 0;
 const index_1 = require("../index");
-//import { Emprestimo } from '../modelos/Emprestimo';
 class EmprestimoRepository {
+    constructor() {
+        this.vetor = [];
+    }
     save(livroId, usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
             yield index_1.prisma.emprestimo.create({
@@ -23,7 +25,7 @@ class EmprestimoRepository {
             });
         });
     }
-    //retur nstrings
+    //tratar saída 0 ou nula.
     findEmprestimos(usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
             const emprestimos = yield index_1.prisma.emprestimo.findMany({
@@ -34,11 +36,15 @@ class EmprestimoRepository {
                     usuarioID: true,
                 },
             });
+            console.log(emprestimos.length);
+            for (let i = 0; i < emprestimos.length; i++) {
+                this.vetor[i] = emprestimos[i].livroID;
+            }
             if (emprestimos) {
-                return JSON.stringify(emprestimos);
+                return this.vetor;
             }
             else {
-                return '';
+                return [];
             }
         });
     }

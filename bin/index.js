@@ -23,15 +23,15 @@ function main() {
         //livS.buscarLivro(1);
         const repE = new EmprestimoRepository_1.EmprestimoRepository();
         const empS = new EmprestimoService_1.EmprestimoService();
+        empS.getEmprestimos("teste@gaao.com");
         //const livros: Array<number> = JSON.parse(await repE.findEmprestimos(3)); --> LOucura
-        let livros = JSON.parse(yield repE.findEmprestimos(3));
-        console.log(typeof livros);
-        //empS.getEmprestimos("facil");
-        livros.forEach((value) => __awaiter(this, void 0, void 0, function* () {
+        /*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
+        livros.forEach(async (value: number) => {
             //const livro: Livro = await livS.buscarLivro(value);
             //console.log(`| Título: ${livro.titulo}, ISBN: ${livro.isbn}`);
-            //console.log(value.typeof());
-        }));
+            let teste: number = value.livroID;
+            console.log(teste);
+        });*/
         /*let a2: Array<number> = [];
         a2 = JSON.parse(await repE.findEmprestimos(3));
         console.log(a2)*/
