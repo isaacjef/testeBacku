@@ -10,16 +10,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
+exports.logType = logType;
+exports.simples = simples;
+require("reflect-metadata");
+const InterfaceUsuario_1 = require("./console/InterfaceUsuario");
 const client_1 = require("../src/generated/prisma/client");
 const EmprestimoRepository_1 = require("./repository/EmprestimoRepository");
 const LivroService_1 = require("./service/LivroService");
 const EmprestimoService_1 = require("./service/EmprestimoService");
+//Aparentemente, duas classes não podem se inter-importar no typescript.
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
+function logType(target, key) {
+    var t = Reflect.getMetadata("design:type", target, key);
+    console.log(`Atributo ${key} é do tipo: ${t.name}`);
+}
+function simples(C) {
+    console.log(`CLASSEZONA`);
+    return C;
+}
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        const d1 = new Date();
+        const d2 = new Date();
+        console.log(d1 + "    |      " + d2);
+        const form = new InterfaceUsuario_1.InterfaceUsuario();
+        form.iniciar();
         //const repL = new LivroRepository();
         const livS = new LivroService_1.LivroService();
+        console.log(Reflect.ownKeys(livS));
         //livS.buscarLivro(1);
         const repE = new EmprestimoRepository_1.EmprestimoRepository();
         const empS = new EmprestimoService_1.EmprestimoService();
@@ -40,6 +59,10 @@ function main() {
         form.iniciar();
         const ala = new InterfaceConsulta();
         ala.iniciarConsulta();
+        
+        class Foo() {
+        
+    }
         
         //Service e Repository para testes:
         const repE = new EmprestimoRepository();

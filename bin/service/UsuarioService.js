@@ -11,28 +11,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioService = void 0;
 const UsuarioRepository_1 = require("../repository/UsuarioRepository");
+//Instância de UsuarioRepository destinada a ser utilizada em todos os métodos da classe.
 const rep = new UsuarioRepository_1.UsuarioRepository();
 class UsuarioService {
-    //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
-    //algo do tipo: Promise { <pending> }
-    adicionarUsuario(nome, email) {
+    //Utiliza o método save() de UsuarioRepository para adicionar usuários no banco de dados. 
+    //É implementado na classe InterfaceUsuario
+    adicionarUsuario(nome, senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            //const rep = new UsuarioRepository();
-            rep.save(nome, email);
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve("ASync teste");
-                }, 10);
-            });
+            const verificacao = yield rep.findByEmail(email);
+            //Verifica se verificacao é nulo ou não. Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
+            if (verificacao) {
+                return true;
+            }
+            else {
+                rep.save(nome, senha, email);
+                return false;
+            }
         });
     }
     //Tratar retorno nulo de findByEmail
-    login(nome, email) {
+    login(senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            //const rep = new UsuarioRepository();
-            console.log("Testando usuario service " + email);
             const usuario = yield rep.findByEmail(email);
-            if (usuario && nome == usuario.nome && email == usuario.email) {
+            //Verifica primeiro se const usuario é nulo & 
+            //Se a senha e email informados pelo usuário são iguais às credenciais cadastradas anteriormente.
+            if (usuario && senha == usuario.senha && email == usuario.email) {
                 return true;
             }
             else {

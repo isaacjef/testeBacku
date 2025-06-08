@@ -1,4 +1,5 @@
 import * as readlineSync from 'readline-sync';
+import 'reflect-metadata';
 import { Livro } from './modelos/Livro';
 import { Usuario } from './modelos/Usuario';
 import { Emprestimo } from './modelos/Emprestimo';
@@ -16,13 +17,32 @@ import { UsuarioService } from './service/UsuarioService';
 import { ConsultaService } from './service/ConsultaService';
 import { EmprestimoService } from './service/EmprestimoService';
 
+//Aparentemente, duas classes não podem se inter-importar no typescript.
+
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 export const prisma = new PrismaClient({ log: ['query'] });
 
+export function logType(target: string, key: string) {
+	var t = Reflect.getMetadata("design:type", target, key);
+	console.log(`Atributo ${key} é do tipo: ${t.name}`)
+}
+
+export function simples(C: any) {
+	console.log(`CLASSEZONA`)
+	return C;
+}
+
 async function main() {
+	const d1 = new Date();
+	const d2 = new Date();
+	console.log(d1 + "    |      " + d2)
+	
+	const form = new InterfaceUsuario();
+	form.iniciar();
 	
 	//const repL = new LivroRepository();
 	const livS = new LivroService();
+	console.log(Reflect.ownKeys(livS));
 	//livS.buscarLivro(1);
 	const repE = new EmprestimoRepository();
 	const empS = new EmprestimoService();
@@ -46,6 +66,10 @@ async function main() {
 	form.iniciar();
 	const ala = new InterfaceConsulta();
 	ala.iniciarConsulta();
+	
+	class Foo() {
+	
+}
 	
 	//Service e Repository para testes:
 	const repE = new EmprestimoRepository();
@@ -76,7 +100,7 @@ main()
 		await prisma.$disconnect()
 		process.exit(1)
 	})
-	
+
 /* const form = new Formulario();
  * form.cadastrarUsuario();
  * 

@@ -37,6 +37,7 @@ exports.InterfaceLivro = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const LivroService_1 = require("../service/LivroService");
 class InterfaceLivro {
+    //Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
     cadastrarLivro() {
         console.log(`|---------------Cadastrar Livro---------------|`);
         console.log(`|                                             |`);

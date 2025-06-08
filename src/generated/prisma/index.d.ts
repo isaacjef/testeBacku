@@ -1148,22 +1148,25 @@ export namespace Prisma {
 
   export type UsuarioMinAggregateOutputType = {
     id: number | null
-    email: string | null
     nome: string | null
+    senha: string | null
+    email: string | null
     tipo: string | null
   }
 
   export type UsuarioMaxAggregateOutputType = {
     id: number | null
-    email: string | null
     nome: string | null
+    senha: string | null
+    email: string | null
     tipo: string | null
   }
 
   export type UsuarioCountAggregateOutputType = {
     id: number
-    email: number
     nome: number
+    senha: number
+    email: number
     tipo: number
     _all: number
   }
@@ -1179,22 +1182,25 @@ export namespace Prisma {
 
   export type UsuarioMinAggregateInputType = {
     id?: true
-    email?: true
     nome?: true
+    senha?: true
+    email?: true
     tipo?: true
   }
 
   export type UsuarioMaxAggregateInputType = {
     id?: true
-    email?: true
     nome?: true
+    senha?: true
+    email?: true
     tipo?: true
   }
 
   export type UsuarioCountAggregateInputType = {
     id?: true
-    email?: true
     nome?: true
+    senha?: true
+    email?: true
     tipo?: true
     _all?: true
   }
@@ -1287,8 +1293,9 @@ export namespace Prisma {
 
   export type UsuarioGroupByOutputType = {
     id: number
-    email: string
     nome: string
+    senha: string
+    email: string
     tipo: string
     _count: UsuarioCountAggregateOutputType | null
     _avg: UsuarioAvgAggregateOutputType | null
@@ -1313,8 +1320,9 @@ export namespace Prisma {
 
   export type UsuarioSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    email?: boolean
     nome?: boolean
+    senha?: boolean
+    email?: boolean
     tipo?: boolean
     Emprestimo?: boolean | Usuario$EmprestimoArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -1322,26 +1330,29 @@ export namespace Prisma {
 
   export type UsuarioSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    email?: boolean
     nome?: boolean
+    senha?: boolean
+    email?: boolean
     tipo?: boolean
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    email?: boolean
     nome?: boolean
+    senha?: boolean
+    email?: boolean
     tipo?: boolean
   }, ExtArgs["result"]["usuario"]>
 
   export type UsuarioSelectScalar = {
     id?: boolean
-    email?: boolean
     nome?: boolean
+    senha?: boolean
+    email?: boolean
     tipo?: boolean
   }
 
-  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "nome" | "tipo", ExtArgs["result"]["usuario"]>
+  export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nome" | "senha" | "email" | "tipo", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Emprestimo?: boolean | Usuario$EmprestimoArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
@@ -1356,8 +1367,9 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      email: string
       nome: string
+      senha: string
+      email: string
       tipo: string
     }, ExtArgs["result"]["usuario"]>
     composites: {}
@@ -1784,8 +1796,9 @@ export namespace Prisma {
    */
   interface UsuarioFieldRefs {
     readonly id: FieldRef<"Usuario", 'Int'>
-    readonly email: FieldRef<"Usuario", 'String'>
     readonly nome: FieldRef<"Usuario", 'String'>
+    readonly senha: FieldRef<"Usuario", 'String'>
+    readonly email: FieldRef<"Usuario", 'String'>
     readonly tipo: FieldRef<"Usuario", 'String'>
   }
     
@@ -3469,22 +3482,22 @@ export namespace Prisma {
   export type EmprestimoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     livroID?: boolean
     usuarioID?: boolean
-    livro?: boolean | LivroDefaultArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    livro?: boolean | LivroDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emprestimo"]>
 
   export type EmprestimoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     livroID?: boolean
     usuarioID?: boolean
-    livro?: boolean | LivroDefaultArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    livro?: boolean | LivroDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emprestimo"]>
 
   export type EmprestimoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     livroID?: boolean
     usuarioID?: boolean
-    livro?: boolean | LivroDefaultArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    livro?: boolean | LivroDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["emprestimo"]>
 
   export type EmprestimoSelectScalar = {
@@ -3494,23 +3507,23 @@ export namespace Prisma {
 
   export type EmprestimoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"livroID" | "usuarioID", ExtArgs["result"]["emprestimo"]>
   export type EmprestimoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    livro?: boolean | LivroDefaultArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    livro?: boolean | LivroDefaultArgs<ExtArgs>
   }
   export type EmprestimoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    livro?: boolean | LivroDefaultArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    livro?: boolean | LivroDefaultArgs<ExtArgs>
   }
   export type EmprestimoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    livro?: boolean | LivroDefaultArgs<ExtArgs>
     usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+    livro?: boolean | LivroDefaultArgs<ExtArgs>
   }
 
   export type $EmprestimoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Emprestimo"
     objects: {
-      livro: Prisma.$LivroPayload<ExtArgs>
       usuario: Prisma.$UsuarioPayload<ExtArgs>
+      livro: Prisma.$LivroPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       livroID: number
@@ -3909,8 +3922,8 @@ export namespace Prisma {
    */
   export interface Prisma__EmprestimoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    livro<T extends LivroDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LivroDefaultArgs<ExtArgs>>): Prisma__LivroClient<$Result.GetResult<Prisma.$LivroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    livro<T extends LivroDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LivroDefaultArgs<ExtArgs>>): Prisma__LivroClient<$Result.GetResult<Prisma.$LivroPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4367,8 +4380,9 @@ export namespace Prisma {
 
   export const UsuarioScalarFieldEnum: {
     id: 'id',
-    email: 'email',
     nome: 'nome',
+    senha: 'senha',
+    email: 'email',
     tipo: 'tipo'
   };
 
@@ -4434,16 +4448,18 @@ export namespace Prisma {
     OR?: UsuarioWhereInput[]
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
     id?: IntFilter<"Usuario"> | number
-    email?: StringFilter<"Usuario"> | string
     nome?: StringFilter<"Usuario"> | string
+    senha?: StringFilter<"Usuario"> | string
+    email?: StringFilter<"Usuario"> | string
     tipo?: StringFilter<"Usuario"> | string
     Emprestimo?: EmprestimoListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
     id?: SortOrder
-    email?: SortOrder
     nome?: SortOrder
+    senha?: SortOrder
+    email?: SortOrder
     tipo?: SortOrder
     Emprestimo?: EmprestimoOrderByRelationAggregateInput
   }
@@ -4455,14 +4471,16 @@ export namespace Prisma {
     OR?: UsuarioWhereInput[]
     NOT?: UsuarioWhereInput | UsuarioWhereInput[]
     nome?: StringFilter<"Usuario"> | string
+    senha?: StringFilter<"Usuario"> | string
     tipo?: StringFilter<"Usuario"> | string
     Emprestimo?: EmprestimoListRelationFilter
   }, "id" | "email">
 
   export type UsuarioOrderByWithAggregationInput = {
     id?: SortOrder
-    email?: SortOrder
     nome?: SortOrder
+    senha?: SortOrder
+    email?: SortOrder
     tipo?: SortOrder
     _count?: UsuarioCountOrderByAggregateInput
     _avg?: UsuarioAvgOrderByAggregateInput
@@ -4476,8 +4494,9 @@ export namespace Prisma {
     OR?: UsuarioScalarWhereWithAggregatesInput[]
     NOT?: UsuarioScalarWhereWithAggregatesInput | UsuarioScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Usuario"> | number
-    email?: StringWithAggregatesFilter<"Usuario"> | string
     nome?: StringWithAggregatesFilter<"Usuario"> | string
+    senha?: StringWithAggregatesFilter<"Usuario"> | string
+    email?: StringWithAggregatesFilter<"Usuario"> | string
     tipo?: StringWithAggregatesFilter<"Usuario"> | string
   }
 
@@ -4534,15 +4553,15 @@ export namespace Prisma {
     NOT?: EmprestimoWhereInput | EmprestimoWhereInput[]
     livroID?: IntFilter<"Emprestimo"> | number
     usuarioID?: IntFilter<"Emprestimo"> | number
-    livro?: XOR<LivroScalarRelationFilter, LivroWhereInput>
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    livro?: XOR<LivroScalarRelationFilter, LivroWhereInput>
   }
 
   export type EmprestimoOrderByWithRelationInput = {
     livroID?: SortOrder
     usuarioID?: SortOrder
-    livro?: LivroOrderByWithRelationInput
     usuario?: UsuarioOrderByWithRelationInput
+    livro?: LivroOrderByWithRelationInput
   }
 
   export type EmprestimoWhereUniqueInput = Prisma.AtLeast<{
@@ -4552,8 +4571,8 @@ export namespace Prisma {
     NOT?: EmprestimoWhereInput | EmprestimoWhereInput[]
     livroID?: IntFilter<"Emprestimo"> | number
     usuarioID?: IntFilter<"Emprestimo"> | number
-    livro?: XOR<LivroScalarRelationFilter, LivroWhereInput>
     usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    livro?: XOR<LivroScalarRelationFilter, LivroWhereInput>
   }, "livroID_usuarioID">
 
   export type EmprestimoOrderByWithAggregationInput = {
@@ -4575,52 +4594,59 @@ export namespace Prisma {
   }
 
   export type UsuarioCreateInput = {
-    email: string
     nome: string
+    senha: string
+    email: string
     tipo: string
     Emprestimo?: EmprestimoCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateInput = {
     id?: number
-    email: string
     nome: string
+    senha: string
+    email: string
     tipo: string
     Emprestimo?: EmprestimoUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUpdateInput = {
-    email?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     Emprestimo?: EmprestimoUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
     Emprestimo?: EmprestimoUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateManyInput = {
     id?: number
-    email: string
     nome: string
+    senha: string
+    email: string
     tipo: string
   }
 
   export type UsuarioUpdateManyMutationInput = {
-    email?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type UsuarioUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
     nome?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
     tipo?: StringFieldUpdateOperationsInput | string
   }
 
@@ -4668,8 +4694,8 @@ export namespace Prisma {
   }
 
   export type EmprestimoCreateInput = {
-    livro: LivroCreateNestedOneWithoutEmprestimoInput
     usuario: UsuarioCreateNestedOneWithoutEmprestimoInput
+    livro: LivroCreateNestedOneWithoutEmprestimoInput
   }
 
   export type EmprestimoUncheckedCreateInput = {
@@ -4678,8 +4704,8 @@ export namespace Prisma {
   }
 
   export type EmprestimoUpdateInput = {
-    livro?: LivroUpdateOneRequiredWithoutEmprestimoNestedInput
     usuario?: UsuarioUpdateOneRequiredWithoutEmprestimoNestedInput
+    livro?: LivroUpdateOneRequiredWithoutEmprestimoNestedInput
   }
 
   export type EmprestimoUncheckedUpdateInput = {
@@ -4738,8 +4764,9 @@ export namespace Prisma {
 
   export type UsuarioCountOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     nome?: SortOrder
+    senha?: SortOrder
+    email?: SortOrder
     tipo?: SortOrder
   }
 
@@ -4749,15 +4776,17 @@ export namespace Prisma {
 
   export type UsuarioMaxOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     nome?: SortOrder
+    senha?: SortOrder
+    email?: SortOrder
     tipo?: SortOrder
   }
 
   export type UsuarioMinOrderByAggregateInput = {
     id?: SortOrder
-    email?: SortOrder
     nome?: SortOrder
+    senha?: SortOrder
+    email?: SortOrder
     tipo?: SortOrder
   }
 
@@ -4824,14 +4853,14 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type LivroScalarRelationFilter = {
-    is?: LivroWhereInput
-    isNot?: LivroWhereInput
-  }
-
   export type UsuarioScalarRelationFilter = {
     is?: UsuarioWhereInput
     isNot?: UsuarioWhereInput
+  }
+
+  export type LivroScalarRelationFilter = {
+    is?: LivroWhereInput
+    isNot?: LivroWhereInput
   }
 
   export type EmprestimoLivroIDUsuarioIDCompoundUniqueInput = {
@@ -4960,24 +4989,16 @@ export namespace Prisma {
     deleteMany?: EmprestimoScalarWhereInput | EmprestimoScalarWhereInput[]
   }
 
-  export type LivroCreateNestedOneWithoutEmprestimoInput = {
-    create?: XOR<LivroCreateWithoutEmprestimoInput, LivroUncheckedCreateWithoutEmprestimoInput>
-    connectOrCreate?: LivroCreateOrConnectWithoutEmprestimoInput
-    connect?: LivroWhereUniqueInput
-  }
-
   export type UsuarioCreateNestedOneWithoutEmprestimoInput = {
     create?: XOR<UsuarioCreateWithoutEmprestimoInput, UsuarioUncheckedCreateWithoutEmprestimoInput>
     connectOrCreate?: UsuarioCreateOrConnectWithoutEmprestimoInput
     connect?: UsuarioWhereUniqueInput
   }
 
-  export type LivroUpdateOneRequiredWithoutEmprestimoNestedInput = {
+  export type LivroCreateNestedOneWithoutEmprestimoInput = {
     create?: XOR<LivroCreateWithoutEmprestimoInput, LivroUncheckedCreateWithoutEmprestimoInput>
     connectOrCreate?: LivroCreateOrConnectWithoutEmprestimoInput
-    upsert?: LivroUpsertWithoutEmprestimoInput
     connect?: LivroWhereUniqueInput
-    update?: XOR<XOR<LivroUpdateToOneWithWhereWithoutEmprestimoInput, LivroUpdateWithoutEmprestimoInput>, LivroUncheckedUpdateWithoutEmprestimoInput>
   }
 
   export type UsuarioUpdateOneRequiredWithoutEmprestimoNestedInput = {
@@ -4986,6 +5007,14 @@ export namespace Prisma {
     upsert?: UsuarioUpsertWithoutEmprestimoInput
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutEmprestimoInput, UsuarioUpdateWithoutEmprestimoInput>, UsuarioUncheckedUpdateWithoutEmprestimoInput>
+  }
+
+  export type LivroUpdateOneRequiredWithoutEmprestimoNestedInput = {
+    create?: XOR<LivroCreateWithoutEmprestimoInput, LivroUncheckedCreateWithoutEmprestimoInput>
+    connectOrCreate?: LivroCreateOrConnectWithoutEmprestimoInput
+    upsert?: LivroUpsertWithoutEmprestimoInput
+    connect?: LivroWhereUniqueInput
+    update?: XOR<XOR<LivroUpdateToOneWithWhereWithoutEmprestimoInput, LivroUpdateWithoutEmprestimoInput>, LivroUncheckedUpdateWithoutEmprestimoInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5131,6 +5160,26 @@ export namespace Prisma {
     data: XOR<EmprestimoUpdateManyMutationInput, EmprestimoUncheckedUpdateManyWithoutLivroInput>
   }
 
+  export type UsuarioCreateWithoutEmprestimoInput = {
+    nome: string
+    senha: string
+    email: string
+    tipo: string
+  }
+
+  export type UsuarioUncheckedCreateWithoutEmprestimoInput = {
+    id?: number
+    nome: string
+    senha: string
+    email: string
+    tipo: string
+  }
+
+  export type UsuarioCreateOrConnectWithoutEmprestimoInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutEmprestimoInput, UsuarioUncheckedCreateWithoutEmprestimoInput>
+  }
+
   export type LivroCreateWithoutEmprestimoInput = {
     titulo: string
     isbn: string
@@ -5147,22 +5196,30 @@ export namespace Prisma {
     create: XOR<LivroCreateWithoutEmprestimoInput, LivroUncheckedCreateWithoutEmprestimoInput>
   }
 
-  export type UsuarioCreateWithoutEmprestimoInput = {
-    email: string
-    nome: string
-    tipo: string
-  }
-
-  export type UsuarioUncheckedCreateWithoutEmprestimoInput = {
-    id?: number
-    email: string
-    nome: string
-    tipo: string
-  }
-
-  export type UsuarioCreateOrConnectWithoutEmprestimoInput = {
-    where: UsuarioWhereUniqueInput
+  export type UsuarioUpsertWithoutEmprestimoInput = {
+    update: XOR<UsuarioUpdateWithoutEmprestimoInput, UsuarioUncheckedUpdateWithoutEmprestimoInput>
     create: XOR<UsuarioCreateWithoutEmprestimoInput, UsuarioUncheckedCreateWithoutEmprestimoInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutEmprestimoInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutEmprestimoInput, UsuarioUncheckedUpdateWithoutEmprestimoInput>
+  }
+
+  export type UsuarioUpdateWithoutEmprestimoInput = {
+    nome?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UsuarioUncheckedUpdateWithoutEmprestimoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nome?: StringFieldUpdateOperationsInput | string
+    senha?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type LivroUpsertWithoutEmprestimoInput = {
@@ -5185,30 +5242,6 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UsuarioUpsertWithoutEmprestimoInput = {
-    update: XOR<UsuarioUpdateWithoutEmprestimoInput, UsuarioUncheckedUpdateWithoutEmprestimoInput>
-    create: XOR<UsuarioCreateWithoutEmprestimoInput, UsuarioUncheckedCreateWithoutEmprestimoInput>
-    where?: UsuarioWhereInput
-  }
-
-  export type UsuarioUpdateToOneWithWhereWithoutEmprestimoInput = {
-    where?: UsuarioWhereInput
-    data: XOR<UsuarioUpdateWithoutEmprestimoInput, UsuarioUncheckedUpdateWithoutEmprestimoInput>
-  }
-
-  export type UsuarioUpdateWithoutEmprestimoInput = {
-    email?: StringFieldUpdateOperationsInput | string
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type UsuarioUncheckedUpdateWithoutEmprestimoInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
-    nome?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
   }
 
   export type EmprestimoCreateManyUsuarioInput = {

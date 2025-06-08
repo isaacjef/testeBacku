@@ -46,8 +46,10 @@ exports.InterfaceUsuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
 const InterfaceConsulta_1 = require("../console/InterfaceConsulta");
+//Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService_1.UsuarioService();
 class InterfaceUsuario {
+    //Página inicial do sistema. Direriona o usuário às páginas de Cadastro e Login.
     iniciar() {
         console.log(`|---------------Iniciando Sistema---------------|`);
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
@@ -66,32 +68,41 @@ class InterfaceUsuario {
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
         console.log(`|-----------------------------------------------|`);
     }
+    //Página destinada ao cadastro de usuários. Implementa o método adicionarUsuario() de UsuarioService.
     cadastrarUsuario() {
-        console.log(`|------------------- Cadastro  -----------------|`);
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        try {
-            const name = readlineSync.question(`| Nome:`);
-            //utilizar readlineSync.questionEMail
-            const email = readlineSync.question(`| E-mail:`);
-            usuarioS.adicionarUsuario(name, email);
-        }
-        catch (error) {
-            console.error("Erro: ", error.message);
-        }
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        console.log(`|-----------------------------------------------|`);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(`|------------------- Cadastro  -----------------|`);
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+            try {
+                const name = readlineSync.question(`| Nome:`);
+                const senha = readlineSync.question(`| Senha:`);
+                const email = readlineSync.questionEMail(`| E-mail:`);
+                if (yield usuarioS.adicionarUsuario(name, senha, email)) {
+                    console.log("Este e-mail já está cadastrado! Tente novamente.");
+                    this.cadastrarUsuario();
+                }
+                else {
+                    console.log("Usuário cadastrado com sucesso!");
+                    this.home(email);
+                }
+            }
+            catch (error) {
+                console.error("Erro: ", error.message);
+            }
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+            console.log(`|-----------------------------------------------|`);
+        });
     }
+    //Página destinada ao login de usuários. Implementa o método login() de UsuarioService.
     logarUsuario() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`|-------------------  Login  -------------------|`);
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             try {
-                const name = readlineSync.question(`| Nome:`);
-                //Posteriormente, substituir nome por senha...
-                const email = readlineSync.question(`| E-mail:`);
-                //const usuario = new UsuarioService();
-                //verifica se deu certo, se sim: entra no sistema.
-                if (yield usuarioS.login(name, email)) {
+                const email = readlineSync.questionEMail(`| E-mail:`);
+                const senha = readlineSync.question(`| Senha:`);
+                //verifica se o método login() retorna nulo, se não: direciona para a página Home.
+                if (yield usuarioS.login(senha, email)) {
                     this.home(email);
                 }
                 else {
@@ -106,6 +117,8 @@ class InterfaceUsuario {
             console.log(`|-----------------------------------------------|`);
         });
     }
+    //Página Home, de entrada ao sistema.
+    //Esta classe verifica se o usuário é um Membro ou Admin.
     home(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const usuario = yield usuarioS.getUsuario(email);

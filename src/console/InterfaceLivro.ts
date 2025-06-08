@@ -2,7 +2,8 @@ import * as readlineSync from 'readline-sync';
 import { LivroService } from '../service/LivroService'
 
 export class InterfaceLivro {
-
+	
+	//Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
     cadastrarLivro(): void {
 		console.log(`|---------------Cadastrar Livro---------------|`)
 		console.log(`|                                             |`)

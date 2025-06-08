@@ -9,9 +9,8 @@ export interface IUsuarioRepository {
 *
 */
 
-    save(nome: string, email: string): Promise<void>
+    save(nome: string, senha: string, email: string): Promise<void>
     findByEmail(email: string): Promise<Usuario | null>
-    //findByEmail(email: string): Promise<void>
     listarUsuarios(): void
 
 }

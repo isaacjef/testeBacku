@@ -6,6 +6,7 @@ import { LivroRepository } from '../repository/LivroRepository';
 titulo
 isbn*/
 
+//Instância de LivroRepository destinada a ser utilizada em todos os métodos da classe.
 const livRep = new LivroRepository();
 
 export class LivroService {

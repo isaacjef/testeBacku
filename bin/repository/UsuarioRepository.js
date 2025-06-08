@@ -14,11 +14,12 @@ const index_1 = require("../index");
 const Usuario_1 = require("../modelos/Usuario");
 const TipoUsuario_1 = require("../enumeracao/TipoUsuario");
 class UsuarioRepository {
-    save(nome, email) {
+    save(nome, senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
             yield index_1.prisma.usuario.create({
                 data: {
                     nome: `${nome}`,
+                    senha: `${senha}`,
                     email: `${email}`,
                     tipo: TipoUsuario_1.TipoUsuario.CLIENTE,
                 },
@@ -29,11 +30,12 @@ class UsuarioRepository {
     findByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const userR = yield index_1.prisma.usuario.findUnique({ where: { email: email } });
+            //Verifica primeiro se userR é nulo & se o tipo do usuário.
             if (userR && userR.tipo == 'Membro') {
-                return new Usuario_1.Usuario(userR.id, userR.nome, userR.email, TipoUsuario_1.TipoUsuario.CLIENTE);
+                return new Usuario_1.Usuario(userR.id, userR.nome, userR.senha, userR.email, TipoUsuario_1.TipoUsuario.CLIENTE);
             }
             else if (userR && userR.tipo == 'Administrador') {
-                return new Usuario_1.Usuario(userR.id, userR.nome, userR.email, TipoUsuario_1.TipoUsuario.ADMIN);
+                return new Usuario_1.Usuario(userR.id, userR.nome, userR.senha, userR.email, TipoUsuario_1.TipoUsuario.ADMIN);
             }
             else {
                 return null;

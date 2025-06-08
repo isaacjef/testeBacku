@@ -15,6 +15,7 @@ const LivroRepository_1 = require("../repository/LivroRepository");
 /*Livro:
 titulo
 isbn*/
+//Instância de LivroRepository destinada a ser utilizada em todos os métodos da classe.
 const livRep = new LivroRepository_1.LivroRepository();
 class LivroService {
     adicionarLivro(titulo, isbn) {
