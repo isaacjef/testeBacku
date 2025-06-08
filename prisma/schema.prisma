@@ -19,6 +19,7 @@ datasource db {
   //  url      = env("DATABASE_URL")
 }
 
+//Atributo Emprestimo Emprestimo[] não aparece nos retornos do banco de dados para a tabela Livro, somento indica a relação entre Livro e Emprestimo
 model Usuario {
   id         Int          @id @default(autoincrement())
   email      String       @unique
@@ -27,7 +28,6 @@ model Usuario {
   Emprestimo Emprestimo[]
 }
 
-//Atributo Emprestimo Emprestimo[] não aparece nos retornos do banco de dados para a tabela Livro, somento indica a relação entre Livro e Emprestimo
 model Livro {
   id         Int          @id @default(autoincrement())
   titulo     String
