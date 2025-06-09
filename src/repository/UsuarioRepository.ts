@@ -3,8 +3,10 @@ import { Usuario } from '../modelos/Usuario';
 import { TipoUsuario } from "../enumeracao/TipoUsuario"
 import { IUsuarioRepository } from './IUsuarioRepository';
 
+//Repository de Usuario, responsável por executar as operações de CRUD.
 export class UsuarioRepository implements IUsuarioRepository {
 
+	//Salvar usuário no banco de dados, através dos parâmetros passados.
 	async save(nome: string, senha: string, email: string): Promise<void> {
 		await prisma.usuario.create({
             data: {
@@ -17,20 +19,38 @@ export class UsuarioRepository implements IUsuarioRepository {
 	}
 	
 	//Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
-	async findByEmail(email: string): Promise<Usuario | null> {
-        const userR = await prisma.usuario.findUnique({ where: { email: email } });
+	//Encontra usuário no banco de dados via e-mail. Retorna uma string JSON com os dados obtidos.
+	async findByEmail(email: string): Promise<string> {
+		const userR = await prisma.usuario.findUnique({ where: { email: email } });
 	
-		//Verifica primeiro se userR é nulo & se o tipo do usuário.
-        if(userR && userR.tipo == 'Membro') {
-        	return new Usuario(userR.id, userR.nome, userR.senha, userR.email, TipoUsuario.CLIENTE)
-        } else if (userR && userR.tipo == 'Administrador') {
-        	return new Usuario(userR.id, userR.nome, userR.senha, userR.email, TipoUsuario.ADMIN)
-        } else {
-        	return null;
-        }
+		return JSON.stringify(userR);
     }
 
-    listarUsuarios(): void {
-        throw new Error("Method not implemented.");
+	//Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
+	//Encontra usuário no banco de dados via id. Retorna uma string JSON com os dados obtidos.
+	async findByID(id: number): Promise<string> {
+        const userR = await prisma.usuario.findUnique({ where: { id: id } });
+	
+		return JSON.stringify(userR);
     }
+    
+    //Método simples que permite modificar o nome
+	async update(email: string, nome: string): Promise<void> {
+		await prisma.usuario.update({
+			where: {
+				email: `${email}`
+			},
+			data: {
+				nome: `${nome}`,
+			},
+		})
+	}
+	
+	async delete(email: string): Promise<void> {
+		await prisma.usuario.delete({
+			where: {
+				email: `${email}`
+			},
+		})
+	}
 }

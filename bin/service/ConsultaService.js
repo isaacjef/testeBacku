@@ -5,6 +5,17 @@ const ConsultaRepository_1 = require("../repository/ConsultaRepository");
 class ConsultaService {
     constructor() {
         this.teste = '';
+        /*async consultaUnicaISBN(isbn: string): Promise<Livro> {
+            const livro = await livRep.findByISBN(isbn);
+            
+            //VErifica se o livro é nulo.
+            if (verificacao) {
+                return true;
+            } else {
+                livRep.save(titulo, isbn);
+                return false;
+            }
+        }*/
     }
     //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
     //algo do tipo: Promise { <pending> }

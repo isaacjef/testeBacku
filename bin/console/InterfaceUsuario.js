@@ -46,8 +46,10 @@ exports.InterfaceUsuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const UsuarioService_1 = require("../service/UsuarioService");
 const InterfaceConsulta_1 = require("../console/InterfaceConsulta");
+const InterfaceEmprestimo_1 = require("../console/InterfaceEmprestimo");
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService_1.UsuarioService();
+const interfaceEmp = new InterfaceEmprestimo_1.InterfaceEmprestimo();
 class InterfaceUsuario {
     //Página inicial do sistema. Direriona o usuário às páginas de Cadastro e Login.
     iniciar() {
@@ -107,7 +109,7 @@ class InterfaceUsuario {
                 }
                 else {
                     console.log("Credenciais incorretas! Digite novamente.");
-                    this.iniciar();
+                    this.logarUsuario();
                 }
             }
             catch (error) {
@@ -118,7 +120,8 @@ class InterfaceUsuario {
         });
     }
     //Página Home, de entrada ao sistema.
-    //Esta classe verifica se o usuário é um Membro ou Admin.
+    //Este método verifica se o usuário é um Membro ou Admin.
+    //Direciona o Usuário à páginas de acordo com o seu tipo.
     home(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const usuario = yield usuarioS.getUsuario(email);
@@ -128,9 +131,9 @@ class InterfaceUsuario {
                 console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`);
                 console.log(`| . . . [3] Consulta     |      . . . . . . . . |`);
                 try {
-                    const resp = readlineSync.question(`                      `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                    const resp = readlineSync.question(`             `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
                     if (resp == '1') {
-                        //this.emprestimo(email);
+                        interfaceEmp.listarEmprestimo(email);
                     }
                     else if (resp == '2') {
                         //this.logarUsuario();
@@ -143,23 +146,10 @@ class InterfaceUsuario {
                 catch (error) {
                     console.error("Erro: ", error.message);
                 }
-                console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-                console.log(`|-----------------------------------------------|`);
+                //        	console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+                //			console.log(`|-----------------------------------------------|`)
             }
         });
-    }
-    emprestimo(email) {
-        console.log(`|----------------  Empréstimo  -----------------|`);
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        //Listar todos os livros pegos pelo usuario.
-        //Seção para realizar um empréstimo
-        try {
-            const titulo = readlineSync.question(`| Título:`);
-        }
-        catch (error) {
-            console.error("Erro:", error.message);
-        }
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
     }
 }
 exports.InterfaceUsuario = InterfaceUsuario;

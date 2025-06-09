@@ -11,9 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioRepository = void 0;
 const index_1 = require("../index");
-const Usuario_1 = require("../modelos/Usuario");
 const TipoUsuario_1 = require("../enumeracao/TipoUsuario");
+//Repository de Usuario, responsável por executar as operações de CRUD.
 class UsuarioRepository {
+    //Salvar usuário no banco de dados, através dos parâmetros passados.
     save(nome, senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
             yield index_1.prisma.usuario.create({
@@ -27,23 +28,42 @@ class UsuarioRepository {
         });
     }
     //Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
+    //Encontra usuário no banco de dados via e-mail. Retorna uma string JSON com os dados obtidos.
     findByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const userR = yield index_1.prisma.usuario.findUnique({ where: { email: email } });
-            //Verifica primeiro se userR é nulo & se o tipo do usuário.
-            if (userR && userR.tipo == 'Membro') {
-                return new Usuario_1.Usuario(userR.id, userR.nome, userR.senha, userR.email, TipoUsuario_1.TipoUsuario.CLIENTE);
-            }
-            else if (userR && userR.tipo == 'Administrador') {
-                return new Usuario_1.Usuario(userR.id, userR.nome, userR.senha, userR.email, TipoUsuario_1.TipoUsuario.ADMIN);
-            }
-            else {
-                return null;
-            }
+            return JSON.stringify(userR);
         });
     }
-    listarUsuarios() {
-        throw new Error("Method not implemented.");
+    //Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
+    //Encontra usuário no banco de dados via id. Retorna uma string JSON com os dados obtidos.
+    findByID(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userR = yield index_1.prisma.usuario.findUnique({ where: { id: id } });
+            return JSON.stringify(userR);
+        });
+    }
+    //Método simples que permite modificar o nome
+    update(email, nome) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield index_1.prisma.usuario.update({
+                where: {
+                    email: `${email}`
+                },
+                data: {
+                    nome: `${nome}`,
+                },
+            });
+        });
+    }
+    delete(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield index_1.prisma.usuario.delete({
+                where: {
+                    email: `${email}`
+                },
+            });
+        });
     }
 }
 exports.UsuarioRepository = UsuarioRepository;

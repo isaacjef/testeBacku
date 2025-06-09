@@ -23,4 +23,16 @@ export class ConsultaService {
     	this.teste += ` AND ${column} LIKE '%${param}%'`;
 		con.consultarLivro(this.teste);
     }
+    
+    /*async consultaUnicaISBN(isbn: string): Promise<Livro> {
+    	const livro = await livRep.findByISBN(isbn);
+        
+        //VErifica se o livro é nulo.
+        if (verificacao) {
+        	return true;
+        } else {
+        	livRep.save(titulo, isbn);
+        	return false;
+        }
+    }*/
 }

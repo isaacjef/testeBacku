@@ -18,7 +18,7 @@ class UsuarioService {
     //É implementado na classe InterfaceUsuario
     adicionarUsuario(nome, senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const verificacao = yield rep.findByEmail(email);
+            const verificacao = JSON.parse(yield rep.findByEmail(email));
             //Verifica se verificacao é nulo ou não. Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
             if (verificacao) {
                 return true;
@@ -32,8 +32,8 @@ class UsuarioService {
     //Tratar retorno nulo de findByEmail
     login(senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const usuario = yield rep.findByEmail(email);
-            //Verifica primeiro se const usuario é nulo & 
+            const usuario = JSON.parse(yield rep.findByEmail(email));
+            //Verifica primeiro se usuario é nulo & 
             //Se a senha e email informados pelo usuário são iguais às credenciais cadastradas anteriormente.
             if (usuario && senha == usuario.senha && email == usuario.email) {
                 return true;
@@ -48,11 +48,23 @@ class UsuarioService {
             });*/
         });
     }
+    //Utiliza o método findByEmail de repository e converte o objeto Usuario que foi retornado em formato JSON.
+    //Verifica se o objeto Usuario é nulo.
     getUsuario(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userS = yield rep.findByEmail(email);
+            const userS = JSON.parse(yield rep.findByEmail(email));
             if (userS)
-                //return new Usuario(userS.id, userS.nome, userS.email, userS.tipo);
+                return userS;
+            else
+                return null;
+        });
+    }
+    //Utiliza o método findByID de repository e converte o objeto Usuario que foi retornado em formato JSON.
+    //Verifica se o objeto Usuario é nulo.
+    getUsuarioByID(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userS = JSON.parse(yield rep.findByID(id));
+            if (userS)
                 return userS;
             else
                 return null;

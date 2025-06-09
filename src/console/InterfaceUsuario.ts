@@ -2,9 +2,11 @@ import * as readlineSync from 'readline-sync';
 import { Usuario } from '../modelos/Usuario';
 import { UsuarioService } from '../service/UsuarioService'
 import { InterfaceConsulta } from '../console/InterfaceConsulta'
+import { InterfaceEmprestimo } from '../console/InterfaceEmprestimo'
 
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService();
+const interfaceEmp = new InterfaceEmprestimo();
 
 export class InterfaceUsuario {
 	
@@ -72,7 +74,8 @@ export class InterfaceUsuario {
 	}
 	
 	//Página Home, de entrada ao sistema.
-	//Esta classe verifica se o usuário é um Membro ou Admin.
+	//Este método verifica se o usuário é um Membro ou Admin.
+	//Direciona o Usuário à páginas de acordo com o seu tipo.
 	async home(email: string): Promise<void> {
 		const usuario = await usuarioS.getUsuario(email);
 		if (usuario && usuario.tipo == 'Membro') {
@@ -81,9 +84,9 @@ export class InterfaceUsuario {
 			console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`)
 			console.log(`| . . . [3] Consulta     |      . . . . . . . . |`)
 			try {
-				const resp = readlineSync.question(`                      `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
+				const resp = readlineSync.question(`             `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
 				if (resp == '1') {
-					//this.emprestimo(email);
+					interfaceEmp.listarEmprestimo(email);
 				} else if (resp == '2') {
 					//this.logarUsuario();
 				} else {
@@ -93,21 +96,8 @@ export class InterfaceUsuario {
 			} catch (error: any) {
                     	console.error("Erro: ", error.message);
         	}
-        	console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-			console.log(`|-----------------------------------------------|`)
+//        	console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+//			console.log(`|-----------------------------------------------|`)
 		}
-	}
-	
-	emprestimo(email: string): void {
-		console.log(`|----------------  Empréstimo  -----------------|`)
-		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		//Listar todos os livros pegos pelo usuario.
-		//Seção para realizar um empréstimo
-		try {
-			const titulo = readlineSync.question(`| Título:`)
-		} catch (error: any) {
-        	console.error("Erro:", error.message);
-    	}
-		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 	}
 }

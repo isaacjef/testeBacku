@@ -11,9 +11,9 @@ export class InterfaceConsulta {
     async iniciarConsulta(): Promise<void> {
 		console.log(`|------------------ Consulta -----------------|`)
 		console.log(`|                                             |`)
-		console.log(`| Selecione uma das opções para consulta:     |`)
-		console.log(`| [0] Título | [1] ISBN `)
-		console.log(`| [9] Cancelar`)
+		console.log(`|   Selecione uma das opções para consulta:   |`)
+		console.log(`|            [0] Título | [1] ISBN            |`)
+		console.log(`|            [9] Cancelar                     |`)
 		console.log(`|---------------------------------------------|`)
 		const con = new ConsultaService();
 		let result;
@@ -37,6 +37,19 @@ export class InterfaceConsulta {
 			} while (i > 0);
 		} catch (error: any) {
 			console.log("Erro: ", error.message)
+		}
+	}
+	
+	consultaUnica(email: string): void {
+		console.log(`|-------------- Consulta Única ---------------|`)
+		console.log(`|                                             |`)
+		console.log(`|   Selecione uma das opções para consulta:   |`)
+		console.log(`|            [0] Título | [1] ISBN            |`)		
+		const num = readlineSync.questionInt(`|Digite uma opção: `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
+		if (num == 0) {
+			const titulo = readlineSync.question(`| Digite o título do Livro: `);
+		} else {
+			const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
 		}
 	}
 	

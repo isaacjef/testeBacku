@@ -32,6 +32,15 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceLivro = void 0;
 const readlineSync = __importStar(require("readline-sync"));
@@ -39,19 +48,27 @@ const LivroService_1 = require("../service/LivroService");
 class InterfaceLivro {
     //Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
     cadastrarLivro() {
-        console.log(`|---------------Cadastrar Livro---------------|`);
-        console.log(`|                                             |`);
-        try {
-            const titulo = readlineSync.question(`| Título:`);
-            const genero = readlineSync.question(`| Gênero:`);
-            const isbn = readlineSync.question(`| ISBN:`);
-            const livro = new LivroService_1.LivroService();
-            livro.adicionarLivro(titulo, isbn);
-        }
-        catch (error) {
-            console.error("Erro:", error.message);
-        }
-        console.log(`|---------------------------------------------|`);
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(`|---------------Cadastrar Livro---------------|`);
+            console.log(`|                                             |`);
+            try {
+                const titulo = readlineSync.question(`| Título:`);
+                const genero = readlineSync.question(`| Gênero:`);
+                const isbn = readlineSync.question(`| ISBN:`);
+                const livro = new LivroService_1.LivroService();
+                if (yield livro.adicionarLivro(titulo, isbn)) {
+                    console.log("Livro já cadastrado! Tente novamente.");
+                    this.cadastrarLivro();
+                }
+                else {
+                    console.log("Livro cadastrado com sucesso");
+                }
+            }
+            catch (error) {
+                console.error("Erro:", error.message);
+            }
+            console.log(`|---------------------------------------------|`);
+        });
     }
 }
 exports.InterfaceLivro = InterfaceLivro;

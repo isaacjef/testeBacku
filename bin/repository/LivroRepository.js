@@ -15,14 +15,20 @@ const Livro_1 = require("../modelos/Livro");
 class LivroRepository {
     save(titulo, isbn) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield index_1.prisma.livro.create({
-                data: {
-                    titulo: titulo,
-                    isbn: isbn,
-                },
-            });
+            try {
+                yield index_1.prisma.livro.create({
+                    data: {
+                        titulo: titulo,
+                        isbn: isbn,
+                    },
+                });
+            }
+            catch (error) {
+                console.log(error.message);
+            }
         });
     }
+    //Busca um Livro no BD via id, e retorna os dados do Livro como uma string JSON.
     findByID(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const livro = yield index_1.prisma.livro.findUnique({ where: { id: id } });

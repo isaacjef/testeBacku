@@ -22,9 +22,14 @@ import { EmprestimoService } from './service/EmprestimoService';
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 export const prisma = new PrismaClient({ log: ['query'] });
 
-export function logType(target: string, key: string) {
+export function logAt(target: Object, key: string | symbol) {
 	var t = Reflect.getMetadata("design:type", target, key);
-	console.log(`Atributo ${key} é do tipo: ${t.name}`)
+	console.log('Atributo ', key ,' é do tipo: '+ t)
+}
+
+class Teste {
+	@logAt
+	nome: string = 'aa';
 }
 
 export function simples(C: any) {
@@ -33,20 +38,23 @@ export function simples(C: any) {
 }
 
 async function main() {
-	const d1 = new Date();
+	const d1 = new Date(2023, 11, 11);
 	const d2 = new Date();
 	console.log(d1 + "    |      " + d2)
 	
-	const form = new InterfaceUsuario();
-	form.iniciar();
+	//const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
 	
-	//const repL = new LivroRepository();
+	//const form = new InterfaceUsuario();
+	//form.iniciar();
+	//form.home("a@a");
+	
 	const livS = new LivroService();
-	console.log(Reflect.ownKeys(livS));
+	livS.adicionarLivro("testebbbbb", "AAtAAbbbbbbbbbAAA")
+	
 	//livS.buscarLivro(1);
-	const repE = new EmprestimoRepository();
-	const empS = new EmprestimoService();
-	empS.getEmprestimos("teste@gaao.com");
+	const userS = new UsuarioService();
+	console.log(await userS.getUsuario("a@a"));
+	console.log(await userS.getUsuario(""));
 	
 	//const livros: Array<number> = JSON.parse(await repE.findEmprestimos(3)); --> LOucura
 	/*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
@@ -66,10 +74,6 @@ async function main() {
 	form.iniciar();
 	const ala = new InterfaceConsulta();
 	ala.iniciarConsulta();
-	
-	class Foo() {
-	
-}
 	
 	//Service e Repository para testes:
 	const repE = new EmprestimoRepository();

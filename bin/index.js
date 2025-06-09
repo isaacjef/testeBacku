@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -10,39 +16,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
-exports.logType = logType;
+exports.logAt = logAt;
 exports.simples = simples;
 require("reflect-metadata");
-const InterfaceUsuario_1 = require("./console/InterfaceUsuario");
 const client_1 = require("../src/generated/prisma/client");
-const EmprestimoRepository_1 = require("./repository/EmprestimoRepository");
 const LivroService_1 = require("./service/LivroService");
-const EmprestimoService_1 = require("./service/EmprestimoService");
+const UsuarioService_1 = require("./service/UsuarioService");
 //Aparentemente, duas classes não podem se inter-importar no typescript.
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
-function logType(target, key) {
+function logAt(target, key) {
     var t = Reflect.getMetadata("design:type", target, key);
-    console.log(`Atributo ${key} é do tipo: ${t.name}`);
+    console.log('Atributo ', key, ' é do tipo: ' + t);
 }
+class Teste {
+    constructor() {
+        this.nome = 'aa';
+    }
+}
+__decorate([
+    logAt
+], Teste.prototype, "nome", void 0);
 function simples(C) {
     console.log(`CLASSEZONA`);
     return C;
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const d1 = new Date();
+        const d1 = new Date(2023, 11, 11);
         const d2 = new Date();
         console.log(d1 + "    |      " + d2);
-        const form = new InterfaceUsuario_1.InterfaceUsuario();
-        form.iniciar();
-        //const repL = new LivroRepository();
+        //const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
+        //const form = new InterfaceUsuario();
+        //form.iniciar();
+        //form.home("a@a");
         const livS = new LivroService_1.LivroService();
-        console.log(Reflect.ownKeys(livS));
+        livS.adicionarLivro("testebbbbb", "AAtAAbbbbbbbbbAAA");
         //livS.buscarLivro(1);
-        const repE = new EmprestimoRepository_1.EmprestimoRepository();
-        const empS = new EmprestimoService_1.EmprestimoService();
-        empS.getEmprestimos("teste@gaao.com");
+        const userS = new UsuarioService_1.UsuarioService();
+        console.log(yield userS.getUsuario("a@a"));
+        console.log(yield userS.getUsuario(""));
         //const livros: Array<number> = JSON.parse(await repE.findEmprestimos(3)); --> LOucura
         /*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
         livros.forEach(async (value: number) => {
@@ -59,10 +72,6 @@ function main() {
         form.iniciar();
         const ala = new InterfaceConsulta();
         ala.iniciarConsulta();
-        
-        class Foo() {
-        
-    }
         
         //Service e Repository para testes:
         const repE = new EmprestimoRepository();

@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroService = void 0;
-const index_1 = require("../index");
 const LivroRepository_1 = require("../repository/LivroRepository");
 /*Livro:
 titulo
@@ -20,16 +19,25 @@ const livRep = new LivroRepository_1.LivroRepository();
 class LivroService {
     adicionarLivro(titulo, isbn) {
         return __awaiter(this, void 0, void 0, function* () {
-            livRep.save(titulo, isbn);
-            yield index_1.prisma.$disconnect();
-            return new Promise((resolve) => {
+            const verificacao = yield livRep.findByISBN(isbn);
+            //Verifica se há algum livro com o ISBN digitado pelo usuário. Se houver, retorna true para a classe InterfaceLivro
+            //Se não, salva o Livro no BD e retorna false.
+            if (verificacao) {
+                return true;
+            }
+            else {
+                livRep.save(titulo, isbn);
+                return false;
+            }
+            /*return new Promise((resolve) => {
                 setTimeout(() => {
                     resolve("ASync teste");
                 }, 10);
-            });
+            });*/
         });
     }
-    buscarLivro(livroId) {
+    //Verificar se o BD não retornar nenhum Livro2
+    getLivroByID(livroId) {
         return __awaiter(this, void 0, void 0, function* () {
             const livro = JSON.parse(yield livRep.findByID(livroId));
             return livro;

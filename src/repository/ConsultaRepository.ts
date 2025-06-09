@@ -1,7 +1,8 @@
 import { prisma } from '../index';
 import { Livro } from '../modelos/Livro';
+import { IConsultaRepository } from './IConsultaRepository';
 
-export class ConsultaRepository {
+export class ConsultaRepository implements IConsultaRepository {
 
 	//async consultarLivro(query: string): Promise<Livro[] | null> {
 	async consultarLivro(query: string): Promise<void> {

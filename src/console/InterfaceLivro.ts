@@ -4,7 +4,7 @@ import { LivroService } from '../service/LivroService'
 export class InterfaceLivro {
 	
 	//Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
-    cadastrarLivro(): void {
+    async cadastrarLivro(): Promise<void> {
 		console.log(`|---------------Cadastrar Livro---------------|`)
 		console.log(`|                                             |`)
 		try {
@@ -12,9 +12,15 @@ export class InterfaceLivro {
 			const genero = readlineSync.question(`| Gênero:`)
 			const isbn = readlineSync.question(`| ISBN:`)
 			const livro = new LivroService();
-        	livro.adicionarLivro(titulo, isbn);
+        	if (await livro.adicionarLivro(titulo, isbn)) {
+        		console.log("Livro já cadastrado! Tente novamente.")
+        		this.cadastrarLivro();
+        	} else {
+        		console.log("Livro cadastrado com sucesso")
+        	
+        	}
 		} catch (error: any) {
-                    console.error("Erro:", error.message);
+        	console.error("Erro:", error.message);
         }
 		console.log(`|---------------------------------------------|`)
 	}

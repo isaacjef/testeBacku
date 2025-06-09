@@ -4,15 +4,20 @@ import { ILivroRepository } from './ILivroRepository';
 
 export class LivroRepository implements ILivroRepository {
 
-	async save(titulo: string, isbn: string): Promise<void> {
-		await prisma.livro.create({
-            data: {
-                titulo: titulo,
-                isbn: isbn,
-            },
-        })
+	async save(titulo: string, isbn: string): Promise<void>  {
+		try {
+			await prisma.livro.create({
+            	data: {
+                	titulo: titulo,
+                	isbn: isbn,
+            	},
+        	})
+		} catch (error: any) {
+			console.log(error.message);
+		}
 	}
 	
+	//Busca um Livro no BD via id, e retorna os dados do Livro como uma string JSON.
 	async findByID(id: number): Promise<string> {
 		const livro = await prisma.livro.findUnique({ where: { id: id } });
 		
