@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmprestimoRepository = void 0;
 const index_1 = require("../index");
+const StatusLivro_1 = require("../enumeracao/StatusLivro");
 const LivroService_1 = require("../service/LivroService");
 const UsuarioService_1 = require("../service/UsuarioService");
 const userS = new UsuarioService_1.UsuarioService();
@@ -21,19 +22,23 @@ class EmprestimoRepository {
     }
     //Salva um empréstimo no BD com ID de Livro e de Usuário passado via parâmetro.
     //Antes, verifica se os IDs passados são válidos, isto é, existentes no BD.
-    save(livroId, usuarioId) {
+    save(livroId, usuarioId, dataEmprestimo, dataVencimento) {
         return __awaiter(this, void 0, void 0, function* () {
             yield index_1.prisma.emprestimo.create({
                 data: {
                     livroID: livroId,
                     usuarioID: usuarioId,
+                    dataEmprestimo: dataEmprestimo,
+                    dataVencimento: dataVencimento,
+                    status: StatusLivro_1.StatusEmprestimo.ATIVO,
                 },
             });
         });
     }
     //Busca no BD por um empréstimo que contenha o ID de Livro e Usuario passados via parâmetro.
     //Converte o retorno do BD em uma string JSON.
-    //O método que o implementar, deve tratar saída nula.
+    //Método utilizado em adicionarEmprestimo da classe EmprestimoService.
+    //Diminuímos a chance de ocorrer erro de ID, ao verificarmos se existe Usuario e Livro antes de o utilizarmos.
     findEmprestimo(livroId, usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
             const emprestimo = yield index_1.prisma.emprestimo.findUnique({
@@ -47,28 +52,48 @@ class EmprestimoRepository {
             return JSON.stringify(emprestimo);
         });
     }
-    //Busca no BD por todos os empréstimos do Usuario.
-    //Converte o retorno do BD em um array de números.
+    //Busca no BD por todos os empréstimos do Usuario, com status = 'Ativo'
+    //Converte o retorno do BD em uma string JSON, que pode ser nula ou conter um array de Emprestimos
     //Método implementado em getEmprestimos() de EmprestimoService, deve tratar saída nula.
     findEmprestimos(usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
             const emprestimos = yield index_1.prisma.emprestimo.findMany({
                 where: {
                     usuarioID: usuarioId,
-                },
-                omit: {
-                    usuarioID: true,
+                    status: 'Ativo',
                 },
             });
-            for (let i = 0; i < emprestimos.length; i++) {
-                this.vetor[i] = emprestimos[i].livroID;
-            }
-            if (emprestimos !== null) {
-                return this.vetor;
-            }
-            else {
-                return [];
-            }
+            return JSON.stringify(emprestimos);
+        });
+    }
+    //Busca no BD por todos os empréstimos do Usuario com status = 'Devolvido'
+    //Converte o retorno do BD em um array de números.
+    //Método implementado em getEmprestimos() de EmprestimoService, deve tratar saída nula.
+    findDevolucoes(usuarioId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const devolucoes = yield index_1.prisma.emprestimo.findMany({
+                where: {
+                    usuarioID: usuarioId,
+                    status: 'Devolvido',
+                },
+            });
+            return JSON.stringify(devolucoes);
+        });
+    }
+    //Atualiza a coluna de status da tabela de Empréstimos.
+    updateStatus(livroId, usuarioId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const emprestimo = yield index_1.prisma.emprestimo.update({
+                where: {
+                    livroID_usuarioID: {
+                        livroID: livroId,
+                        usuarioID: usuarioId,
+                    },
+                },
+                data: {
+                    status: 'Devolvido',
+                },
+            });
         });
     }
 }

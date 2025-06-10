@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -15,71 +18,85 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prisma = void 0;
-exports.logAt = logAt;
+exports.Sessao = exports.form = exports.prisma = void 0;
 exports.simples = simples;
-require("reflect-metadata");
+const log_1 = require("./log");
+const InterfaceUsuario_1 = require("./console/InterfaceUsuario");
 const client_1 = require("../src/generated/prisma/client");
-const LivroRepository_1 = require("./repository/LivroRepository");
-const LivroService_1 = require("./service/LivroService");
+const EmprestimoService_1 = require("./service/EmprestimoService");
 //Aparentemente, duas classes não podem se inter-importar no typescript.
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
-function logAt(target, key) {
-    var t = Reflect.getMetadata("design:type", target, key);
-    console.log('Atributo ', key, ' é do tipo: ' + t);
-}
-class Teste {
-    constructor() {
-        this.nome = 'aa';
+exports.form = new InterfaceUsuario_1.InterfaceUsuario();
+let Sessao = class Sessao {
+};
+exports.Sessao = Sessao;
+Sessao.email = '';
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", String)
+], Sessao, "email", void 0);
+exports.Sessao = Sessao = __decorate([
+    (0, log_1.name)('Sessao')
+], Sessao);
+class Aba {
+    metodo(email) {
+        console.log("DEu certo " + email);
     }
 }
-__decorate([
-    logAt
-], Teste.prototype, "nome", void 0);
 function simples(C) {
     console.log(`CLASSEZONA`);
     return C;
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const d1 = new Date(Date.now());
-        const d2 = new Date("2023-11-17");
-        console.log(d1);
-        console.log(d2);
+        const d1 = new Date(Date.now()).toJSON();
         const d3 = new Date(d1);
-        d3.setDate(d3.getDate() + 7);
-        const d4 = `${d1.getFullYear()}-${d1.getMonth()}-${d1.getDay()}`;
-        console.log(d3);
-        console.log(d4);
-        //const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
-        const livS = new LivroService_1.LivroService();
-        const livro = yield livS.getLivroByISBN("A");
-        if (livro !== null) {
-            console.log(livro);
-        }
-        else {
-            console.log("não há livro");
-        }
+        d3.setDate(d3.getDate() - 7);
+        /*await prisma.emprestimo.create({
+            data: {
+                livroID: 1,
+                usuarioID: 4,
+                dataEmprestimo: d1,
+                dataVencimento: d3.toJSON(),
+                status: StatusEmprestimo.ATIVO,
+            },
+        })*/
+        const empS = new EmprestimoService_1.EmprestimoService();
+        empS.verificarEmprestimos("asd@asd");
+        empS.getDevolucoes("asd@asd");
+        /*const d1 = new Date(Date.now());
+        console.log(d1)
+        console.log(d2)
+        const d3 = new Date(d1);
+        d3.setDate(d3.getDate() - 7);
+        const d4 = new Date(`${d1.getUTCFullYear()}-${d1.getUTCMonth() + 1}-${d1.getUTCDate()}`).toJSON();
+        console.log(d3.toJSON());
+        console.log(d4);*/
+        //empS.getDevolucoes("teste@email")
+        //empS.getEmprestimos("teste@email")
+        //empS.getEmprestimos("b@b")
+        //empS.adicionarEmprestimo(2, 1)
+        //const emprestimos = JSON.stringify(await prisma.emprestimo.findMany({ where: { usuarioID: 1, status: 'Ativo', }, }))
+        //const vetor2: Emprestimo[] = JSON.parse(emprestimos);
+        //console.log(vetor2);
+        //form.iniciar();
         //verificar amanha
         //const interEmp = new InterfaceEmprestimo();
         //interEmp.realizarEmprestimo("teste@email")
-        //const form = new InterfaceUsuario();
         //const interLivro = new InterfaceLivro();
         //const consulta = new InterfaceConsulta();
         //interLivro.cadastrarLivro();
         //consulta.consultaUnica("admin@admin");
-        //form.iniciar();
         //form.home();
-        const repL = new LivroRepository_1.LivroRepository();
-        const aaa = yield repL.findByISBN("A1");
-        console.log(aaa);
+        /*const repL = new LivroRepository();
+        const aaa = await repL.findByISBN("A1");
+        console.log(aaa)
         if (aaa !== null) {
-            console.log("verificacao é nulo");
-        }
-        else {
-            console.log("Verificacao contem");
-        }
+            console.log("verificacao é nulo")
+        } else {
+            console.log("Verificacao contem")
+        }*/
         /*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
         livros.forEach(async (value: number) => {
             //const livro: Livro = await livS.buscarLivro(value);
@@ -101,10 +118,6 @@ function main() {
         const repU = new UsuarioRepository();
         const userS = new UsuarioService();
         const con = new ConsultaRepository();
-        if (userS) {
-            const u = userS.getUsuario("facil")
-            form.emprestimo(u.id);
-        }
         
         //Listar instâncias nas tabelas:
         const test = await prisma.livro.findMany();

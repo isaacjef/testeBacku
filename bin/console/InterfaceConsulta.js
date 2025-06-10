@@ -44,9 +44,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceConsulta = void 0;
 const readlineSync = __importStar(require("readline-sync"));
+const index_1 = require("../index");
 const LivroService_1 = require("../service/LivroService");
 const ConsultaService_1 = require("../service/ConsultaService");
-//import { limparConsole } from '../console/InterfaceConfig'
 //Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
 const livS = new LivroService_1.LivroService();
 class InterfaceConsulta {
@@ -58,7 +58,7 @@ class InterfaceConsulta {
             console.log(`|                                             |`)
             console.log(`|   Selecione uma das opções para consulta:   |`)
             console.log(`|            [0] Título | [1] ISBN            |`)
-            const num = readlineSync.questionInt(`|Digite uma opção: `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
+            const num = readlineSync.questionInt(`|~~> `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
             if (num == 0) {
                 const titulo = readlineSync.question(`| Digite o título do Livro: `);
                 const livro = await livS.getLivroByTitulo(titulo);
@@ -88,9 +88,29 @@ class InterfaceConsulta {
             this.recursaoConsulta(index);
         }*/
     }
-    iniciarConsulta() {
+    homeConsulta() {
+        console.log(`|------------------ Consulta -----------------|`);
+        console.log(`|                                             |`);
+        console.log(`|              [0] Retornar                   |`);
+        console.log(`|              [1] Consulta Variada           |`);
+        console.log(`|              [2] Consulta Única             |`);
+        console.log(`|---------------------------------------------|`);
+        const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
+        if (resp == 0) {
+            //Retorna o usuário ao método home() de InterfaceUsuario
+            index_1.form.home();
+        }
+        else if (resp == 1) {
+            this.consultaVariada();
+        }
+        else {
+            //this.consultaUnica();
+        }
+    }
+    consultaVariada() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`|------------------ Consulta -----------------|`);
+            console.clear();
+            console.log(`|-------------- Consulta Variada -------------|`);
             console.log(`|                                             |`);
             console.log(`|   Selecione uma das opções para consulta:   |`);
             console.log(`|            [0] Título | [1] ISBN            |`);
@@ -101,7 +121,7 @@ class InterfaceConsulta {
             let i = 2;
             try {
                 do {
-                    const num = readlineSync.questionInt(`|Digite uma opção: `, { limit: [0, 1, 9], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                    const num = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 9], limitMessage: 'Opção incorreta! Digite novamente: ' });
                     if (i == 2 && num == 0 || num == 1) {
                         const q1 = readlineSync.question(`| Digite sua consulta: `);
                         result = con.consultaInicial(this.categorias[num], q1);

@@ -30,10 +30,13 @@ model Livro {
 }
 
 model Emprestimo {
-  livroID   Int
-  usuarioID Int
-  usuario   Usuario @relation(fields: [usuarioID], references: [id])
-  livro     Livro   @relation(fields: [livroID], references: [id])
+  livroID        Int
+  usuarioID      Int
+  dataEmprestimo String
+  dataVencimento String
+  status         String
+  usuario        Usuario @relation(fields: [usuarioID], references: [id])
+  livro          Livro   @relation(fields: [livroID], references: [id])
 
   @@id([livroID, usuarioID])
 }

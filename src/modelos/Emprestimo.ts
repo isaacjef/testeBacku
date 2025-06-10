@@ -1,37 +1,42 @@
 import { StatusEmprestimo } from "../enumeracao/StatusLivro"
-import { ModeloBase } from "./ModeloBase"
 
-//export class Emprestimo extends ModeloBase {
 export class Emprestimo  {
-    livroID: string;
-    usuarioID: string;
-    //dataEmprestimo?: Date;
-    //dataVencimento?: Date;
-    //dataRetorno?: Date;
-    status?: StatusEmprestimo;
+    private _livroID: string;
+    private _usuarioID: string;
+    private _dataEmprestimo: Date;
+    private _dataVencimento: Date;
+    private _status?: StatusEmprestimo;
+    //dataRetorno?
 
 	constructor(
         livroID: string,
         usuarioID: string,
-
-    ) {
-        this.livroID = livroID;
-        this.usuarioID = usuarioID;
-        //this.status = StatusEmprestimo.ATIVO;
-    }
-
-    /*constructor(
-    	id: number,
-        livroID: string,
-        usuarioID: string,
-        dataEmprestimo: Date,
+		dataEmprestimo: Date,
         dataVencimento: Date
     ) {
-        super(id);
-        this.livroID = livroID;
-        this.usuarioID = usuarioID;
-        this.dataEmprestimo = dataEmprestimo;
-        this.dataVencimento = dataVencimento;
-        this.status = StatusEmprestimo.ATIVO;
-    }*/
+        this._livroID = livroID;
+        this._usuarioID = usuarioID;
+        this._dataEmprestimo = dataEmprestimo;
+        this._dataVencimento = dataVencimento;
+    }
+    
+    public get livroID(): string {
+    	return this._livroID;
+    }
+    
+    public get usuarioID(): string {
+    	return this._usuarioID;
+    }
+    
+    public get dataEmprestimo(): Date {
+    	return this._dataEmprestimo;
+    }
+    
+    public get dataVencimento(): Date {
+    	return this._dataVencimento;
+    }
+    
+    public get status(): StatusEmprestimo | undefined {
+    	return this._status;
+    }
 }

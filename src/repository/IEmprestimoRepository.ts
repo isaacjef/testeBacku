@@ -2,7 +2,9 @@ import { Emprestimo } from '../modelos/Emprestimo';
 
 export interface IEmprestimoRepository {
 
-    save(livroId: number, usuarioId: number): Promise<void>
+    save(livroId: number, usuarioId: number, dataEmprestimo: string, dataVencimento: string): Promise<void>
     findEmprestimo(livroId: number, usuarioId: number): Promise<string>
-    findEmprestimos(usuarioId: number): Promise<number[]>
+    findEmprestimos(usuarioId: number): Promise<string> 
+    findDevolucoes(usuarioId: number): Promise<string>
+    updateStatus(livroId: number, usuarioId: number): Promise<void>
 }

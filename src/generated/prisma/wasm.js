@@ -135,7 +135,10 @@ exports.Prisma.LivroScalarFieldEnum = {
 
 exports.Prisma.EmprestimoScalarFieldEnum = {
   livroID: 'livroID',
-  usuarioID: 'usuarioID'
+  usuarioID: 'usuarioID',
+  dataEmprestimo: 'dataEmprestimo',
+  dataVencimento: 'dataVencimento',
+  status: 'status'
 };
 
 exports.Prisma.SortOrder = {

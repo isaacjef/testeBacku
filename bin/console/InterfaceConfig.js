@@ -34,7 +34,9 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.limparConsole = limparConsole;
+exports.escolherSistema = escolherSistema;
 exports.gerenciarInterface = gerenciarInterface;
+const readlineSync = __importStar(require("readline-sync"));
 const child_process_1 = require("child_process");
 const fs = __importStar(require("fs"));
 const os = __importStar(require("os"));
@@ -87,15 +89,14 @@ function salvaSistema(osId, osNome) {
  * OBS: não faz nenhuma verificação condicional
  */
 function escolherSistema() {
-    /*console.log(`|---------------Escolha se SO-------------------|`)
-    console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-    console.log(`| . . . . . . . . [1] Windows  . . . . . . . .  |`)
-    console.log(`| . . . . . . . . [2] Linux     . . . . . . . . |`)
-    console.log(`| . . . . . . . . [3] MacOS     . . . . . . . . |`)
-    console.log(`| . . . . . . . . [4] N/A . . . . . . . . . . . |`)
-    console.log(`|-----------------------------------------------|`)
-
-    const resp = readlineSync.question('', {limit: [1, 2, 3, 0]})*/
+    console.log(`|---------------Escolha se SO-------------------|`);
+    console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+    console.log(`| . . . . . . . . [1] Windows  . . . . . . . .  |`);
+    console.log(`| . . . . . . . . [2] Linux     . . . . . . . . |`);
+    console.log(`| . . . . . . . . [3] MacOS     . . . . . . . . |`);
+    console.log(`| . . . . . . . . [4] N/A . . . . . . . . . . . |`);
+    console.log(`|-----------------------------------------------|`);
+    const resp = readlineSync.question('', { limit: [1, 2, 3, 0] });
     let osId;
     let osNome;
     switch (os.platform()) {

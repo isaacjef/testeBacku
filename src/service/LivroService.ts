@@ -39,6 +39,7 @@ export class LivroService {
 
 	//Busca um Livro no banco de dados, a partir do ID.
 	//Necessário tratar retorno nulo nos métodos que o implementarem.
+	//Método implementado em getEmprestimos(), de EmprestimoService.
 	async getLivroByID(livroId: number): Promise<Livro> {
 		const livro: Livro = JSON.parse(await livRep.findByID(livroId));
 		

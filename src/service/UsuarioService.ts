@@ -16,7 +16,7 @@ export class UsuarioService {
         //Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
         //Utilizado no método cadastrarUsuario() de InterfaceUsuario.
         if (verificacao === null) {
-        	rep.save(nome, senha, email);
+        	await rep.save(nome, senha, email);
         	console.log("Usuário foi salvo no banco de dados com sucesso.")
         	return true;
         } else {
@@ -48,6 +48,7 @@ export class UsuarioService {
     
     //Utiliza o método findByEmail de repository e converte o objeto Usuario que foi retornado em formato JSON.
     //Verifica se o objeto Usuario é nulo.
+    //Método implementado em getEmprestimo(), de EmprestimoService; Em home(), de InterfaceUsuario.
     async getUsuario(email: string): Promise<Usuario | null> {
     	const userS: Usuario = JSON.parse(await rep.findByEmail(email));
     	
@@ -59,6 +60,7 @@ export class UsuarioService {
     
     //Utiliza o método findByID de repository e converte o objeto Usuario que foi retornado em formato JSON.
     //Verifica se o objeto Usuario é nulo.
+    //
     async getUsuarioByID(id: number): Promise<Usuario | null> {
     	const userS: Usuario = JSON.parse(await rep.findByID(id));
     	

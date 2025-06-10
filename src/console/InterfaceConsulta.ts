@@ -1,9 +1,9 @@
 import * as readlineSync from 'readline-sync';
-import { prisma } from '../index';
+import { form } from '../index';
+import { Sessao } from '../index';
 import { Livro } from '../modelos/Livro';
 import { LivroService } from '../service/LivroService'
 import { ConsultaService } from '../service/ConsultaService'
-//import { limparConsole } from '../console/InterfaceConfig'
 
 //Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
 const livS = new LivroService();
@@ -12,8 +12,27 @@ export class InterfaceConsulta {
 	categorias: string[] = ['titulo', 'isbn'];
 	livros: Livro[] = [];
 	
-    async iniciarConsulta(): Promise<void> {
+	homeConsulta(): void {
 		console.log(`|------------------ Consulta -----------------|`)
+		console.log(`|                                             |`)
+		console.log(`|              [0] Retornar                   |`)		
+		console.log(`|              [1] Consulta Variada           |`)
+		console.log(`|              [2] Consulta Única             |`)
+		console.log(`|---------------------------------------------|`)
+		const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
+		if (resp == 0) {
+			//Retorna o usuário ao método home() de InterfaceUsuario
+			form.home();
+		} else if (resp == 1) {
+			this.consultaVariada();
+		} else {
+			//this.consultaUnica();
+		}
+	}
+	
+    async consultaVariada(): Promise<void> {
+   		console.clear();
+		console.log(`|-------------- Consulta Variada -------------|`)
 		console.log(`|                                             |`)
 		console.log(`|   Selecione uma das opções para consulta:   |`)
 		console.log(`|            [0] Título | [1] ISBN            |`)
@@ -25,7 +44,7 @@ export class InterfaceConsulta {
 		
 		try {
 			do {
-				const num = readlineSync.questionInt(`|Digite uma opção: `, {limit: [0, 1, 9], limitMessage:  'Opção incorreta! Digite novamente: '});
+				const num = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 9], limitMessage:  'Opção incorreta! Digite novamente: '});
 				if (i == 2 && num == 0 || num == 1) {
 					const q1 = readlineSync.question(`| Digite sua consulta: `);
 					result = con.consultaInicial(this.categorias[num], q1);
@@ -50,7 +69,7 @@ export class InterfaceConsulta {
 		console.log(`|                                             |`)
 		console.log(`|   Selecione uma das opções para consulta:   |`)
 		console.log(`|            [0] Título | [1] ISBN            |`)		
-		const num = readlineSync.questionInt(`|Digite uma opção: `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
+		const num = readlineSync.questionInt(`|~~> `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
 		if (num == 0) {
 			const titulo = readlineSync.question(`| Digite o título do Livro: `);
 			const livro = await livS.getLivroByTitulo(titulo);

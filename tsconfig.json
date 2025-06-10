@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES6",
-       "experimentalDecorators": true,
-    // "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "module": "CommonJS",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
@@ -13,4 +13,3 @@
     "skipLibCheck": true
   }
 }
-	

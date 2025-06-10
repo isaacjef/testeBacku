@@ -1,9 +1,10 @@
 import * as readlineSync from 'readline-sync';
-import 'reflect-metadata';
+import { name, logAt } from './log';
 import { Livro } from './modelos/Livro';
 import { Usuario } from './modelos/Usuario';
 import { Emprestimo } from './modelos/Emprestimo';
 import { TipoUsuario } from "./enumeracao/TipoUsuario"
+import { StatusEmprestimo } from "./enumeracao/StatusLivro"
 import { CategoriaLivro } from "./enumeracao/CategoriaLivro"
 import { InterfaceLivro } from './console/InterfaceLivro';
 import { InterfaceUsuario } from './console/InterfaceUsuario';
@@ -23,15 +24,19 @@ import { EmprestimoService } from './service/EmprestimoService';
 
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 export const prisma = new PrismaClient({ log: ['query'] });
+export const form = new InterfaceUsuario();
 
-export function logAt(target: Object, key: string | symbol) {
-	var t = Reflect.getMetadata("design:type", target, key);
-	console.log('Atributo ', key ,' é do tipo: '+ t)
+@name('Sessao')
+export class Sessao {
+	@logAt
+	static email: string = '';
 }
 
-class Teste {
-	@logAt
-	nome: string = 'aa';
+class Aba {
+	
+	metodo(email: string) {
+		console.log("DEu certo " + email)
+	}
 }
 
 export function simples(C: any) {
@@ -40,45 +45,63 @@ export function simples(C: any) {
 }
 
 async function main() {
-	const d1 = new Date(Date.now());
-	const d2 = new Date("2023-11-17");
+	const d1 = new Date(Date.now()).toJSON();
+	const d3 = new Date(d1);
+	d3.setDate(d3.getDate() - 7);
+
+	/*await prisma.emprestimo.create({
+		data: {
+			livroID: 1,
+			usuarioID: 4,
+			dataEmprestimo: d1,
+  			dataVencimento: d3.toJSON(),
+  			status: StatusEmprestimo.ATIVO,
+		},
+	})*/
+	const empS = new EmprestimoService();
+	empS.verificarEmprestimos("asd@asd");
+	empS.getDevolucoes("asd@asd");
+
+	/*const d1 = new Date(Date.now());
 	console.log(d1)
 	console.log(d2)
 	const d3 = new Date(d1);
-	d3.setDate(d3.getDate() + 7);
-	const d4 = `${d1.getFullYear()}-${d1.getMonth()}-${d1.getDay()}`;
-	console.log(d3);
-	console.log(d4);
+	d3.setDate(d3.getDate() - 7);
+	const d4 = new Date(`${d1.getUTCFullYear()}-${d1.getUTCMonth() + 1}-${d1.getUTCDate()}`).toJSON();
+	console.log(d3.toJSON());
+	console.log(d4);*/
+
+	//empS.getDevolucoes("teste@email")
+	//empS.getEmprestimos("teste@email")
+	//empS.getEmprestimos("b@b")
+	//empS.adicionarEmprestimo(2, 1)
+	//const emprestimos = JSON.stringify(await prisma.emprestimo.findMany({ where: { usuarioID: 1, status: 'Ativo', }, }))
+	//const vetor2: Emprestimo[] = JSON.parse(emprestimos);
+	//console.log(vetor2);
 	
-	//const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
-	const livS = new LivroService();
-	const livro = await livS.getLivroByISBN("A");
-	if (livro !== null) {
-    	console.log(livro)
-    } else {
-    	console.log("não há livro")
-    }
+	//form.iniciar();
 	
+
+
 	//verificar amanha
 	//const interEmp = new InterfaceEmprestimo();
 	//interEmp.realizarEmprestimo("teste@email")
 	
-	//const form = new InterfaceUsuario();
 	//const interLivro = new InterfaceLivro();
 	//const consulta = new InterfaceConsulta();
 	//interLivro.cadastrarLivro();
 	//consulta.consultaUnica("admin@admin");
-	//form.iniciar();
+	
 	//form.home();
 	
-	const repL = new LivroRepository();
+	/*const repL = new LivroRepository();
 	const aaa = await repL.findByISBN("A1");
 	console.log(aaa)
 	if (aaa !== null) {
         console.log("verificacao é nulo")
     } else {
         console.log("Verificacao contem")
-    }
+    }*/
 	
 	/*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
 	livros.forEach(async (value: number) => {
@@ -102,10 +125,6 @@ async function main() {
 	const repU = new UsuarioRepository();
 	const userS = new UsuarioService();
 	const con = new ConsultaRepository();
-	if (userS) {
-		const u = userS.getUsuario("facil")
-		form.emprestimo(u.id);
-	}
 	
 	//Listar instâncias nas tabelas:
 	const test = await prisma.livro.findMany();

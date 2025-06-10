@@ -1,14 +1,15 @@
 import * as readlineSync from 'readline-sync';
+import { Sessao } from '../index';
 import { Usuario } from '../modelos/Usuario';
 import { UsuarioService } from '../service/UsuarioService'
-import { limparConsole } from '../console/InterfaceConfig'
+import { InterfaceBiblio } from '../console/InterfaceBiblio'
 import { InterfaceConsulta } from '../console/InterfaceConsulta'
 import { InterfaceEmprestimo } from '../console/InterfaceEmprestimo'
-
 
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService();
 const interfaceEmp = new InterfaceEmprestimo();
+const interfaceBiblio = new InterfaceBiblio();
 
 export class InterfaceUsuario {
 	
@@ -18,15 +19,16 @@ export class InterfaceUsuario {
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . . . . [1] Cadastro  . . . . . . . . |`)
 		console.log(`| . . . . . . . . [2] Login     . . . . . . . . |`)
+		console.log(`| . . . . . . . . [0] Sair      . . . . . . . . |`)
 		console.log(`|-----------------------------------------------|`)
 		try {
-			const resp = readlineSync.question(`                      `, {limit: [1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
-			if (resp == '1') {
-				limparConsole(2);
+			const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
+			if (resp == 1) {
 				this.cadastrarUsuario();
-			} else {
-				limparConsole(2);
+			} else if (resp == 2) {
 				this.logarUsuario();
+			} else {
+				this.desconectar();
 			}
 		} catch (error: any) {
         	console.error("Erro:", error.message);
@@ -35,20 +37,26 @@ export class InterfaceUsuario {
 	
 	//Página destinada ao cadastro de usuários. Implementa o método adicionarUsuario() de UsuarioService.
 	async cadastrarUsuario(): Promise<void> {
+		console.clear()
 		console.log(`|------------------- Cadastro  -----------------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		try {
-			const name = readlineSync.question(`| Nome:`)
-			const senha = readlineSync.question(`| Senha:`)
-			const email = readlineSync.questionEMail(`| E-mail:`)
+			const name = readlineSync.question(`|~~~> Nome:`)
+			const senha = readlineSync.question(`|~~~> Senha:`)
+			const email = readlineSync.questionEMail(`|~~~> E-mail:`)
         	if(await usuarioS.adicionarUsuario(name, senha, email)) {
+        		console.clear()
         		console.log("Usuário cadastrado com sucesso!");
-        		limparConsole(2);
-        		this.home(email);
+        		
+        		//Salva o email do usuário que está usando na classe Sessao, no atributo estático email;
+        		Sessao.email = email;
+        		
+        		//Direciona usuário a home();
+        		this.home();
         	} else {
+        		console.clear()
         		console.log("Este e-mail já está cadastrado! Tente novamente.");
-        		limparConsole(2);
         		this.cadastrarUsuario();
         	}
 		} catch (error: any) {
@@ -58,19 +66,24 @@ export class InterfaceUsuario {
 	
 	//Página destinada ao login de usuários. Implementa o método login() de UsuarioService.
 	async logarUsuario(): Promise<void> {
+		console.clear();
 		console.log(`|-------------------  Login  -------------------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		try {
-			const email = readlineSync.questionEMail(`| E-mail:`)
-			const senha = readlineSync.question(`| Senha:`)
+			const email = readlineSync.questionEMail(`|~~~> E-mail:`)
+			const senha = readlineSync.question(`|~~~> Senha:`)
 			
 			//verifica se o método login() retorna nulo, se não: direciona para a página Home.
 			if (await usuarioS.login(senha, email)) {
-				this.home(email);
+				//Salva o email do usuário que está usando na classe Sessao, no atributo estático email;
+				Sessao.email = email;
+				
+				//Direciona usuário a home();
+				this.home();
 			} else {
-				console.log("Credenciais incorretas! Digite novamente.");
-				this.logarUsuario();
+				console.log("Credenciais incorretas! Tente novamente.");
+				this.iniciar();
 			}
 		} catch (error: any) {
         	console.error("Erro: ", error.message);
@@ -80,33 +93,47 @@ export class InterfaceUsuario {
 	//Página Home, de entrada ao sistema.
 	//Este método verifica se o usuário é um Membro ou Admin.
 	//Direciona o Usuário à páginas de acordo com o seu tipo.
-	async home(email: string): Promise<void> {
-		const usuario = await usuarioS.getUsuario(email);
+	async home(): Promise<void> {
+		const usuario = await usuarioS.getUsuario(Sessao.email);
 		if (usuario !== null && usuario.tipo == 'Membro') {
+			console.clear();
 			console.log(`|-------------- Biblioteca Virtual -------------|`)
 			console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 			console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`)
-			console.log(`| . . . [3] Consulta     |      . . . . . . . . |`)
+			console.log(`| . . . [3] Consulta     | [0] Sair       . . . |`)
 			try {
-				const resp = readlineSync.question(`             `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
-				if (resp == '1') {
-					interfaceEmp.listarEmprestimo(email);
-				} else if (resp == '2') {
+				const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
+				if (resp == 1) {
+					interfaceEmp.emprestimo();
+				} else if (resp == 2) {
 					//this.logarUsuario();
-				} else {
+				} else if (resp == 3){
 					const consulta = new InterfaceConsulta();
-					consulta.iniciarConsulta();
+					consulta.homeConsulta();
+				} else {
+					this.desconectar();
 				}
 			} catch (error: any) {
-                    	console.error("Erro: ", error.message);
+            	console.error("Erro: ", error.message);
         	}
 		} else if (usuario !== null && usuario.tipo == 'Bibliotecário') {
-			console.log(`|------------ Bem-vinde BIBLIOTECÁRIE ----------|`)
-			console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-			console.log(`| . . . [1] Gerenciar Livros              . . . |`)
-			console.log(`| . . . [2] Gerenciar Usuários          . . . . |`)
+			interfaceBiblio.homeAdmin();
 		} else {
-			console.log("Usuário não cadastrado. Sistema encerrado.")
+			console.clear();
+			console.log("Usuário não cadastrado. Sistema encerrado.");
+			this.desconectar();
 		}
+	}
+	
+	desconectar(): void {
+		console.clear();
+		console.log(`|~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~|`)
+		console.log(`| .   .   .   .   .   .   .   .   .   .   .   . |`)
+		console.log(`|   .   .   .   .   .   .   .   .   .   .   .   |`)
+		console.log(`| .   .   .   .   DESCONECTADO    .   .   .   . |`)
+		console.log(`|   .   .   .   .   .   .   .   .   .   .   .   |`)
+		console.log(`| .   .   .   .   .   .   .   .   .   .   .   . |`)
+		console.log(`|~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~|`)
+		Sessao.email = '';
 	}
 }

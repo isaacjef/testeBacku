@@ -1,11 +1,10 @@
 import * as readlineSync from 'readline-sync';
+import { form } from '../index';
+import { Sessao } from '../index';
 import { Usuario } from '../modelos/Usuario';
 import { UsuarioService } from '../service/UsuarioService'
 import { LivroService } from '../service/LivroService';
-//import { ConsultaService } from '../service/ConsultaService';
 import { EmprestimoService } from '../service/EmprestimoService'
-//import { InterfaceConsulta } from '../console/InterfaceConsulta'
-
 
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const empS = new EmprestimoService();
@@ -14,33 +13,50 @@ const livS = new LivroService();
 
 export class InterfaceEmprestimo {
 	
-	emprestimo(email: string): void {
-        console.log(`|----------------- Empréstimos -----------------|`);	
+	//Página home de empréstimos
+	emprestimo(): void {
+		console.clear()
+		empS.verificarEmprestimos(Sessao.email);
+        console.log(`|----------------- Empréstimos -----------------|`)	
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+		console.log(`| . . . . . [0] Retornar            . . . . . . |`)
 		console.log(`| . . . . . [1] Listar Empréstimos  . . . . . . |`)
-		console.log(`| . . . . . [2] Realizar Empréstimo . . . . . . |`)		
-		const resp = readlineSync.question(`|~~> `, {limit: [1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});		
+		console.log(`| . . . . . [2] Realizar Empréstimo . . . . . . |`)
+		console.log(`| . . . . . [3] Sair do Sistema     . . . . . . |`)
+		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
+		const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});		
 		try {
-			if (resp == '1') {
-				this.listarEmprestimo(email);
-			} else if (resp == '2') {
-				this.realizarEmprestimo(email);
+			if (resp == 0) {
+				form.home();
+			} else if (resp == 1) {
+				this.listarEmprestimo();
+			} else if (resp == 2) {
+				this.realizarEmprestimo();
 			} else {
-				// não sei
+				form.desconectar();
 			}
 		} catch (error: any) {
         	console.error("Erro:", error.message);
     	}
 	}
 	
-	listarEmprestimo(email: string): void {
-        console.log(`|-------------- Empréstimos Atuais -------------|`);	
+	//Página para listar todos os empréstimos de usuário.
+	async listarEmprestimo(): Promise<void> {
+		console.clear()
+        console.log(`|-------------- Empréstimos Atuais -------------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		//Listar todos os livros emprestados pelo usuario.
+		console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`)
+		console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`)
 		try {
-			empS.getEmprestimos(email);
-			//this.emprestimo(email);
+			await empS.getEmprestimos(Sessao.email);
+			
+			const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
+			
+			if (resp == 0) {
+				this.emprestimo();
+    		} else {
+    			form.desconectar();
+    		}
 		} catch (error: any) {
         	console.error("Erro:", error.message);
     	}
@@ -49,14 +65,15 @@ export class InterfaceEmprestimo {
 	//Antes de realizar o Empréstimo, o Usuário precisa informar o Livro. O Livro é encontrado via consulta. O sistema deve verificar o ID do Usuário.
 	//A consulta por ISBN deve ser precisa.
 	//A consulta por Título serve para o usuário verificar o ISBN do Livro.
-	async realizarEmprestimo(email: string): Promise<void> {
-        console.log(`|------------- Realizar Empréstimo -------------|`);	
+	async realizarEmprestimo(): Promise<void> {
+		console.clear()
+        console.log(`|------------- Realizar Empréstimo -------------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . [1] Consultar Livro via ISBN  . . . . |`)
 		console.log(`| . . . . [2] Consultar Livro por Título  . . . |`)
-		const resp = readlineSync.question(` |~~>`, {limit: [1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
+		const resp = readlineSync.question(`|~~> `, {limit: [1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
 		//Busca dados de usuário no banco.
-		const usuario = await userS.getUsuario(email);
+		const usuario = await userS.getUsuario(Sessao.email);
 
 		try {
 			if (resp == '1' && usuario !== null) {

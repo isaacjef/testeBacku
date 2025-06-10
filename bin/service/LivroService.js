@@ -42,6 +42,7 @@ class LivroService {
     }
     //Busca um Livro no banco de dados, a partir do ID.
     //Necessário tratar retorno nulo nos métodos que o implementarem.
+    //Método implementado em getEmprestimos(), de EmprestimoService.
     getLivroByID(livroId) {
         return __awaiter(this, void 0, void 0, function* () {
             const livro = JSON.parse(yield livRep.findByID(livroId));
