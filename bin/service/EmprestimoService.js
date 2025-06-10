@@ -73,7 +73,6 @@ class EmprestimoService {
                 if (emprestimos.length != 0) {
                     const data = new Date(Date.now());
                     emprestimos.forEach((value, index, array) => __awaiter(this, void 0, void 0, function* () {
-                        console.log(value.dataVencimento);
                         const data2 = new Date(value.dataVencimento);
                         if (data.getTime() > data2.getTime()) {
                             empRep.updateStatus(parseInt(value.livroID), parseInt(value.usuarioID));

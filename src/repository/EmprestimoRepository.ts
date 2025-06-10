@@ -27,7 +27,7 @@ export class EmprestimoRepository implements IEmprestimoRepository {
 	
 	//Busca no BD por um empréstimo que contenha o ID de Livro e Usuario passados via parâmetro.
 	//Converte o retorno do BD em uma string JSON.
-	//Método utilizado em adicionarEmprestimo da classe EmprestimoService.
+	//Método utilizado em adicionarEmprestimo da classe EmprestimoService. Utilizado em validarEmprestimo.
 	//Diminuímos a chance de ocorrer erro de ID, ao verificarmos se existe Usuario e Livro antes de o utilizarmos.
 	async findEmprestimo(livroId: number, usuarioId: number): Promise<string> {
 		const emprestimo = await prisma.emprestimo.findUnique({
@@ -36,6 +36,23 @@ export class EmprestimoRepository implements IEmprestimoRepository {
 					livroID: livroId,
 					usuarioID: usuarioId,
 				},
+			},
+		})
+		
+		return JSON.stringify(emprestimo);
+	}
+	
+	//Busca no BD por um empréstimo que contenha o ID de Livro e Usuario passados via parâmetro. E esteja Ativo.
+	//Converte o retorno do BD em uma string JSON.
+	//Utilizado em validarEmprestimo da classe EmprestimoService.
+	async findEmprestimoAtivo(livroId: number, usuarioId: number): Promise<string> {
+		const emprestimo = await prisma.emprestimo.findUnique({
+			where: {
+				livroID_usuarioID: {
+					livroID: livroId,
+					usuarioID: usuarioId,
+				},
+				status: 'Ativo',
 			},
 		})
 		

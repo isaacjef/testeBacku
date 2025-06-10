@@ -23,7 +23,11 @@ export class LivroRepository implements ILivroRepository {
 	
 	//Busca um Livro no BD via id, e retorna os dados do Livro como uma string JSON.
 	async findByID(id: number): Promise<string> {
-		const livro = await prisma.livro.findUnique({ where: { id: id } });
+		const livro = await prisma.livro.findUnique({
+			where: { 
+				id: id, 
+			}, 
+		});
 		
 		return JSON.stringify(livro);
 	}
@@ -32,26 +36,37 @@ export class LivroRepository implements ILivroRepository {
 	//Tratar possível retorno nulo em LivroService, ou em InterfaceLivro
     async findByISBN(isbn: string): Promise<string> {
         //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.
-        const livro = await prisma.livro.findUnique({ where: { isbn: isbn } });
+        const livro = await prisma.livro.findUnique({ where: { isbn: isbn, }, });
 
         return JSON.stringify(livro);
     }
     
-    async findFirstTitulo(titulo: string): Promise<string> {
-    	const livro = await prisma.livro.findFirst({ where: { titulo: titulo } });
+    //Utilizado em consulta
+    /*async findFirstTitulo(titulo: string): Promise<string> {
+    	const livro = await prisma.livro.findFirst({ 
+    		where: { 
+    			titulo: titulo,
+    		},
+    	});
 
         return JSON.stringify(livro);
-    }
+    }*/
+    
+    //Consulta todos os livros do banco de dados. Utilizado em getLivros() de LivroService
+    async consultarLivros(): Promise<string> {
+		const livros = JSON.stringify(await prisma.$queryRawUnsafe(`SELECT * FROM Livro`));
+		return livros;
+	}
     
     //Método simples que permite modificar o título do Livro.
-	async update(isbn: string, titulo: string): Promise<void> {
+	async updateTitulo(isbn: string, titulo: string): Promise<void> {
 		try {
 			await prisma.livro.update({
 				where: {
-					isbn: `${isbn}`
+					isbn: isbn,
 				},
 				data: {
-					titulo: `${titulo}`,
+					titulo: titulo,
 				},
 			})
         } catch (error: any) {
@@ -64,7 +79,7 @@ export class LivroRepository implements ILivroRepository {
 		try {
 			await prisma.livro.delete({
 				where: {
-					isbn: `${isbn}`
+					isbn: isbn,
 				},
 			})
         } catch (error: any) {

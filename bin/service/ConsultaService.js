@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConsultaService = void 0;
 const ConsultaRepository_1 = require("../repository/ConsultaRepository");
+//Instância de ConsultaRepository destinada a ser utilizada em todos os métodos da classe.
+const con = new ConsultaRepository_1.ConsultaRepository();
 class ConsultaService {
     constructor() {
         this.teste = '';
@@ -17,18 +19,11 @@ class ConsultaService {
             }
         }*/
     }
-    //Palavra-chave await em consultas (querys) sql são essenciais, se não os métodos (querys) retornarão
-    //algo do tipo: Promise { <pending> }
-    //selecionarLivro(): void {
-    //	const result = await prisma.$queryRawUnsafe(`SELECT * FROM Livro`);
-    //}
     consultaInicial(column, param) {
-        const con = new ConsultaRepository_1.ConsultaRepository();
         this.teste = `${column} LIKE '%${param}%'`;
         con.consultarLivro(this.teste);
     }
     consultaSecundaria(column, param) {
-        const con = new ConsultaRepository_1.ConsultaRepository();
         this.teste += ` AND ${column} LIKE '%${param}%'`;
         con.consultarLivro(this.teste);
     }

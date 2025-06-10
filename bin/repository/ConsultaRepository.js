@@ -17,12 +17,6 @@ class ConsultaRepository {
         return __awaiter(this, void 0, void 0, function* () {
             const livros = yield index_1.prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
             console.log(livros);
-            if (livros) {
-                //return new Livro(livros.id, livros.titulo, livros.isbn);
-            }
-            else {
-                //return null;
-            }
         });
     }
 }

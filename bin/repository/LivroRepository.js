@@ -33,7 +33,11 @@ class LivroRepository {
     //Busca um Livro no BD via id, e retorna os dados do Livro como uma string JSON.
     findByID(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const livro = yield index_1.prisma.livro.findUnique({ where: { id: id } });
+            const livro = yield index_1.prisma.livro.findUnique({
+                where: {
+                    id: id,
+                },
+            });
             return JSON.stringify(livro);
         });
     }
@@ -42,26 +46,37 @@ class LivroRepository {
     findByISBN(isbn) {
         return __awaiter(this, void 0, void 0, function* () {
             //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.
-            const livro = yield index_1.prisma.livro.findUnique({ where: { isbn: isbn } });
+            const livro = yield index_1.prisma.livro.findUnique({ where: { isbn: isbn, }, });
             return JSON.stringify(livro);
         });
     }
-    findFirstTitulo(titulo) {
+    //Utilizado em consulta
+    /*async findFirstTitulo(titulo: string): Promise<string> {
+        const livro = await prisma.livro.findFirst({
+            where: {
+                titulo: titulo,
+            },
+        });
+
+        return JSON.stringify(livro);
+    }*/
+    //Consulta todos os livros do banco de dados. Utilizado em getLivros() de LivroService
+    consultarLivros() {
         return __awaiter(this, void 0, void 0, function* () {
-            const livro = yield index_1.prisma.livro.findFirst({ where: { titulo: titulo } });
-            return JSON.stringify(livro);
+            const livros = JSON.stringify(yield index_1.prisma.$queryRawUnsafe(`SELECT * FROM Livro`));
+            return livros;
         });
     }
     //Método simples que permite modificar o título do Livro.
-    update(isbn, titulo) {
+    updateTitulo(isbn, titulo) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield index_1.prisma.livro.update({
                     where: {
-                        isbn: `${isbn}`
+                        isbn: isbn,
                     },
                     data: {
-                        titulo: `${titulo}`,
+                        titulo: titulo,
                     },
                 });
             }
@@ -76,7 +91,7 @@ class LivroRepository {
             try {
                 yield index_1.prisma.livro.delete({
                     where: {
-                        isbn: `${isbn}`
+                        isbn: isbn,
                     },
                 });
             }

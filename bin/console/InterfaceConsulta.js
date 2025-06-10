@@ -62,7 +62,7 @@ class InterfaceConsulta {
             if (num == 0) {
                 const titulo = readlineSync.question(`| Digite o título do Livro: `);
                 const livro = await livS.getLivroByTitulo(titulo);
-                if (livro) {
+                if (livro !== null) {
                     console.log(livro)
                 } else {
                     console.log("Não há nenhum livro com o  título informado.")

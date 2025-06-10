@@ -16,7 +16,6 @@ export class InterfaceEmprestimo {
 	//Página home de empréstimos
 	emprestimo(): void {
 		console.clear()
-		empS.verificarEmprestimos(Sessao.email);
         console.log(`|----------------- Empréstimos -----------------|`)	
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . [0] Retornar            . . . . . . |`)
@@ -44,12 +43,11 @@ export class InterfaceEmprestimo {
 	async listarEmprestimo(): Promise<void> {
 		console.clear()
         console.log(`|-------------- Empréstimos Atuais -------------|`)
-		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`)
-		console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`)
 		try {
 			await empS.getEmprestimos(Sessao.email);
 			
+			console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`)
+			console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`)
 			const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
 			
 			if (resp == 0) {
@@ -69,27 +67,39 @@ export class InterfaceEmprestimo {
 		console.clear()
         console.log(`|------------- Realizar Empréstimo -------------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		console.log(`| . . . . [1] Consultar Livro via ISBN  . . . . |`)
+		console.log(`| . . . . [0] Retornar                    . . . |`)
+		console.log(`| . . . . [1] Consultar Livro via ISBN    . . . |`)
 		console.log(`| . . . . [2] Consultar Livro por Título  . . . |`)
-		const resp = readlineSync.question(`|~~> `, {limit: [1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
+		const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
 		//Busca dados de usuário no banco.
 		const usuario = await userS.getUsuario(Sessao.email);
 
 		try {
-			if (resp == '1' && usuario !== null) {
+			if (resp == 1 && usuario !== null) {
 				const isbn = readlineSync.question(`| Digite o ISBN: `);
 				//Busca livro via ISBN no banco.
     			const livro = await livS.getLivroByISBN(isbn);
     			
     			if (livro !== null) {
     				//Adiciona empréstimo do livro ao usuário.
-    				await empS.adicionarEmprestimo(livro.id, usuario.id)
+    				if (await empS.adicionarEmprestimo(livro.id, usuario.id)) {
+    					console.log("O livro já foi emprestado pelo usuário")
+    					
+    					this.realizarEmprestimo();
+    				} else {
+    					console.log("Empréstimo feito!")
+    					
+    					this.emprestimo();
+    				}
     			} else {
     				console.log("O empréstimo falhou! O livro não existe!");
     			}
+    		} else if (usuario === null) {
+    			console.log("Usuário nulo!");
+    		} else if (resp == 2) {
+    			//consultapor titutlo
     		} else {
-    			console.log("Algum erro! InterfaceEmp");
-
+    			this.emprestimo();
     		}
 		} catch (error: any) {
         	console.error("Erro:", error.message);

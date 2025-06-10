@@ -11,9 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroService = void 0;
 const LivroRepository_1 = require("../repository/LivroRepository");
-/*Livro:
-titulo
-isbn*/
 //Instância de LivroRepository destinada a ser utilizada em todos os métodos da classe.
 const livRep = new LivroRepository_1.LivroRepository();
 class LivroService {
@@ -21,7 +18,7 @@ class LivroService {
     //Método implementado em cadastrarLivro() da classe InterfaceLivro.
     adicionarLivro(titulo, isbn, categoria, anoPublicacao) {
         return __awaiter(this, void 0, void 0, function* () {
-            const verificacao = yield livRep.findByISBN(isbn);
+            const verificacao = JSON.parse(yield livRep.findByISBN(isbn));
             //Verifica se há algum livro com o ISBN digitado pelo usuário. Se não houver, salva o livro no BD e retorna true para a classe InterfaceLivro
             //Se não, retorna falso.
             if (verificacao === null) {
@@ -33,11 +30,6 @@ class LivroService {
                 console.log("Este livro já está salvo no banco de dados.");
                 return false;
             }
-            /*return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve("ASync teste");
-                }, 10);
-            });*/
         });
     }
     //Busca um Livro no banco de dados, a partir do ID.
@@ -57,12 +49,46 @@ class LivroService {
             return livro;
         });
     }
-    //Busca um Livro no banco de dados, a partir do título. O banco retorna o primeiro Livro que contenha o título.
-    //Necessário tratar retorno nulo nos métodos que o implementarem.
-    getLivroByTitulo(titulo) {
+    //Lista todos os livros do banco.
+    getLivros() {
         return __awaiter(this, void 0, void 0, function* () {
-            const livro = JSON.parse(yield livRep.findFirstTitulo(titulo));
-            return livro;
+            const livros = JSON.parse(yield livRep.consultarLivros());
+            if (livros !== null) {
+                livros.forEach((value, index, array) => __awaiter(this, void 0, void 0, function* () {
+                    console.log(`Livro ${index + 1} - Título: ${value.titulo}, ISBN: ${value.isbn}, Categoria: ${value.categoria}, Ano de Publicação: ${value.anoPublicacao}`);
+                }));
+            }
+            else {
+                console.log("Não há nenhum livro cadastrado.");
+            }
+        });
+    }
+    //Atualizar titulo do livro.
+    atualizarTitulo(isbn, titulo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield livRep.updateTitulo(isbn, titulo);
+            const verificacao = JSON.parse(yield livRep.findByISBN(isbn));
+            //Verifica se há algum livro com o ISBN digitado pelo usuário.
+            if (verificacao !== null && verificacao.titulo != titulo) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    }
+    //Deleta livro do banco de dados
+    deletar(isbn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield livRep.deleteByISBN(isbn);
+            const verificacao = yield livRep.findByISBN(isbn);
+            //Verifica se há algum livro com o ISBN digitado pelo usuário.
+            if (verificacao !== null) {
+                return true;
+            }
+            else {
+                return false;
+            }
         });
     }
 }

@@ -1,9 +1,14 @@
 import { form } from '../index';
 import { Sessao } from '../index';
-import { InterfaceUsuario } from '../console/InterfaceUsuario'
+import * as readlineSync from 'readline-sync';
+import { InterfaceLivro } from '../console/InterfaceLivro'
+
+//const livS = new LivroService();
+const interfaceLivro = new InterfaceLivro();
 
 export class InterfaceBiblio {
 	async homeAdmin(): Promise<void> {
+		console.clear();
 		console.log(`|--------- Bem-vindo(a) Bibliotecário(a) -------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . [1] Gerenciar Livros          . . . |`)
@@ -12,22 +17,15 @@ export class InterfaceBiblio {
 		try {
 				const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
 				if (resp == 1) {
-					interfaceEmp.emprestimo();
+					interfaceLivro.gerenciarLivro()
 				} else if (resp == 2) {
-					//this.logarUsuario();
-				} else if (resp == 3){
-					const consulta = new InterfaceConsulta();
-					consulta.homeConsulta();
+					//this.gerenciarUsuario();
 				} else {
 					form.desconectar();
 				}
 		} catch (error: any) {
             	console.error("Erro: ", error.message);
         }
-	}
-	
-	gerenciarLivro(): void {
-	
 	}
 	
 	gerenciarUsuario(): void {

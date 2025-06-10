@@ -42,69 +42,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InterfaceDevolucao = void 0;
-const readlineSync = __importStar(require("readline-sync"));
+exports.InterfaceBiblio = void 0;
 const index_1 = require("../index");
-const index_2 = require("../index");
-const UsuarioService_1 = require("../service/UsuarioService");
-const LivroService_1 = require("../service/LivroService");
-const EmprestimoService_1 = require("../service/EmprestimoService");
-//Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
-const empS = new EmprestimoService_1.EmprestimoService();
-const userS = new UsuarioService_1.UsuarioService();
-const livS = new LivroService_1.LivroService();
-class InterfaceDevolucao {
-    //Página home de devoluções
-    devolucao() {
-        console.clear();
-        console.log(`|----------------- Empréstimos -----------------|`);
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        console.log(`| . . . . . [0] Retornar            . . . . . . |`);
-        console.log(`| . . . . . [1] Listar Devoluções   . . . . . . |`);
-        console.log(`| . . . . . [2] Realizar Devolução  . . . . . . |`);
-        console.log(`| . . . . . [3] Sair do Sistema     . . . . . . |`);
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-        const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
-        try {
-            if (resp == 0) {
-                index_1.form.home();
-            }
-            else if (resp == 1) {
-                this.listarDevolucoes();
-            }
-            else if (resp == 2) {
-                //this.realizarEmprestimo();
-            }
-            else {
-                index_1.form.desconectar();
-            }
-        }
-        catch (error) {
-            console.error("Erro:", error.message);
-        }
-    }
-    //Página para listar todos as devoluções do usuário.
-    listarDevolucoes() {
+const readlineSync = __importStar(require("readline-sync"));
+const InterfaceLivro_1 = require("../console/InterfaceLivro");
+//const livS = new LivroService();
+const interfaceLivro = new InterfaceLivro_1.InterfaceLivro();
+class InterfaceBiblio {
+    homeAdmin() {
         return __awaiter(this, void 0, void 0, function* () {
             console.clear();
-            console.log(`|-------------- Devoluções Atuais --------------|`);
+            console.log(`|--------- Bem-vindo(a) Bibliotecário(a) -------|`);
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-            console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`);
-            console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`);
+            console.log(`| . . . . . [1] Gerenciar Livros          . . . |`);
+            console.log(`| . . . . . [2] Gerenciar Usuários        . . . |`);
+            console.log(`| . . . . . [0] Sair                      . . . |`);
             try {
-                yield empS.getDevolucoes(index_2.Sessao.email);
-                const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
-                if (resp == 0) {
-                    this.devolucao();
+                const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                if (resp == 1) {
+                    interfaceLivro.gerenciarLivro();
+                }
+                else if (resp == 2) {
+                    //this.gerenciarUsuario();
                 }
                 else {
                     index_1.form.desconectar();
                 }
             }
             catch (error) {
-                console.error("Erro:", error.message);
+                console.error("Erro: ", error.message);
             }
         });
     }
+    gerenciarUsuario() {
+    }
 }
-exports.InterfaceDevolucao = InterfaceDevolucao;
+exports.InterfaceBiblio = InterfaceBiblio;

@@ -23,7 +23,7 @@ class UsuarioService {
             //Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
             //Utilizado no método cadastrarUsuario() de InterfaceUsuario.
             if (verificacao === null) {
-                yield rep.save(nome, senha, email);
+                yield rep.save(nome, senha, email.toLowerCase());
                 console.log("Usuário foi salvo no banco de dados com sucesso.");
                 return true;
             }

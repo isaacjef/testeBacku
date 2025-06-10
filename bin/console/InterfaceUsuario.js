@@ -45,12 +45,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceUsuario = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const index_1 = require("../index");
+const EmprestimoService_1 = require("../service/EmprestimoService");
 const UsuarioService_1 = require("../service/UsuarioService");
+const InterfaceBiblio_1 = require("../console/InterfaceBiblio");
 const InterfaceConsulta_1 = require("../console/InterfaceConsulta");
 const InterfaceEmprestimo_1 = require("../console/InterfaceEmprestimo");
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService_1.UsuarioService();
 const interfaceEmp = new InterfaceEmprestimo_1.InterfaceEmprestimo();
+const interfaceBiblio = new InterfaceBiblio_1.InterfaceBiblio();
+const empS = new EmprestimoService_1.EmprestimoService();
 class InterfaceUsuario {
     //Página inicial do sistema. Direriona o usuário às páginas de Cadastro e Login.
     iniciar() {
@@ -84,9 +88,9 @@ class InterfaceUsuario {
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             try {
-                const name = readlineSync.question(`|~~~> Nome:`);
-                const senha = readlineSync.question(`|~~~> Senha:`);
-                const email = readlineSync.questionEMail(`|~~~> E-mail:`);
+                const name = readlineSync.question(`|~~~> Nome: `);
+                const senha = readlineSync.question(`|~~~> Senha: `);
+                const email = readlineSync.questionEMail(`|~~~> E-mail: `);
                 if (yield usuarioS.adicionarUsuario(name, senha, email)) {
                     console.clear();
                     console.log("Usuário cadastrado com sucesso!");
@@ -114,8 +118,8 @@ class InterfaceUsuario {
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             try {
-                const email = readlineSync.questionEMail(`|~~~> E-mail:`);
-                const senha = readlineSync.question(`|~~~> Senha:`);
+                const email = readlineSync.questionEMail(`|~~~> E-mail: `);
+                const senha = readlineSync.question(`|~~~> Senha: `);
                 //verifica se o método login() retorna nulo, se não: direciona para a página Home.
                 if (yield usuarioS.login(senha, email)) {
                     //Salva o email do usuário que está usando na classe Sessao, no atributo estático email;
@@ -138,6 +142,8 @@ class InterfaceUsuario {
     //Direciona o Usuário à páginas de acordo com o seu tipo.
     home() {
         return __awaiter(this, void 0, void 0, function* () {
+            //Verifica a data de vencimento quando o usuário 'loga' no sistema
+            empS.verificarEmprestimos(index_1.Sessao.email);
             const usuario = yield usuarioS.getUsuario(index_1.Sessao.email);
             if (usuario !== null && usuario.tipo == 'Membro') {
                 console.clear();
@@ -166,13 +172,12 @@ class InterfaceUsuario {
                 }
             }
             else if (usuario !== null && usuario.tipo == 'Bibliotecário') {
-                console.log(`|--------- Bem-vindo(a) Bibliotecário(a) -------|`);
-                console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-                console.log(`| . . . . . [1] Gerenciar Livros          . . . |`);
-                console.log(`| . . . . . [2] Gerenciar Usuários        . . . |`);
+                interfaceBiblio.homeAdmin();
             }
             else {
+                console.clear();
                 console.log("Usuário não cadastrado. Sistema encerrado.");
+                this.desconectar();
             }
         });
     }

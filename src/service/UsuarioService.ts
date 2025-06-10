@@ -16,7 +16,7 @@ export class UsuarioService {
         //Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
         //Utilizado no método cadastrarUsuario() de InterfaceUsuario.
         if (verificacao === null) {
-        	await rep.save(nome, senha, email);
+        	await rep.save(nome, senha, email.toLowerCase());
         	console.log("Usuário foi salvo no banco de dados com sucesso.")
         	return true;
         } else {

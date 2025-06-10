@@ -43,48 +43,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceLivro = void 0;
+const index_1 = require("../index");
 const readlineSync = __importStar(require("readline-sync"));
 const LivroService_1 = require("../service/LivroService");
 const CategoriaLivro_1 = require("../enumeracao/CategoriaLivro");
 //Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
-const livro = new LivroService_1.LivroService();
+const livS = new LivroService_1.LivroService();
 class InterfaceLivro {
     gerenciarLivro() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`|--------------- Gerenciar Livro ---------------|`);
+            console.clear();
+            console.log(`|~~~~~~~~~~~~~~~ Gerenciar Livros ~~~~~~~~~~~~~~|`);
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-            console.log(`| . . . . . [1] Cadastrar Livro . . . . . . . . |`);
-            console.log(`| . . . . . [2] Atualizar Livro . . . . . . . . |`);
-            console.log(`| . . . . . [3] Deletar Livro   . . . . . . . . |`);
-            const resp = readlineSync.question(`|--> `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
+            console.log(`| . . . . . . [0] Sair            . . . . . . . |`);
+            console.log(`| . . . . . . [1] Adicionar Livro . . . . . . . |`);
+            console.log(`| . . . . . . [2] Listar Livros   . . . . . . . |`);
+            console.log(`| . . . . . . [3] Alterar Titulo  . . . . . . . |`);
+            console.log(`| . . . . . . [4] Excluir Livro   . . . . . . . |`);
             try {
-                if (resp == '1') {
-                    this.cadastrarLivro();
-                }
-                else if (resp == '2') {
-                    //this.atualizarLivro();
-                }
-                else {
-                    //this.deletarLivro();
+                const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2, 3, 4], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                switch (resp) {
+                    case 0:
+                        return index_1.form.desconectar();
+                    case 1:
+                        return this.cadastrarLivro();
+                    case 2:
+                        return this.listarLivros();
+                    case 3:
+                        return this.alterarTitulo();
+                    case 4:
+                        return this.deletarLivro();
                 }
             }
             catch (error) {
-                console.error("Erro:", error.message);
+                console.error("Erro: ", error.message);
             }
         });
     }
     //Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
     cadastrarLivro() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(`|---------------Cadastrar Livro---------------|`);
-            console.log(`|                                             |`);
+            console.log(`|--------------- Cadastrar Livro ---------------|`);
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             try {
                 const titulo = readlineSync.question(`| Título: `);
                 const isbn = readlineSync.question(`| ISBN: `);
                 const categoria = [CategoriaLivro_1.CategoriaLivro.FICCAO, CategoriaLivro_1.CategoriaLivro.CIENCIA, CategoriaLivro_1.CategoriaLivro.HISTORIA, CategoriaLivro_1.CategoriaLivro.TECNOLOGIA, CategoriaLivro_1.CategoriaLivro.OUTRO];
                 const index = readlineSync.keyInSelect(categoria, "| Selecione a categoria: ");
                 const anoPublicacao = readlineSync.question("Ano de publicação: ");
-                if (yield livro.adicionarLivro(titulo, isbn, categoria[index], anoPublicacao)) {
+                if (yield livS.adicionarLivro(titulo, isbn, categoria[index], anoPublicacao)) {
                     console.log("Livro cadastrado com sucesso");
                     this.gerenciarLivro();
                 }
@@ -95,6 +102,69 @@ class InterfaceLivro {
             }
             catch (error) {
                 console.error("Erro:", error.message);
+            }
+        });
+    }
+    listarLivros() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.clear();
+            console.log(`|~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ Livros Cadastrados ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ `);
+            yield livS.getLivros();
+            console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`);
+            console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`);
+            try {
+                const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                switch (resp) {
+                    case 0:
+                        return this.gerenciarLivro();
+                    case 1:
+                        return index_1.form.desconectar();
+                }
+            }
+            catch (error) {
+                console.error("Erro: ", error.message);
+            }
+        });
+    }
+    //Versão simplificado. Só permite modificar o título
+    alterarTitulo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.clear();
+            console.log(`| . . . . . . .  Alterar Título . . . . . . . . |`);
+            try {
+                const isbn = readlineSync.question(`|~~> Digite o ISBN do Livro: `);
+                const titulo = readlineSync.question(`|~~> Digite o novo Título do Livro: `);
+                if (yield livS.atualizarTitulo(isbn, titulo)) {
+                    console.log("Título alterado com sucesso");
+                }
+                else {
+                    console.log("Título não foi alterado.");
+                }
+                console.log("Título alterado com sucesso.");
+                this.gerenciarLivro();
+            }
+            catch (error) {
+                console.error("Erro: ", error.message);
+            }
+        });
+    }
+    deletarLivro() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.clear();
+            console.log(`| . . . . . . .  Deletar Livro  . . . . . . . . |`);
+            try {
+                const isbn = readlineSync.question(`|~~> Digite o ISBN do Livro: `);
+                if (yield livS.deletar(isbn)) {
+                    console.log("Livro não foi deletado.");
+                }
+                else {
+                    console.log("Livro deletado com sucesso.");
+                }
+                console.log("Livro deletado com sucesso.");
+                this.gerenciarLivro();
+            }
+            catch (error) {
+                console.error("Erro: ", error.message);
             }
         });
     }

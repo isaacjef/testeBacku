@@ -57,7 +57,6 @@ class InterfaceEmprestimo {
     //Página home de empréstimos
     emprestimo() {
         console.clear();
-        empS.verificarEmprestimos(index_2.Sessao.email);
         console.log(`|----------------- Empréstimos -----------------|`);
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
         console.log(`| . . . . . [0] Retornar            . . . . . . |`);
@@ -89,11 +88,10 @@ class InterfaceEmprestimo {
         return __awaiter(this, void 0, void 0, function* () {
             console.clear();
             console.log(`|-------------- Empréstimos Atuais -------------|`);
-            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-            console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`);
-            console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`);
             try {
                 yield empS.getEmprestimos(index_2.Sessao.email);
+                console.log(`| . . . . . . .  [0] Retornar   . . . . . . . . |`);
+                console.log(`| . . . . . . .  [1] Sair       . . . . . . . . |`);
                 const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
                 if (resp == 0) {
                     this.emprestimo();
@@ -115,26 +113,40 @@ class InterfaceEmprestimo {
             console.clear();
             console.log(`|------------- Realizar Empréstimo -------------|`);
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
-            console.log(`| . . . . [1] Consultar Livro via ISBN  . . . . |`);
+            console.log(`| . . . . [0] Retornar                    . . . |`);
+            console.log(`| . . . . [1] Consultar Livro via ISBN    . . . |`);
             console.log(`| . . . . [2] Consultar Livro por Título  . . . |`);
-            const resp = readlineSync.question(`|~~> `, { limit: [1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
+            const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
             //Busca dados de usuário no banco.
             const usuario = yield userS.getUsuario(index_2.Sessao.email);
             try {
-                if (resp == '1' && usuario !== null) {
+                if (resp == 1 && usuario !== null) {
                     const isbn = readlineSync.question(`| Digite o ISBN: `);
                     //Busca livro via ISBN no banco.
                     const livro = yield livS.getLivroByISBN(isbn);
                     if (livro !== null) {
                         //Adiciona empréstimo do livro ao usuário.
-                        yield empS.adicionarEmprestimo(livro.id, usuario.id);
+                        if (yield empS.adicionarEmprestimo(livro.id, usuario.id)) {
+                            console.log("O livro já foi emprestado pelo usuário");
+                            this.realizarEmprestimo();
+                        }
+                        else {
+                            console.log("Empréstimo feito!");
+                            this.emprestimo();
+                        }
                     }
                     else {
                         console.log("O empréstimo falhou! O livro não existe!");
                     }
                 }
+                else if (usuario === null) {
+                    console.log("Usuário nulo!");
+                }
+                else if (resp == 2) {
+                    //consultapor titutlo
+                }
                 else {
-                    console.log("Algum erro! InterfaceEmp");
+                    this.emprestimo();
                 }
             }
             catch (error) {

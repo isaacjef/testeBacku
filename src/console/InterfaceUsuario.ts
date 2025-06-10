@@ -1,6 +1,7 @@
 import * as readlineSync from 'readline-sync';
 import { Sessao } from '../index';
 import { Usuario } from '../modelos/Usuario';
+import { EmprestimoService } from '../service/EmprestimoService'
 import { UsuarioService } from '../service/UsuarioService'
 import { InterfaceBiblio } from '../console/InterfaceBiblio'
 import { InterfaceConsulta } from '../console/InterfaceConsulta'
@@ -10,6 +11,7 @@ import { InterfaceEmprestimo } from '../console/InterfaceEmprestimo'
 const usuarioS = new UsuarioService();
 const interfaceEmp = new InterfaceEmprestimo();
 const interfaceBiblio = new InterfaceBiblio();
+const empS = new EmprestimoService();
 
 export class InterfaceUsuario {
 	
@@ -42,9 +44,9 @@ export class InterfaceUsuario {
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		try {
-			const name = readlineSync.question(`|~~~> Nome:`)
-			const senha = readlineSync.question(`|~~~> Senha:`)
-			const email = readlineSync.questionEMail(`|~~~> E-mail:`)
+			const name = readlineSync.question(`|~~~> Nome: `)
+			const senha = readlineSync.question(`|~~~> Senha: `)
+			const email = readlineSync.questionEMail(`|~~~> E-mail: `)
         	if(await usuarioS.adicionarUsuario(name, senha, email)) {
         		console.clear()
         		console.log("Usuário cadastrado com sucesso!");
@@ -71,8 +73,8 @@ export class InterfaceUsuario {
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 		try {
-			const email = readlineSync.questionEMail(`|~~~> E-mail:`)
-			const senha = readlineSync.question(`|~~~> Senha:`)
+			const email = readlineSync.questionEMail(`|~~~> E-mail: `)
+			const senha = readlineSync.question(`|~~~> Senha: `)
 			
 			//verifica se o método login() retorna nulo, se não: direciona para a página Home.
 			if (await usuarioS.login(senha, email)) {
@@ -94,9 +96,13 @@ export class InterfaceUsuario {
 	//Este método verifica se o usuário é um Membro ou Admin.
 	//Direciona o Usuário à páginas de acordo com o seu tipo.
 	async home(): Promise<void> {
+		//Verifica a data de vencimento quando o usuário 'loga' no sistema
+		empS.verificarEmprestimos(Sessao.email);
+	
 		const usuario = await usuarioS.getUsuario(Sessao.email);
 		if (usuario !== null && usuario.tipo == 'Membro') {
 			console.clear();
+			
 			console.log(`|-------------- Biblioteca Virtual -------------|`)
 			console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 			console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`)

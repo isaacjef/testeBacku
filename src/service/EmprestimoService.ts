@@ -34,6 +34,16 @@ export class EmprestimoService {
 		}
 	}
 	
+	async validarEmprestimo(livroId: number, usuarioId: number): Promise<void> {
+		const emprestimo = JSON.stringify(await empRep.findEmprestimoAtivo(livroId, usuarioId));
+		
+		if (emprestimo !== null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	//Método responsável por listar todos os empréstimos do usuário.
     async getEmprestimos(email: string): Promise<void> {
         const usuario = await userS.getUsuario(email);
