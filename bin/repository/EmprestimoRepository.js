@@ -49,7 +49,7 @@ class EmprestimoRepository {
     }
     //Busca no BD por todos os empréstimos do Usuario.
     //Converte o retorno do BD em um array de números.
-    //O método que o implementar, deve tratar saída nula.
+    //Método implementado em getEmprestimos() de EmprestimoService, deve tratar saída nula.
     findEmprestimos(usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
             const emprestimos = yield index_1.prisma.emprestimo.findMany({
@@ -63,7 +63,7 @@ class EmprestimoRepository {
             for (let i = 0; i < emprestimos.length; i++) {
                 this.vetor[i] = emprestimos[i].livroID;
             }
-            if (emprestimos) {
+            if (emprestimos !== null) {
                 return this.vetor;
             }
             else {

@@ -21,7 +21,7 @@ exports.simples = simples;
 require("reflect-metadata");
 const client_1 = require("../src/generated/prisma/client");
 const LivroRepository_1 = require("./repository/LivroRepository");
-const UsuarioService_1 = require("./service/UsuarioService");
+const LivroService_1 = require("./service/LivroService");
 //Aparentemente, duas classes não podem se inter-importar no typescript.
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
 exports.prisma = new client_1.PrismaClient({ log: ['query'] });
@@ -43,16 +43,27 @@ function simples(C) {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const d1 = new Date(2023, 11, 10);
+        const d1 = new Date(Date.now());
         const d2 = new Date("2023-11-17");
         console.log(d1);
         console.log(d2);
         const d3 = new Date(d1);
         d3.setDate(d3.getDate() + 7);
-        const d4 = d1;
-        d4.setDate(d4.getTime() + (7 * 24 * 60 * 60 * 1000));
+        const d4 = `${d1.getFullYear()}-${d1.getMonth()}-${d1.getDay()}`;
         console.log(d3);
+        console.log(d4);
         //const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
+        const livS = new LivroService_1.LivroService();
+        const livro = yield livS.getLivroByISBN("A");
+        if (livro !== null) {
+            console.log(livro);
+        }
+        else {
+            console.log("não há livro");
+        }
+        //verificar amanha
+        //const interEmp = new InterfaceEmprestimo();
+        //interEmp.realizarEmprestimo("teste@email")
         //const form = new InterfaceUsuario();
         //const interLivro = new InterfaceLivro();
         //const consulta = new InterfaceConsulta();
@@ -60,9 +71,6 @@ function main() {
         //consulta.consultaUnica("admin@admin");
         //form.iniciar();
         //form.home();
-        const userS = new UsuarioService_1.UsuarioService();
-        yield userS.adicionarUsuario("nome", "senha", "teste@email");
-        console.log(yield userS.getUsuario("teste@email"));
         const repL = new LivroRepository_1.LivroRepository();
         const aaa = yield repL.findByISBN("A1");
         console.log(aaa);

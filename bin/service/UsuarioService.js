@@ -24,7 +24,7 @@ class UsuarioService {
             //Utilizado no método cadastrarUsuario() de InterfaceUsuario.
             if (verificacao === null) {
                 rep.save(nome, senha, email);
-                console.log("Usuário salvo no banco de dados.");
+                console.log("Usuário foi salvo no banco de dados com sucesso.");
                 return true;
             }
             else {
@@ -38,13 +38,14 @@ class UsuarioService {
         return __awaiter(this, void 0, void 0, function* () {
             const usuario = JSON.parse(yield rep.findByEmail(email));
             //Verifica primeiro se usuario é nulo & 
-            //Se a senha e email informados pelo usuário são iguais às credenciais cadastradas anteriormente.
+            //Se a senha informada pelo usuário é iguais à credencial cadastrada anteriormente.
             //Utilizado no método logarUsuario() de InterfaceUsuario.
             if (usuario !== null && senha == usuario.senha) {
-                return false;
+                return true;
             }
             else {
-                return true;
+                console.log("Usuário não cadastrado!");
+                return false;
             }
             /*return new Promise((resolve) => {
                 setTimeout(() => {
@@ -58,10 +59,10 @@ class UsuarioService {
     getUsuario(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const userS = JSON.parse(yield rep.findByEmail(email));
-            if (userS === null)
-                return null;
-            else
+            if (userS !== null)
                 return userS;
+            else
+                return null;
         });
     }
     //Utiliza o método findByID de repository e converte o objeto Usuario que foi retornado em formato JSON.
@@ -69,7 +70,7 @@ class UsuarioService {
     getUsuarioByID(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const userS = JSON.parse(yield rep.findByID(id));
-            if (userS)
+            if (userS !== null)
                 return userS;
             else
                 return null;

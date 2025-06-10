@@ -13,6 +13,7 @@ const livRep = new LivroRepository();
 export class LivroService {
 
 	//Tratar CategoriaLivro aqui.
+	//Método implementado em cadastrarLivro() da classe InterfaceLivro.
     async adicionarLivro(titulo: string, isbn: string, categoria: CategoriaLivro, anoPublicacao: string): Promise<boolean> {
         const verificacao = await livRep.findByISBN(isbn);
         
@@ -44,11 +45,19 @@ export class LivroService {
 		return livro;
 	}
 	
+	//Busca um Livro no banco de dados, a partir do ID.
+	//Necessário tratar retorno nulo nos métodos que o implementarem.
+	async getLivroByISBN(isbn: string): Promise<Livro> {
+		const livro: Livro = JSON.parse(await livRep.findByISBN(isbn));
+		
+		return livro;
+	}
+	
 	//Busca um Livro no banco de dados, a partir do título. O banco retorna o primeiro Livro que contenha o título.
 	//Necessário tratar retorno nulo nos métodos que o implementarem.
 	async getLivroByTitulo(titulo: string): Promise<Livro> {
 		const livro: Livro = JSON.parse(await livRep.findFirstTitulo(titulo));
 		
     	return livro;
-	} // Mudar a query
+	}
 }

@@ -25,6 +25,10 @@ export class Livro {
 		/*this.autor = autor;*/
     }
     
+    public get id() {
+    	return this._id;
+    }
+    
     public get titulo() {
     	return this._titulo;
     }

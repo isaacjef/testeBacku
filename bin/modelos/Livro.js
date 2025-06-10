@@ -11,6 +11,9 @@ class Livro {
         this._anoPublicacao = anoPublicacao;
         /*this.autor = autor;*/
     }
+    get id() {
+        return this._id;
+    }
     get titulo() {
         return this._titulo;
     }

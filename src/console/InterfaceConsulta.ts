@@ -45,7 +45,7 @@ export class InterfaceConsulta {
 		
 	}
 	
-	async consultaUnica(email: string): Promise<void> {
+	/*async consultaUnica(email: string): Promise<void> {
 		console.log(`|-------------- Consulta Única ---------------|`)
 		console.log(`|                                             |`)
 		console.log(`|   Selecione uma das opções para consulta:   |`)
@@ -62,7 +62,7 @@ export class InterfaceConsulta {
 		} else {
 			const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
 		}
-	}
+	}*/
 	
 	/*recursaoConsulta(index: number) {
 		const con = new ConsultaService();

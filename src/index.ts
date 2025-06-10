@@ -5,9 +5,10 @@ import { Usuario } from './modelos/Usuario';
 import { Emprestimo } from './modelos/Emprestimo';
 import { TipoUsuario } from "./enumeracao/TipoUsuario"
 import { CategoriaLivro } from "./enumeracao/CategoriaLivro"
+import { InterfaceLivro } from './console/InterfaceLivro';
 import { InterfaceUsuario } from './console/InterfaceUsuario';
 import { InterfaceConsulta } from './console/InterfaceConsulta';
-import { InterfaceLivro } from './console/InterfaceLivro';
+import { InterfaceEmprestimo } from './console/InterfaceEmprestimo';
 import { PrismaClient } from '../src/generated/prisma/client';
 import { LivroRepository } from './repository/LivroRepository';
 import { UsuarioRepository } from './repository/UsuarioRepository';
@@ -39,17 +40,28 @@ export function simples(C: any) {
 }
 
 async function main() {
-	const d1 = new Date(2023, 11, 10);
+	const d1 = new Date(Date.now());
 	const d2 = new Date("2023-11-17");
 	console.log(d1)
 	console.log(d2)
 	const d3 = new Date(d1);
 	d3.setDate(d3.getDate() + 7);
-	const d4 = d1;
-	d4.setDate(d4.getTime()+(7*24*60*60*1000))
+	const d4 = `${d1.getFullYear()}-${d1.getMonth()}-${d1.getDay()}`;
 	console.log(d3);
+	console.log(d4);
 	
 	//const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
+	const livS = new LivroService();
+	const livro = await livS.getLivroByISBN("A");
+	if (livro !== null) {
+    	console.log(livro)
+    } else {
+    	console.log("não há livro")
+    }
+	
+	//verificar amanha
+	//const interEmp = new InterfaceEmprestimo();
+	//interEmp.realizarEmprestimo("teste@email")
 	
 	//const form = new InterfaceUsuario();
 	//const interLivro = new InterfaceLivro();

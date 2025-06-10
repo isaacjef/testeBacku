@@ -18,6 +18,7 @@ isbn*/
 const livRep = new LivroRepository_1.LivroRepository();
 class LivroService {
     //Tratar CategoriaLivro aqui.
+    //Método implementado em cadastrarLivro() da classe InterfaceLivro.
     adicionarLivro(titulo, isbn, categoria, anoPublicacao) {
         return __awaiter(this, void 0, void 0, function* () {
             const verificacao = yield livRep.findByISBN(isbn);
@@ -47,6 +48,14 @@ class LivroService {
             return livro;
         });
     }
+    //Busca um Livro no banco de dados, a partir do ID.
+    //Necessário tratar retorno nulo nos métodos que o implementarem.
+    getLivroByISBN(isbn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const livro = JSON.parse(yield livRep.findByISBN(isbn));
+            return livro;
+        });
+    }
     //Busca um Livro no banco de dados, a partir do título. O banco retorna o primeiro Livro que contenha o título.
     //Necessário tratar retorno nulo nos métodos que o implementarem.
     getLivroByTitulo(titulo) {
@@ -54,6 +63,6 @@ class LivroService {
             const livro = JSON.parse(yield livRep.findFirstTitulo(titulo));
             return livro;
         });
-    } // Mudar a query
+    }
 }
 exports.LivroService = LivroService;

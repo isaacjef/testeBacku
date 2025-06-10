@@ -49,29 +49,53 @@ const CategoriaLivro_1 = require("../enumeracao/CategoriaLivro");
 //Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
 const livro = new LivroService_1.LivroService();
 class InterfaceLivro {
+    gerenciarLivro() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(`|--------------- Gerenciar Livro ---------------|`);
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+            console.log(`| . . . . . [1] Cadastrar Livro . . . . . . . . |`);
+            console.log(`| . . . . . [2] Atualizar Livro . . . . . . . . |`);
+            console.log(`| . . . . . [3] Deletar Livro   . . . . . . . . |`);
+            const resp = readlineSync.question(`|--> `, { limit: [1, 2, 3], limitMessage: 'Opção incorreta! Digite novamente: ' });
+            try {
+                if (resp == '1') {
+                    this.cadastrarLivro();
+                }
+                else if (resp == '2') {
+                    //this.atualizarLivro();
+                }
+                else {
+                    //this.deletarLivro();
+                }
+            }
+            catch (error) {
+                console.error("Erro:", error.message);
+            }
+        });
+    }
     //Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
     cadastrarLivro() {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(`|---------------Cadastrar Livro---------------|`);
             console.log(`|                                             |`);
             try {
-                const titulo = readlineSync.question(`| Título:`);
-                const isbn = readlineSync.question(`| ISBN:`);
+                const titulo = readlineSync.question(`| Título: `);
+                const isbn = readlineSync.question(`| ISBN: `);
                 const categoria = [CategoriaLivro_1.CategoriaLivro.FICCAO, CategoriaLivro_1.CategoriaLivro.CIENCIA, CategoriaLivro_1.CategoriaLivro.HISTORIA, CategoriaLivro_1.CategoriaLivro.TECNOLOGIA, CategoriaLivro_1.CategoriaLivro.OUTRO];
-                const index = readlineSync.keyInSelect(categoria, "| Qual categoria?");
-                const data = readlineSync.question(`| Informe a data: `);
-                if (yield livro.adicionarLivro(titulo, isbn, categoria[index], data)) {
+                const index = readlineSync.keyInSelect(categoria, "| Selecione a categoria: ");
+                const anoPublicacao = readlineSync.question("Ano de publicação: ");
+                if (yield livro.adicionarLivro(titulo, isbn, categoria[index], anoPublicacao)) {
                     console.log("Livro cadastrado com sucesso");
-                    //this.cadastrarLivro();
+                    this.gerenciarLivro();
                 }
                 else {
                     console.log("Livro já cadastrado! Tente novamente.");
+                    this.cadastrarLivro();
                 }
             }
             catch (error) {
                 console.error("Erro:", error.message);
             }
-            console.log(`|---------------------------------------------|`);
         });
     }
 }

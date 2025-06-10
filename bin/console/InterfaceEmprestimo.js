@@ -44,12 +44,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceEmprestimo = void 0;
 const readlineSync = __importStar(require("readline-sync"));
-//import { Usuario } from '../modelos/Usuario';
-//import { UsuarioService } from '../service/UsuarioService'
+const UsuarioService_1 = require("../service/UsuarioService");
+const LivroService_1 = require("../service/LivroService");
+//import { ConsultaService } from '../service/ConsultaService';
 const EmprestimoService_1 = require("../service/EmprestimoService");
 //import { InterfaceConsulta } from '../console/InterfaceConsulta'
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const empS = new EmprestimoService_1.EmprestimoService();
+const userS = new UsuarioService_1.UsuarioService();
+const livS = new LivroService_1.LivroService();
 class InterfaceEmprestimo {
     emprestimo(email) {
         console.log(`|----------------- Empréstimos -----------------|`);
@@ -57,7 +60,7 @@ class InterfaceEmprestimo {
         console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
         console.log(`| . . . . . [1] Listar Empréstimos  . . . . . . |`);
         console.log(`| . . . . . [2] Realizar Empréstimo . . . . . . |`);
-        const resp = readlineSync.question(`             `, { limit: [1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
+        const resp = readlineSync.question(`|~~> `, { limit: [1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
         try {
             if (resp == '1') {
                 this.listarEmprestimo(email);
@@ -79,11 +82,11 @@ class InterfaceEmprestimo {
         //Listar todos os livros emprestados pelo usuario.
         try {
             empS.getEmprestimos(email);
+            //this.emprestimo(email);
         }
         catch (error) {
             console.error("Erro:", error.message);
         }
-        console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
     }
     //Antes de realizar o Empréstimo, o Usuário precisa informar o Livro. O Livro é encontrado via consulta. O sistema deve verificar o ID do Usuário.
     //A consulta por ISBN deve ser precisa.
@@ -94,15 +97,25 @@ class InterfaceEmprestimo {
             console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
             console.log(`| . . . . [1] Consultar Livro via ISBN  . . . . |`);
             console.log(`| . . . . [2] Consultar Livro por Título  . . . |`);
-            //PEgar id de livro e de usuario
+            const resp = readlineSync.question(` |~~>`, { limit: [1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
+            //Busca dados de usuário no banco.
+            const usuario = yield userS.getUsuario(email);
             try {
-                /*if (await empS.adicionarEmprestimo(idLivro, idUsuario)) {
-                    console.log("O usuário já está com o livro emprestado.");
-                    this.emprestimo(email);
-                } else {
-                    console.log("Livro emprestado com sucesso.");
-                    this.emprestimo(email);
-                }*/
+                if (resp == '1' && usuario !== null) {
+                    const isbn = readlineSync.question(`| Digite o ISBN: `);
+                    //Busca livro via ISBN no banco.
+                    const livro = yield livS.getLivroByISBN(isbn);
+                    if (livro !== null) {
+                        //Adiciona empréstimo do livro ao usuário.
+                        yield empS.adicionarEmprestimo(livro.id, usuario.id);
+                    }
+                    else {
+                        console.log("O empréstimo falhou! O livro não existe!");
+                    }
+                }
+                else {
+                    console.log("Algum erro! InterfaceEmp");
+                }
             }
             catch (error) {
                 console.error("Erro:", error.message);

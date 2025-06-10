@@ -39,7 +39,7 @@ export class EmprestimoRepository implements IEmprestimoRepository {
 	
 	//Busca no BD por todos os empréstimos do Usuario.
 	//Converte o retorno do BD em um array de números.
-	//O método que o implementar, deve tratar saída nula.
+	//Método implementado em getEmprestimos() de EmprestimoService, deve tratar saída nula.
 	async findEmprestimos(usuarioId: number): Promise<number[]> {
 		const emprestimos = await prisma.emprestimo.findMany({
 			where: {
@@ -54,7 +54,7 @@ export class EmprestimoRepository implements IEmprestimoRepository {
 			this.vetor[i] = emprestimos[i].livroID;
 		}
 		
-		if (emprestimos) {
+		if (emprestimos !== null) {
 			return this.vetor;
 		} else {
 			return [];

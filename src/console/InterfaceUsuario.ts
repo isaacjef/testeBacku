@@ -45,7 +45,7 @@ export class InterfaceUsuario {
         	if(await usuarioS.adicionarUsuario(name, senha, email)) {
         		console.log("Usuário cadastrado com sucesso!");
         		limparConsole(2);
-        		this.direcionarUsuario(email);
+        		this.home(email);
         	} else {
         		console.log("Este e-mail já está cadastrado! Tente novamente.");
         		limparConsole(2);
@@ -67,7 +67,7 @@ export class InterfaceUsuario {
 			
 			//verifica se o método login() retorna nulo, se não: direciona para a página Home.
 			if (await usuarioS.login(senha, email)) {
-				this.direcionarUsuario(email);
+				this.home(email);
 			} else {
 				console.log("Credenciais incorretas! Digite novamente.");
 				this.logarUsuario();
@@ -80,7 +80,7 @@ export class InterfaceUsuario {
 	//Página Home, de entrada ao sistema.
 	//Este método verifica se o usuário é um Membro ou Admin.
 	//Direciona o Usuário à páginas de acordo com o seu tipo.
-	async direcionarUsuario(email: string): Promise<void> {
+	async home(email: string): Promise<void> {
 		const usuario = await usuarioS.getUsuario(email);
 		if (usuario !== null && usuario.tipo == 'Membro') {
 			console.log(`|-------------- Biblioteca Virtual -------------|`)
@@ -101,35 +101,12 @@ export class InterfaceUsuario {
                     	console.error("Erro: ", error.message);
         	}
 		} else if (usuario !== null && usuario.tipo == 'Bibliotecário') {
-			console.log(`|---------- Bem-vinde BIBLIOTECÁRIE ---------|`)
+			console.log(`|------------ Bem-vinde BIBLIOTECÁRIE ----------|`)
 			console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
 			console.log(`| . . . [1] Gerenciar Livros              . . . |`)
 			console.log(`| . . . [2] Gerenciar Usuários          . . . . |`)
 		} else {
 			console.log("Usuário não cadastrado. Sistema encerrado.")
-		}
-	}
-	
-	async home(email: string): Promise<void> {
-		const usuario = await usuarioS.getUsuario(email);
-		if (usuario && usuario.tipo == 'Membro') {
-			console.log(`|-------------- Biblioteca Virtual -------------|`)
-			console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-			console.log(`| . . . [1] Empréstimos  | [2] Devoluções . . . |`)
-			console.log(`| . . . [3] Consulta     |      . . . . . . . . |`)
-			try {
-				const resp = readlineSync.question(`             `, {limit: [1, 2, 3], limitMessage:  'Opção incorreta! Digite novamente: '});
-				if (resp == '1') {
-					interfaceEmp.emprestimo(email);
-				} else if (resp == '2') {
-					//t
-				} else {
-					const consulta = new InterfaceConsulta();
-					consulta.iniciarConsulta();
-				}
-			} catch (error: any) {
-                    	console.error("Erro: ", error.message);
-        	}
 		}
 	}
 }

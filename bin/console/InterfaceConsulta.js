@@ -53,6 +53,24 @@ class InterfaceConsulta {
     constructor() {
         this.categorias = ['titulo', 'isbn'];
         this.livros = [];
+        /*async consultaUnica(email: string): Promise<void> {
+            console.log(`|-------------- Consulta Única ---------------|`)
+            console.log(`|                                             |`)
+            console.log(`|   Selecione uma das opções para consulta:   |`)
+            console.log(`|            [0] Título | [1] ISBN            |`)
+            const num = readlineSync.questionInt(`|Digite uma opção: `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
+            if (num == 0) {
+                const titulo = readlineSync.question(`| Digite o título do Livro: `);
+                const livro = await livS.getLivroByTitulo(titulo);
+                if (livro) {
+                    console.log(livro)
+                } else {
+                    console.log("Não há nenhum livro com o  título informado.")
+                }
+            } else {
+                const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
+            }
+        }*/
         /*recursaoConsulta(index: number) {
             const con = new ConsultaService();
             const num = readlineSync.questionInt(`|`, {limit: [0, 1, 9], limitMessage:  'Opção incorreta! Digite novamente: '});
@@ -102,28 +120,6 @@ class InterfaceConsulta {
             }
             catch (error) {
                 console.log("Erro: ", error.message);
-            }
-        });
-    }
-    consultaUnica(email) {
-        return __awaiter(this, void 0, void 0, function* () {
-            console.log(`|-------------- Consulta Única ---------------|`);
-            console.log(`|                                             |`);
-            console.log(`|   Selecione uma das opções para consulta:   |`);
-            console.log(`|            [0] Título | [1] ISBN            |`);
-            const num = readlineSync.questionInt(`|Digite uma opção: `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
-            if (num == 0) {
-                const titulo = readlineSync.question(`| Digite o título do Livro: `);
-                const livro = yield livS.getLivroByTitulo(titulo);
-                if (livro) {
-                    console.log(livro);
-                }
-                else {
-                    console.log("Não há nenhum livro com o  título informado.");
-                }
-            }
-            else {
-                const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
             }
         });
     }
