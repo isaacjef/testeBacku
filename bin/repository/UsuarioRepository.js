@@ -17,14 +17,19 @@ class UsuarioRepository {
     //Salvar usuário no banco de dados, através dos parâmetros passados.
     save(nome, senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield index_1.prisma.usuario.create({
-                data: {
-                    nome: `${nome}`,
-                    senha: `${senha}`,
-                    email: `${email}`,
-                    tipo: TipoUsuario_1.TipoUsuario.CLIENTE,
-                },
-            });
+            try {
+                yield index_1.prisma.usuario.create({
+                    data: {
+                        nome: `${nome}`,
+                        senha: `${senha}`,
+                        email: `${email}`,
+                        tipo: TipoUsuario_1.TipoUsuario.CLIENTE,
+                    },
+                });
+            }
+            catch (error) {
+                console.log("Usuário não inserido: " + error.message);
+            }
         });
     }
     //Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
@@ -46,23 +51,33 @@ class UsuarioRepository {
     //Método simples que permite modificar o nome
     update(email, nome) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield index_1.prisma.usuario.update({
-                where: {
-                    email: `${email}`
-                },
-                data: {
-                    nome: `${nome}`,
-                },
-            });
+            try {
+                yield index_1.prisma.usuario.update({
+                    where: {
+                        email: `${email}`
+                    },
+                    data: {
+                        nome: `${nome}`,
+                    },
+                });
+            }
+            catch (error) {
+                console.log("Nome não atualizado: " + error.message);
+            }
         });
     }
     delete(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield index_1.prisma.usuario.delete({
-                where: {
-                    email: `${email}`
-                },
-            });
+            try {
+                yield index_1.prisma.usuario.delete({
+                    where: {
+                        email: `${email}`
+                    },
+                });
+            }
+            catch (error) {
+                console.log("Usuário não deletado: " + error.message);
+            }
         });
     }
 }

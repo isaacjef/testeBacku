@@ -8,14 +8,18 @@ export class UsuarioRepository implements IUsuarioRepository {
 
 	//Salvar usuário no banco de dados, através dos parâmetros passados.
 	async save(nome: string, senha: string, email: string): Promise<void> {
-		await prisma.usuario.create({
-            data: {
-                nome: `${nome}`,
-                senha: `${senha}`,
-                email: `${email}`,
-                tipo: TipoUsuario.CLIENTE,
-            },
-        })
+		try {
+			await prisma.usuario.create({
+            	data: {
+                	nome: `${nome}`,
+                	senha: `${senha}`,
+                	email: `${email}`,
+                	tipo: TipoUsuario.CLIENTE,
+            	},
+        	})
+        } catch (error: any) {
+			console.log("Usuário não inserido: " + error.message);
+		}
 	}
 	
 	//Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
@@ -36,21 +40,29 @@ export class UsuarioRepository implements IUsuarioRepository {
     
     //Método simples que permite modificar o nome
 	async update(email: string, nome: string): Promise<void> {
-		await prisma.usuario.update({
-			where: {
-				email: `${email}`
-			},
-			data: {
-				nome: `${nome}`,
-			},
-		})
+		try {
+			await prisma.usuario.update({
+				where: {
+					email: `${email}`
+				},
+				data: {
+					nome: `${nome}`,
+				},
+			})
+        } catch (error: any) {
+			console.log("Nome não atualizado: " + error.message);
+		}
 	}
 	
 	async delete(email: string): Promise<void> {
-		await prisma.usuario.delete({
-			where: {
-				email: `${email}`
-			},
-		})
+		try {
+			await prisma.usuario.delete({
+				where: {
+					email: `${email}`
+				},
+			})
+        } catch (error: any) {
+			console.log("Usuário não deletado: " + error.message);
+		}
 	}
 }

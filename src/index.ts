@@ -4,6 +4,7 @@ import { Livro } from './modelos/Livro';
 import { Usuario } from './modelos/Usuario';
 import { Emprestimo } from './modelos/Emprestimo';
 import { TipoUsuario } from "./enumeracao/TipoUsuario"
+import { CategoriaLivro } from "./enumeracao/CategoriaLivro"
 import { InterfaceUsuario } from './console/InterfaceUsuario';
 import { InterfaceConsulta } from './console/InterfaceConsulta';
 import { InterfaceLivro } from './console/InterfaceLivro';
@@ -38,25 +39,35 @@ export function simples(C: any) {
 }
 
 async function main() {
-	const d1 = new Date(2023, 11, 11);
-	const d2 = new Date();
-	console.log(d1 + "    |      " + d2)
+	const d1 = new Date(2023, 11, 10);
+	const d2 = new Date("2023-11-17");
+	console.log(d1)
+	console.log(d2)
+	const d3 = new Date(d1);
+	d3.setDate(d3.getDate() + 7);
+	const d4 = d1;
+	d4.setDate(d4.getTime()+(7*24*60*60*1000))
+	console.log(d3);
 	
 	//const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
 	
 	//const form = new InterfaceUsuario();
+	//const interLivro = new InterfaceLivro();
+	//const consulta = new InterfaceConsulta();
+	//interLivro.cadastrarLivro();
+	//consulta.consultaUnica("admin@admin");
 	//form.iniciar();
-	//form.home("a@a");
+	//form.home();
 	
-	const livS = new LivroService();
-	livS.adicionarLivro("testebbbbb", "AAtAAbbbbbbbbbAAA")
+	const repL = new LivroRepository();
+	const aaa = await repL.findByISBN("A1");
+	console.log(aaa)
+	if (aaa !== null) {
+        console.log("verificacao é nulo")
+    } else {
+        console.log("Verificacao contem")
+    }
 	
-	//livS.buscarLivro(1);
-	const userS = new UsuarioService();
-	console.log(await userS.getUsuario("a@a"));
-	console.log(await userS.getUsuario(""));
-	
-	//const livros: Array<number> = JSON.parse(await repE.findEmprestimos(3)); --> LOucura
 	/*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
 	livros.forEach(async (value: number) => {
     	//const livro: Livro = await livS.buscarLivro(value);
@@ -64,10 +75,6 @@ async function main() {
     	let teste: number = value.livroID;
     	console.log(teste);
     });*/
-	
-	/*let a2: Array<number> = [];
-	a2 = JSON.parse(await repE.findEmprestimos(3));
-	console.log(a2)*/
 	
 	/*
 	const form = new InterfaceUsuario();
@@ -126,4 +133,14 @@ console.log(result)
 
 const column = 'isbn'
 const teste = 'a'
-const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/
+const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)
+
+//Admin primário
+await prisma.usuario.create({
+    data: {
+        nome: `Admin`,
+        senha: `12345`,
+        email: `admin`,
+        tipo: TipoUsuario.BIBLIO,
+    },
+})*/

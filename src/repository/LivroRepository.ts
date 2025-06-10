@@ -1,19 +1,23 @@
 import { prisma } from '../index';
+import { CategoriaLivro } from "../enumeracao/CategoriaLivro"
 import { Livro } from '../modelos/Livro';
 import { ILivroRepository } from './ILivroRepository';
 
 export class LivroRepository implements ILivroRepository {
-
-	async save(titulo: string, isbn: string): Promise<void>  {
+	
+	//Salva um Livro no banco de dados.
+	async save(titulo: string, isbn: string, categoria: CategoriaLivro, anoPublicacao: string): Promise<void>  {
 		try {
 			await prisma.livro.create({
             	data: {
                 	titulo: titulo,
                 	isbn: isbn,
+                	categoria: categoria,
+                	anoPublicacao: anoPublicacao,
             	},
         	})
 		} catch (error: any) {
-			console.log(error.message);
+			console.log("Livro não inserido: " + error.message);
 		}
 	}
 	
@@ -26,15 +30,45 @@ export class LivroRepository implements ILivroRepository {
 
 	//O try...catch pode ser implementado em LivroService, quando este chamar por findByISBN.
 	//Tratar possível retorno nulo em LivroService, ou em InterfaceLivro
-    async findByISBN(isbn: string): Promise<Livro | null> {
+    async findByISBN(isbn: string): Promise<string> {
         //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.
         const livro = await prisma.livro.findUnique({ where: { isbn: isbn } });
-        console.log("Possível mensagem de log. Repository.");
-        
-        if (livro) { //Se livro tiver um valor
-        	return new Livro(livro.id, livro.titulo, livro.isbn);
-        } else {
-        	return null;
-        }
+
+        return JSON.stringify(livro);
     }
+    
+    async findFirstTitulo(titulo: string): Promise<string> {
+    	const livro = await prisma.livro.findFirst({ where: { titulo: titulo } });
+
+        return JSON.stringify(livro);
+    }
+    
+    //Método simples que permite modificar o título do Livro.
+	async update(isbn: string, titulo: string): Promise<void> {
+		try {
+			await prisma.livro.update({
+				where: {
+					isbn: `${isbn}`
+				},
+				data: {
+					titulo: `${titulo}`,
+				},
+			})
+        } catch (error: any) {
+			console.log("Título não atualizado: " + error.message);
+		}
+	}
+	
+	//Método que permite deletar algum Livro via ISBN.
+	async deleteByISBN(isbn: string): Promise<void> {
+		try {
+			await prisma.livro.delete({
+				where: {
+					isbn: `${isbn}`
+				},
+			})
+        } catch (error: any) {
+			console.log("Usuário não deletado: " + error.message);
+		}
+	}
 }

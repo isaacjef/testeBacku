@@ -12,11 +12,15 @@ export class UsuarioService {
     async adicionarUsuario(nome: string, senha: string, email: string): Promise<boolean> {
         const verificacao = JSON.parse(await rep.findByEmail(email));
        
-        //Verifica se verificacao é nulo ou não. Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
-        if (verificacao) {
+        //Verifica se verificacao é nulo ou não &
+        //Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
+        //Utilizado no método cadastrarUsuario() de InterfaceUsuario.
+        if (verificacao === null) {
+        	rep.save(nome, senha, email);
+        	console.log("Usuário foi salvo no banco de dados com sucesso.")
         	return true;
         } else {
-        	rep.save(nome, senha, email);
+        	console.log("Usuário já cadastrado!")
         	return false;
         }
     }
@@ -26,10 +30,12 @@ export class UsuarioService {
 		const usuario: Usuario = JSON.parse(await rep.findByEmail(email));
 		
 		//Verifica primeiro se usuario é nulo & 
-		//Se a senha e email informados pelo usuário são iguais às credenciais cadastradas anteriormente.
-		if (usuario && senha == usuario.senha && email == usuario.email) {
+		//Se a senha informada pelo usuário é iguais à credencial cadastrada anteriormente.
+		//Utilizado no método logarUsuario() de InterfaceUsuario.
+		if (usuario !== null && senha == usuario.senha) {
 			return true;
 		} else {
+			console.log("Usuário não cadastrado!")
 			return false;
 		}
 
@@ -45,7 +51,7 @@ export class UsuarioService {
     async getUsuario(email: string): Promise<Usuario | null> {
     	const userS: Usuario = JSON.parse(await rep.findByEmail(email));
     	
-    	if (userS)
+    	if (userS !== null)
     		return userS;
     	else
     		return null;
@@ -56,7 +62,7 @@ export class UsuarioService {
     async getUsuarioByID(id: number): Promise<Usuario | null> {
     	const userS: Usuario = JSON.parse(await rep.findByID(id));
     	
-    	if (userS)
+    	if (userS !== null)
     		return userS;
     	else
     		return null;

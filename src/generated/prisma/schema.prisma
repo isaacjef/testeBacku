@@ -10,6 +10,7 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+//Atributo Emprestimo Emprestimo[] não aparece nos retornos do banco de dados para a tabela Livro, somento indica a relação entre Livro e Emprestimo
 model Usuario {
   id         Int          @id @default(autoincrement())
   nome       String
@@ -20,10 +21,12 @@ model Usuario {
 }
 
 model Livro {
-  id         Int          @id @default(autoincrement())
-  titulo     String
-  isbn       String       @unique
-  Emprestimo Emprestimo[]
+  id            Int          @id @default(autoincrement())
+  titulo        String
+  isbn          String       @unique
+  categoria     String
+  anoPublicacao String
+  Emprestimo    Emprestimo[]
 }
 
 model Emprestimo {

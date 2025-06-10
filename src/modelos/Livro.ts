@@ -1,34 +1,28 @@
 import { CategoriaLivro } from "../enumeracao/CategoriaLivro"
 import { Autor } from "./Autor";
-import { ModeloBase } from "./ModeloBase"
 
-export class Livro extends ModeloBase {
+export class Livro {
+	private _id: number;
     private _titulo: string;
     private _isbn: string;
-    /*private autor?: Autor;
-    private _categoria?: CategoriaLivro;
-    private _anoPublicacao?: number;
-    private _copiasDisponiveis?: number;
-    private _totalCopias?: number;*/
+    private _categoria: CategoriaLivro;
+    private _anoPublicacao: number;
+ 	/*private autor?: Autor;*/
 
     constructor(
     	id: number,
         titulo: string,
         isbn: string,
-        /*autor?: Autor,
-        categoria?: CategoriaLivro,
-        anoPublicacao?: number,
-        copiasDisponiveis?: number,
-        totalCopias?: number*/
+        categoria: CategoriaLivro,
+        anoPublicacao: number,
+        /*autor?: number*/
     ) {
-        super(id);
+        this._id = id;
         this._titulo = titulo;
         this._isbn = isbn;
-        /*this.autor = autor;
-        this.categoria = categoria;
-        this.anoPublicacao = anoPublicacao;
-        this.copiasDisponiveis = totalCopias;
-        this.totalCopias = totalCopias;*/
+        this._categoria = categoria;
+        this._anoPublicacao = anoPublicacao;
+		/*this.autor = autor;*/
     }
     
     public get titulo() {
@@ -37,6 +31,14 @@ export class Livro extends ModeloBase {
     
     public get isbn(): string {
     	return this._isbn;
+    }
+    
+    public get categoria(): CategoriaLivro {
+    	return this._categoria;
+    }
+    
+    public get anoPublicacao(): number {
+    	return this._anoPublicacao;
     }
 }
 

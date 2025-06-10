@@ -128,7 +128,9 @@ exports.Prisma.UsuarioScalarFieldEnum = {
 exports.Prisma.LivroScalarFieldEnum = {
   id: 'id',
   titulo: 'titulo',
-  isbn: 'isbn'
+  isbn: 'isbn',
+  categoria: 'categoria',
+  anoPublicacao: 'anoPublicacao'
 };
 
 exports.Prisma.EmprestimoScalarFieldEnum = {

@@ -17,16 +17,19 @@ isbn*/
 //Instância de LivroRepository destinada a ser utilizada em todos os métodos da classe.
 const livRep = new LivroRepository_1.LivroRepository();
 class LivroService {
-    adicionarLivro(titulo, isbn) {
+    //Tratar CategoriaLivro aqui.
+    adicionarLivro(titulo, isbn, categoria, anoPublicacao) {
         return __awaiter(this, void 0, void 0, function* () {
             const verificacao = yield livRep.findByISBN(isbn);
-            //Verifica se há algum livro com o ISBN digitado pelo usuário. Se houver, retorna true para a classe InterfaceLivro
-            //Se não, salva o Livro no BD e retorna false.
-            if (verificacao) {
+            //Verifica se há algum livro com o ISBN digitado pelo usuário. Se não houver, salva o livro no BD e retorna true para a classe InterfaceLivro
+            //Se não, retorna falso.
+            if (verificacao === null) {
+                yield livRep.save(titulo, isbn, categoria, anoPublicacao);
+                console.log("Livro salvo no banco de dados.");
                 return true;
             }
             else {
-                livRep.save(titulo, isbn);
+                console.log("Este livro já está salvo no banco de dados.");
                 return false;
             }
             /*return new Promise((resolve) => {
@@ -36,12 +39,21 @@ class LivroService {
             });*/
         });
     }
-    //Verificar se o BD não retornar nenhum Livro2
+    //Busca um Livro no banco de dados, a partir do ID.
+    //Necessário tratar retorno nulo nos métodos que o implementarem.
     getLivroByID(livroId) {
         return __awaiter(this, void 0, void 0, function* () {
             const livro = JSON.parse(yield livRep.findByID(livroId));
             return livro;
         });
     }
+    //Busca um Livro no banco de dados, a partir do título. O banco retorna o primeiro Livro que contenha o título.
+    //Necessário tratar retorno nulo nos métodos que o implementarem.
+    getLivroByTitulo(titulo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const livro = JSON.parse(yield livRep.findFirstTitulo(titulo));
+            return livro;
+        });
+    } // Mudar a query
 }
 exports.LivroService = LivroService;

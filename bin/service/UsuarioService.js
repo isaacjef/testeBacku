@@ -19,12 +19,16 @@ class UsuarioService {
     adicionarUsuario(nome, senha, email) {
         return __awaiter(this, void 0, void 0, function* () {
             const verificacao = JSON.parse(yield rep.findByEmail(email));
-            //Verifica se verificacao é nulo ou não. Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
-            if (verificacao) {
+            //Verifica se verificacao é nulo ou não &
+            //Se não for nulo, então já existe um usuário com o email passado como parâmetro cadastrado.
+            //Utilizado no método cadastrarUsuario() de InterfaceUsuario.
+            if (verificacao === null) {
+                rep.save(nome, senha, email);
+                console.log("Usuário salvo no banco de dados.");
                 return true;
             }
             else {
-                rep.save(nome, senha, email);
+                console.log("Usuário já cadastrado!");
                 return false;
             }
         });
@@ -35,11 +39,12 @@ class UsuarioService {
             const usuario = JSON.parse(yield rep.findByEmail(email));
             //Verifica primeiro se usuario é nulo & 
             //Se a senha e email informados pelo usuário são iguais às credenciais cadastradas anteriormente.
-            if (usuario && senha == usuario.senha && email == usuario.email) {
-                return true;
+            //Utilizado no método logarUsuario() de InterfaceUsuario.
+            if (usuario !== null && senha == usuario.senha) {
+                return false;
             }
             else {
-                return false;
+                return true;
             }
             /*return new Promise((resolve) => {
                 setTimeout(() => {
@@ -53,10 +58,10 @@ class UsuarioService {
     getUsuario(email) {
         return __awaiter(this, void 0, void 0, function* () {
             const userS = JSON.parse(yield rep.findByEmail(email));
-            if (userS)
-                return userS;
-            else
+            if (userS === null)
                 return null;
+            else
+                return userS;
         });
     }
     //Utiliza o método findByID de repository e converte o objeto Usuario que foi retornado em formato JSON.

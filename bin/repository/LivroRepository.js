@@ -11,20 +11,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroRepository = void 0;
 const index_1 = require("../index");
-const Livro_1 = require("../modelos/Livro");
 class LivroRepository {
-    save(titulo, isbn) {
+    //Salva um Livro no banco de dados.
+    save(titulo, isbn, categoria, anoPublicacao) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield index_1.prisma.livro.create({
                     data: {
                         titulo: titulo,
                         isbn: isbn,
+                        categoria: categoria,
+                        anoPublicacao: anoPublicacao,
                     },
                 });
             }
             catch (error) {
-                console.log(error.message);
+                console.log("Livro não inserido: " + error.message);
             }
         });
     }
@@ -41,12 +43,45 @@ class LivroRepository {
         return __awaiter(this, void 0, void 0, function* () {
             //Busca no banco de dados por um livro que contenha o ISBN passado via parâmetro.
             const livro = yield index_1.prisma.livro.findUnique({ where: { isbn: isbn } });
-            console.log("Possível mensagem de log. Repository.");
-            if (livro) { //Se livro tiver um valor
-                return new Livro_1.Livro(livro.id, livro.titulo, livro.isbn);
+            return JSON.stringify(livro);
+        });
+    }
+    findFirstTitulo(titulo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const livro = yield index_1.prisma.livro.findFirst({ where: { titulo: titulo } });
+            return JSON.stringify(livro);
+        });
+    }
+    //Método simples que permite modificar o título do Livro.
+    update(isbn, titulo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield index_1.prisma.livro.update({
+                    where: {
+                        isbn: `${isbn}`
+                    },
+                    data: {
+                        titulo: `${titulo}`,
+                    },
+                });
             }
-            else {
-                return null;
+            catch (error) {
+                console.log("Título não atualizado: " + error.message);
+            }
+        });
+    }
+    //Método que permite deletar algum Livro via ISBN.
+    deleteByISBN(isbn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield index_1.prisma.livro.delete({
+                    where: {
+                        isbn: `${isbn}`
+                    },
+                });
+            }
+            catch (error) {
+                console.log("Usuário não deletado: " + error.message);
             }
         });
     }

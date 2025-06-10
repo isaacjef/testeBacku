@@ -1,8 +1,12 @@
 import * as readlineSync from 'readline-sync';
 import { prisma } from '../index';
-import { ConsultaService } from '../service/ConsultaService'
 import { Livro } from '../modelos/Livro';
-//const r1 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE isbn LIKE '%${resp}%'`)
+import { LivroService } from '../service/LivroService'
+import { ConsultaService } from '../service/ConsultaService'
+//import { limparConsole } from '../console/InterfaceConfig'
+
+//Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
+const livS = new LivroService();
 
 export class InterfaceConsulta {
 	categorias: string[] = ['titulo', 'isbn'];
@@ -38,9 +42,10 @@ export class InterfaceConsulta {
 		} catch (error: any) {
 			console.log("Erro: ", error.message)
 		}
+		
 	}
 	
-	consultaUnica(email: string): void {
+	async consultaUnica(email: string): Promise<void> {
 		console.log(`|-------------- Consulta Única ---------------|`)
 		console.log(`|                                             |`)
 		console.log(`|   Selecione uma das opções para consulta:   |`)
@@ -48,6 +53,12 @@ export class InterfaceConsulta {
 		const num = readlineSync.questionInt(`|Digite uma opção: `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
 		if (num == 0) {
 			const titulo = readlineSync.question(`| Digite o título do Livro: `);
+			const livro = await livS.getLivroByTitulo(titulo);
+			if (livro) {
+				console.log(livro)
+			} else {
+				console.log("Não há nenhum livro com o  título informado.")
+			}
 		} else {
 			const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
 		}

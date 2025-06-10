@@ -2252,18 +2252,24 @@ export namespace Prisma {
     id: number | null
     titulo: string | null
     isbn: string | null
+    categoria: string | null
+    anoPublicacao: string | null
   }
 
   export type LivroMaxAggregateOutputType = {
     id: number | null
     titulo: string | null
     isbn: string | null
+    categoria: string | null
+    anoPublicacao: string | null
   }
 
   export type LivroCountAggregateOutputType = {
     id: number
     titulo: number
     isbn: number
+    categoria: number
+    anoPublicacao: number
     _all: number
   }
 
@@ -2280,18 +2286,24 @@ export namespace Prisma {
     id?: true
     titulo?: true
     isbn?: true
+    categoria?: true
+    anoPublicacao?: true
   }
 
   export type LivroMaxAggregateInputType = {
     id?: true
     titulo?: true
     isbn?: true
+    categoria?: true
+    anoPublicacao?: true
   }
 
   export type LivroCountAggregateInputType = {
     id?: true
     titulo?: true
     isbn?: true
+    categoria?: true
+    anoPublicacao?: true
     _all?: true
   }
 
@@ -2385,6 +2397,8 @@ export namespace Prisma {
     id: number
     titulo: string
     isbn: string
+    categoria: string
+    anoPublicacao: string
     _count: LivroCountAggregateOutputType | null
     _avg: LivroAvgAggregateOutputType | null
     _sum: LivroSumAggregateOutputType | null
@@ -2410,6 +2424,8 @@ export namespace Prisma {
     id?: boolean
     titulo?: boolean
     isbn?: boolean
+    categoria?: boolean
+    anoPublicacao?: boolean
     Emprestimo?: boolean | Livro$EmprestimoArgs<ExtArgs>
     _count?: boolean | LivroCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["livro"]>
@@ -2418,21 +2434,27 @@ export namespace Prisma {
     id?: boolean
     titulo?: boolean
     isbn?: boolean
+    categoria?: boolean
+    anoPublicacao?: boolean
   }, ExtArgs["result"]["livro"]>
 
   export type LivroSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     titulo?: boolean
     isbn?: boolean
+    categoria?: boolean
+    anoPublicacao?: boolean
   }, ExtArgs["result"]["livro"]>
 
   export type LivroSelectScalar = {
     id?: boolean
     titulo?: boolean
     isbn?: boolean
+    categoria?: boolean
+    anoPublicacao?: boolean
   }
 
-  export type LivroOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "isbn", ExtArgs["result"]["livro"]>
+  export type LivroOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "isbn" | "categoria" | "anoPublicacao", ExtArgs["result"]["livro"]>
   export type LivroInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Emprestimo?: boolean | Livro$EmprestimoArgs<ExtArgs>
     _count?: boolean | LivroCountOutputTypeDefaultArgs<ExtArgs>
@@ -2449,6 +2471,8 @@ export namespace Prisma {
       id: number
       titulo: string
       isbn: string
+      categoria: string
+      anoPublicacao: string
     }, ExtArgs["result"]["livro"]>
     composites: {}
   }
@@ -2876,6 +2900,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Livro", 'Int'>
     readonly titulo: FieldRef<"Livro", 'String'>
     readonly isbn: FieldRef<"Livro", 'String'>
+    readonly categoria: FieldRef<"Livro", 'String'>
+    readonly anoPublicacao: FieldRef<"Livro", 'String'>
   }
     
 
@@ -4392,7 +4418,9 @@ export namespace Prisma {
   export const LivroScalarFieldEnum: {
     id: 'id',
     titulo: 'titulo',
-    isbn: 'isbn'
+    isbn: 'isbn',
+    categoria: 'categoria',
+    anoPublicacao: 'anoPublicacao'
   };
 
   export type LivroScalarFieldEnum = (typeof LivroScalarFieldEnum)[keyof typeof LivroScalarFieldEnum]
@@ -4507,6 +4535,8 @@ export namespace Prisma {
     id?: IntFilter<"Livro"> | number
     titulo?: StringFilter<"Livro"> | string
     isbn?: StringFilter<"Livro"> | string
+    categoria?: StringFilter<"Livro"> | string
+    anoPublicacao?: StringFilter<"Livro"> | string
     Emprestimo?: EmprestimoListRelationFilter
   }
 
@@ -4514,6 +4544,8 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     isbn?: SortOrder
+    categoria?: SortOrder
+    anoPublicacao?: SortOrder
     Emprestimo?: EmprestimoOrderByRelationAggregateInput
   }
 
@@ -4524,6 +4556,8 @@ export namespace Prisma {
     OR?: LivroWhereInput[]
     NOT?: LivroWhereInput | LivroWhereInput[]
     titulo?: StringFilter<"Livro"> | string
+    categoria?: StringFilter<"Livro"> | string
+    anoPublicacao?: StringFilter<"Livro"> | string
     Emprestimo?: EmprestimoListRelationFilter
   }, "id" | "isbn">
 
@@ -4531,6 +4565,8 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     isbn?: SortOrder
+    categoria?: SortOrder
+    anoPublicacao?: SortOrder
     _count?: LivroCountOrderByAggregateInput
     _avg?: LivroAvgOrderByAggregateInput
     _max?: LivroMaxOrderByAggregateInput
@@ -4545,6 +4581,8 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"Livro"> | number
     titulo?: StringWithAggregatesFilter<"Livro"> | string
     isbn?: StringWithAggregatesFilter<"Livro"> | string
+    categoria?: StringWithAggregatesFilter<"Livro"> | string
+    anoPublicacao?: StringWithAggregatesFilter<"Livro"> | string
   }
 
   export type EmprestimoWhereInput = {
@@ -4653,6 +4691,8 @@ export namespace Prisma {
   export type LivroCreateInput = {
     titulo: string
     isbn: string
+    categoria: string
+    anoPublicacao: string
     Emprestimo?: EmprestimoCreateNestedManyWithoutLivroInput
   }
 
@@ -4660,12 +4700,16 @@ export namespace Prisma {
     id?: number
     titulo: string
     isbn: string
+    categoria: string
+    anoPublicacao: string
     Emprestimo?: EmprestimoUncheckedCreateNestedManyWithoutLivroInput
   }
 
   export type LivroUpdateInput = {
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    anoPublicacao?: StringFieldUpdateOperationsInput | string
     Emprestimo?: EmprestimoUpdateManyWithoutLivroNestedInput
   }
 
@@ -4673,6 +4717,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    anoPublicacao?: StringFieldUpdateOperationsInput | string
     Emprestimo?: EmprestimoUncheckedUpdateManyWithoutLivroNestedInput
   }
 
@@ -4680,17 +4726,23 @@ export namespace Prisma {
     id?: number
     titulo: string
     isbn: string
+    categoria: string
+    anoPublicacao: string
   }
 
   export type LivroUpdateManyMutationInput = {
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    anoPublicacao?: StringFieldUpdateOperationsInput | string
   }
 
   export type LivroUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    anoPublicacao?: StringFieldUpdateOperationsInput | string
   }
 
   export type EmprestimoCreateInput = {
@@ -4831,6 +4883,8 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     isbn?: SortOrder
+    categoria?: SortOrder
+    anoPublicacao?: SortOrder
   }
 
   export type LivroAvgOrderByAggregateInput = {
@@ -4841,12 +4895,16 @@ export namespace Prisma {
     id?: SortOrder
     titulo?: SortOrder
     isbn?: SortOrder
+    categoria?: SortOrder
+    anoPublicacao?: SortOrder
   }
 
   export type LivroMinOrderByAggregateInput = {
     id?: SortOrder
     titulo?: SortOrder
     isbn?: SortOrder
+    categoria?: SortOrder
+    anoPublicacao?: SortOrder
   }
 
   export type LivroSumOrderByAggregateInput = {
@@ -5183,12 +5241,16 @@ export namespace Prisma {
   export type LivroCreateWithoutEmprestimoInput = {
     titulo: string
     isbn: string
+    categoria: string
+    anoPublicacao: string
   }
 
   export type LivroUncheckedCreateWithoutEmprestimoInput = {
     id?: number
     titulo: string
     isbn: string
+    categoria: string
+    anoPublicacao: string
   }
 
   export type LivroCreateOrConnectWithoutEmprestimoInput = {
@@ -5236,12 +5298,16 @@ export namespace Prisma {
   export type LivroUpdateWithoutEmprestimoInput = {
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    anoPublicacao?: StringFieldUpdateOperationsInput | string
   }
 
   export type LivroUncheckedUpdateWithoutEmprestimoInput = {
     id?: IntFieldUpdateOperationsInput | number
     titulo?: StringFieldUpdateOperationsInput | string
     isbn?: StringFieldUpdateOperationsInput | string
+    categoria?: StringFieldUpdateOperationsInput | string
+    anoPublicacao?: StringFieldUpdateOperationsInput | string
   }
 
   export type EmprestimoCreateManyUsuarioInput = {

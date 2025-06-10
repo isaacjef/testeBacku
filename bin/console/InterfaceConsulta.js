@@ -44,8 +44,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceConsulta = void 0;
 const readlineSync = __importStar(require("readline-sync"));
+const LivroService_1 = require("../service/LivroService");
 const ConsultaService_1 = require("../service/ConsultaService");
-//const r1 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE isbn LIKE '%${resp}%'`)
+//import { limparConsole } from '../console/InterfaceConfig'
+//Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
+const livS = new LivroService_1.LivroService();
 class InterfaceConsulta {
     constructor() {
         this.categorias = ['titulo', 'isbn'];
@@ -103,17 +106,26 @@ class InterfaceConsulta {
         });
     }
     consultaUnica(email) {
-        console.log(`|-------------- Consulta Única ---------------|`);
-        console.log(`|                                             |`);
-        console.log(`|   Selecione uma das opções para consulta:   |`);
-        console.log(`|            [0] Título | [1] ISBN            |`);
-        const num = readlineSync.questionInt(`|Digite uma opção: `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
-        if (num == 0) {
-            const titulo = readlineSync.question(`| Digite o título do Livro: `);
-        }
-        else {
-            const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
-        }
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(`|-------------- Consulta Única ---------------|`);
+            console.log(`|                                             |`);
+            console.log(`|   Selecione uma das opções para consulta:   |`);
+            console.log(`|            [0] Título | [1] ISBN            |`);
+            const num = readlineSync.questionInt(`|Digite uma opção: `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
+            if (num == 0) {
+                const titulo = readlineSync.question(`| Digite o título do Livro: `);
+                const livro = yield livS.getLivroByTitulo(titulo);
+                if (livro) {
+                    console.log(livro);
+                }
+                else {
+                    console.log("Não há nenhum livro com o  título informado.");
+                }
+            }
+            else {
+                const isbn = readlineSync.question(`| Digite o ISBN do Livro: `);
+            }
+        });
     }
 }
 exports.InterfaceConsulta = InterfaceConsulta;

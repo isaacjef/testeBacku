@@ -45,6 +45,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceLivro = void 0;
 const readlineSync = __importStar(require("readline-sync"));
 const LivroService_1 = require("../service/LivroService");
+const CategoriaLivro_1 = require("../enumeracao/CategoriaLivro");
+//Instância de LivroService destinada a ser utilizada em todos os métodos da classe.
+const livro = new LivroService_1.LivroService();
 class InterfaceLivro {
     //Página destinada ao cadastro de Livros. Implementa o método adicionarLivro() de LivroService.
     cadastrarLivro() {
@@ -53,15 +56,16 @@ class InterfaceLivro {
             console.log(`|                                             |`);
             try {
                 const titulo = readlineSync.question(`| Título:`);
-                const genero = readlineSync.question(`| Gênero:`);
                 const isbn = readlineSync.question(`| ISBN:`);
-                const livro = new LivroService_1.LivroService();
-                if (yield livro.adicionarLivro(titulo, isbn)) {
-                    console.log("Livro já cadastrado! Tente novamente.");
-                    this.cadastrarLivro();
+                const categoria = [CategoriaLivro_1.CategoriaLivro.FICCAO, CategoriaLivro_1.CategoriaLivro.CIENCIA, CategoriaLivro_1.CategoriaLivro.HISTORIA, CategoriaLivro_1.CategoriaLivro.TECNOLOGIA, CategoriaLivro_1.CategoriaLivro.OUTRO];
+                const index = readlineSync.keyInSelect(categoria, "| Qual categoria?");
+                const data = readlineSync.question(`| Informe a data: `);
+                if (yield livro.adicionarLivro(titulo, isbn, categoria[index], data)) {
+                    console.log("Livro cadastrado com sucesso");
+                    //this.cadastrarLivro();
                 }
                 else {
-                    console.log("Livro cadastrado com sucesso");
+                    console.log("Livro já cadastrado! Tente novamente.");
                 }
             }
             catch (error) {

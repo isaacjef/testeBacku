@@ -8,7 +8,7 @@ import * as os from 'os';
  * Função simples para limapr console
  * OBS: não faz nenhuma verificação condicional
  */
-function limparConsole(identificadorSO: number): void {
+export function limparConsole(identificadorSO: number): void {
     let cmd: string;
 
     switch(identificadorSO){

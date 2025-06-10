@@ -20,7 +20,7 @@ exports.logAt = logAt;
 exports.simples = simples;
 require("reflect-metadata");
 const client_1 = require("../src/generated/prisma/client");
-const LivroService_1 = require("./service/LivroService");
+const LivroRepository_1 = require("./repository/LivroRepository");
 const UsuarioService_1 = require("./service/UsuarioService");
 //Aparentemente, duas classes não podem se inter-importar no typescript.
 //Exportando a conexão com o banco de dados de forma a reaproveitá-la, para que o bd não fique sobrecarregado com muitas instâncias de 'new PrismaClient(()'
@@ -43,20 +43,35 @@ function simples(C) {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        const d1 = new Date(2023, 11, 11);
-        const d2 = new Date();
-        console.log(d1 + "    |      " + d2);
+        const d1 = new Date(2023, 11, 10);
+        const d2 = new Date("2023-11-17");
+        console.log(d1);
+        console.log(d2);
+        const d3 = new Date(d1);
+        d3.setDate(d3.getDate() + 7);
+        const d4 = d1;
+        d4.setDate(d4.getTime() + (7 * 24 * 60 * 60 * 1000));
+        console.log(d3);
         //const livros = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ` + query);
         //const form = new InterfaceUsuario();
+        //const interLivro = new InterfaceLivro();
+        //const consulta = new InterfaceConsulta();
+        //interLivro.cadastrarLivro();
+        //consulta.consultaUnica("admin@admin");
         //form.iniciar();
-        //form.home("a@a");
-        const livS = new LivroService_1.LivroService();
-        livS.adicionarLivro("testebbbbb", "AAtAAbbbbbbbbbAAA");
-        //livS.buscarLivro(1);
+        //form.home();
         const userS = new UsuarioService_1.UsuarioService();
-        console.log(yield userS.getUsuario("a@a"));
-        console.log(yield userS.getUsuario(""));
-        //const livros: Array<number> = JSON.parse(await repE.findEmprestimos(3)); --> LOucura
+        yield userS.adicionarUsuario("nome", "senha", "teste@email");
+        console.log(yield userS.getUsuario("teste@email"));
+        const repL = new LivroRepository_1.LivroRepository();
+        const aaa = yield repL.findByISBN("A1");
+        console.log(aaa);
+        if (aaa !== null) {
+            console.log("verificacao é nulo");
+        }
+        else {
+            console.log("Verificacao contem");
+        }
         /*let livros: Array<number> = JSON.parse(await repE.findEmprestimos(3));
         livros.forEach(async (value: number) => {
             //const livro: Livro = await livS.buscarLivro(value);
@@ -64,9 +79,6 @@ function main() {
             let teste: number = value.livroID;
             console.log(teste);
         });*/
-        /*let a2: Array<number> = [];
-        a2 = JSON.parse(await repE.findEmprestimos(3));
-        console.log(a2)*/
         /*
         const form = new InterfaceUsuario();
         form.iniciar();
@@ -123,4 +135,14 @@ console.log(result)
 
 const column = 'isbn'
 const teste = 'a'
-const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)*/
+const result2 = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE ${column} LIKE '%${teste}%'`)
+
+//Admin primário
+await prisma.usuario.create({
+    data: {
+        nome: `Admin`,
+        senha: `12345`,
+        email: `admin`,
+        tipo: TipoUsuario.BIBLIO,
+    },
+})*/

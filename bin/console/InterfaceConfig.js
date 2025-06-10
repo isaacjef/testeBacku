@@ -33,6 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.limparConsole = limparConsole;
 exports.gerenciarInterface = gerenciarInterface;
 const child_process_1 = require("child_process");
 const fs = __importStar(require("fs"));
