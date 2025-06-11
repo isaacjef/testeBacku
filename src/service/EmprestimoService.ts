@@ -30,12 +30,13 @@ export class EmprestimoService {
 			dataVencimento.setDate(dataVencimento.getDate() + 1)
 			
 			empRep.save(livroId, usuarioId, dataEmprestimo.toJSON(), dataVencimento.toJSON());
+			console.log("Empréstimo feito!")
 			return false;
 		}
 	}
 	
-	async validarEmprestimo(livroId: number, usuarioId: number): Promise<void> {
-		const emprestimo = JSON.stringify(await empRep.findEmprestimoAtivo(livroId, usuarioId));
+	async validarEmprestimo(livroId: number, usuarioId: number): Promise<boolean> {
+		const emprestimo = JSON.parse(await empRep.findEmprestimoAtivo(livroId, usuarioId));
 		
 		if (emprestimo !== null) {
 			return true;
@@ -88,6 +89,14 @@ export class EmprestimoService {
         	}
         }
     }
+    
+    //Atualiza a coluna de status da tabela de Empréstimos.
+	async consultarLivroTitulo(paramn: string): Promise<string> {
+		//const livro: Livro = JSON.parse(await empRep.consultarLivroParamn(paramn));
+		const livro = await empRep.consultarLivroParamn(paramn);
+		
+		return livro;
+	}
     
     //Método responsável por listar todos os empréstimos do usuário.
     async getDevolucoes(email: string): Promise<void> {

@@ -89,23 +89,23 @@ class InterfaceConsulta {
         }*/
     }
     homeConsulta() {
+        console.clear();
         console.log(`|------------------ Consulta -----------------|`);
         console.log(`|                                             |`);
         console.log(`|              [0] Retornar                   |`);
         console.log(`|              [1] Consulta Variada           |`);
-        console.log(`|              [2] Consulta Única             |`);
+        //console.log(`|              [2] Consulta Única             |`)
         console.log(`|---------------------------------------------|`);
-        const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2], limitMessage: 'Opção incorreta! Digite novamente: ' });
+        const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1], limitMessage: 'Opção incorreta! Digite novamente: ' });
         if (resp == 0) {
             //Retorna o usuário ao método home() de InterfaceUsuario
             index_1.form.home();
         }
-        else if (resp == 1) {
-            this.consultaVariada();
-        }
         else {
+            this.consultaVariada();
+        } /*else {
             //this.consultaUnica();
-        }
+        }*/
     }
     consultaVariada() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -134,12 +134,12 @@ class InterfaceConsulta {
                         i = 0;
                         break;
                     }
-                    //console.log(await result);
                     i--;
                 } while (i > 0);
             }
             catch (error) {
                 console.log("Erro: ", error.message);
+                this.homeConsulta();
             }
         });
     }

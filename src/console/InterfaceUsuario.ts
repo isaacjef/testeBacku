@@ -5,11 +5,13 @@ import { EmprestimoService } from '../service/EmprestimoService'
 import { UsuarioService } from '../service/UsuarioService'
 import { InterfaceBiblio } from '../console/InterfaceBiblio'
 import { InterfaceConsulta } from '../console/InterfaceConsulta'
+import { InterfaceDevolucao } from '../console/InterfaceDevolucao'
 import { InterfaceEmprestimo } from '../console/InterfaceEmprestimo'
 
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService();
 const interfaceEmp = new InterfaceEmprestimo();
+const interfaceDev = new InterfaceDevolucao();
 const interfaceBiblio = new InterfaceBiblio();
 const empS = new EmprestimoService();
 
@@ -112,7 +114,7 @@ export class InterfaceUsuario {
 				if (resp == 1) {
 					interfaceEmp.emprestimo();
 				} else if (resp == 2) {
-					//this.logarUsuario();
+					interfaceDev.devolucao();
 				} else if (resp == 3){
 					const consulta = new InterfaceConsulta();
 					consulta.homeConsulta();

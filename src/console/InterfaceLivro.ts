@@ -1,4 +1,5 @@
 import { form } from '../index';
+import { interfaceBiblio } from '../index';
 import * as readlineSync from 'readline-sync';
 import { LivroService } from '../service/LivroService'
 import { CategoriaLivro } from "../enumeracao/CategoriaLivro"
@@ -17,20 +18,23 @@ export class InterfaceLivro {
 		console.log(`| . . . . . . [2] Listar Livros   . . . . . . . |`)
 		console.log(`| . . . . . . [3] Alterar Titulo  . . . . . . . |`)
 		console.log(`| . . . . . . [4] Excluir Livro   . . . . . . . |`)
+		console.log(`| . . . . . . [5] Retornar        . . . . . . . |`)
 		try {
-			const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2, 3, 4], limitMessage:  'Opção incorreta! Digite novamente: '});
-				switch(resp) {
-					case 0:
-						return form.desconectar();
-					case 1:
-						return this.cadastrarLivro();
-					case 2:
-						return this.listarLivros();
-					case 3:
-						return this.alterarTitulo();
-					case 4:
-						return this.deletarLivro();
-				}
+			const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2, 3, 4, 5], limitMessage:  'Opção incorreta! Digite novamente: '});
+			switch(resp) {
+				case 0:
+					return form.desconectar();
+				case 1:
+					return this.cadastrarLivro();
+				case 2:
+					return this.listarLivros();
+				case 3:
+					return this.alterarTitulo();
+				case 4:
+					return this.deletarLivro();
+				case 5:
+					return interfaceBiblio.homeAdmin();
+			}
 		} catch (error: any) {
            	console.error("Erro: ", error.message);
         }
@@ -43,11 +47,23 @@ export class InterfaceLivro {
 		try {
 			const titulo = readlineSync.question(`| Título: `)
 			const isbn = readlineSync.question(`| ISBN: `)
-			const categoria = [CategoriaLivro.FICCAO, CategoriaLivro.CIENCIA, CategoriaLivro.HISTORIA, CategoriaLivro.TECNOLOGIA, CategoriaLivro.OUTRO]
-			const index = readlineSync.keyInSelect(categoria, "| Selecione a categoria: ");
+			console.log(`| Categorias: 1- ${CategoriaLivro.FICCAO}; 2- ${CategoriaLivro.CIENCIA}; 3- ${CategoriaLivro.HISTORIA}; 4- ${CategoriaLivro.TECNOLOGIA}; 5- ${CategoriaLivro.OUTRO}`)
+			const num = readlineSync.questionInt(`| Selecione a categoria: `)
+			let categoria;
+			if (num == 1) {
+				categoria = CategoriaLivro.FICCAO;
+			} else if (num == 2) {
+				categoria = CategoriaLivro.CIENCIA;
+			} else if (num == 3) {
+				categoria = CategoriaLivro.HISTORIA;
+			} else if (num == 4) {
+				categoria = CategoriaLivro.TECNOLOGIA;
+			} else {
+				categoria = CategoriaLivro.OUTRO;
+			}
 			const anoPublicacao = readlineSync.question("Ano de publicação: ")
 			
-        	if (await livS.adicionarLivro(titulo, isbn, categoria[index], anoPublicacao)) {
+        	if (await livS.adicionarLivro(titulo, isbn, categoria, anoPublicacao)) {
         		console.log("Livro cadastrado com sucesso")
         		this.gerenciarLivro();
         	} else {
@@ -92,13 +108,13 @@ export class InterfaceLivro {
 				console.log("Título não foi alterado.");
 			}
 			
-			console.log("Título alterado com sucesso.")
 			this.gerenciarLivro();
 		} catch (error: any) {
             console.error("Erro: ", error.message);
         }
 	}
 	
+	//Página para deletar livros
 	async deletarLivro(): Promise<void> {
 		console.clear();
 		console.log(`| . . . . . . .  Deletar Livro  . . . . . . . . |`)
@@ -111,7 +127,6 @@ export class InterfaceLivro {
 				console.log("Livro deletado com sucesso.")
 			}
 			
-			console.log("Livro deletado com sucesso.")
 			this.gerenciarLivro();
 		} catch (error: any) {
             console.error("Erro: ", error.message);

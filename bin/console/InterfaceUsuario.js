@@ -49,10 +49,12 @@ const EmprestimoService_1 = require("../service/EmprestimoService");
 const UsuarioService_1 = require("../service/UsuarioService");
 const InterfaceBiblio_1 = require("../console/InterfaceBiblio");
 const InterfaceConsulta_1 = require("../console/InterfaceConsulta");
+const InterfaceDevolucao_1 = require("../console/InterfaceDevolucao");
 const InterfaceEmprestimo_1 = require("../console/InterfaceEmprestimo");
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const usuarioS = new UsuarioService_1.UsuarioService();
 const interfaceEmp = new InterfaceEmprestimo_1.InterfaceEmprestimo();
+const interfaceDev = new InterfaceDevolucao_1.InterfaceDevolucao();
 const interfaceBiblio = new InterfaceBiblio_1.InterfaceBiblio();
 const empS = new EmprestimoService_1.EmprestimoService();
 class InterfaceUsuario {
@@ -157,7 +159,7 @@ class InterfaceUsuario {
                         interfaceEmp.emprestimo();
                     }
                     else if (resp == 2) {
-                        //this.logarUsuario();
+                        interfaceDev.devolucao();
                     }
                     else if (resp == 3) {
                         const consulta = new InterfaceConsulta_1.InterfaceConsulta();

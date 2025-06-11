@@ -8,4 +8,5 @@ export interface IEmprestimoRepository {
     findEmprestimos(usuarioId: number): Promise<string> 
     findDevolucoes(usuarioId: number): Promise<string>
     updateStatus(livroId: number, usuarioId: number): Promise<void>
+    consultarLivroParamn(paramn: string): Promise<string>
 }

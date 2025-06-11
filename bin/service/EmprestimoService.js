@@ -35,6 +35,18 @@ class EmprestimoService {
                 //Configura a data de vencimento do empréstimo para 1 dia depois, apenas para exemplificar
                 dataVencimento.setDate(dataVencimento.getDate() + 1);
                 empRep.save(livroId, usuarioId, dataEmprestimo.toJSON(), dataVencimento.toJSON());
+                console.log("Empréstimo feito!");
+                return false;
+            }
+        });
+    }
+    validarEmprestimo(livroId, usuarioId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const emprestimo = JSON.parse(yield empRep.findEmprestimoAtivo(livroId, usuarioId));
+            if (emprestimo !== null) {
+                return true;
+            }
+            else {
                 return false;
             }
         });
@@ -80,6 +92,14 @@ class EmprestimoService {
                     }));
                 }
             }
+        });
+    }
+    //Atualiza a coluna de status da tabela de Empréstimos.
+    consultarLivroTitulo(paramn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            //const livro: Livro = JSON.parse(await empRep.consultarLivroParamn(paramn));
+            const livro = yield empRep.consultarLivroParamn(paramn);
+            return livro;
         });
     }
     //Método responsável por listar todos os empréstimos do usuário.

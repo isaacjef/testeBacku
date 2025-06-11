@@ -32,6 +32,24 @@ class UsuarioRepository {
             }
         });
     }
+    //Salvar bibliotecário no banco de dados.
+    saveBiblio(nome, senha, email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield index_1.prisma.usuario.create({
+                    data: {
+                        nome: `${nome}`,
+                        senha: `${senha}`,
+                        email: `${email}`,
+                        tipo: TipoUsuario_1.TipoUsuario.BIBLIO,
+                    },
+                });
+            }
+            catch (error) {
+                console.log("Usuário não inserido: " + error.message);
+            }
+        });
+    }
     //Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
     //Encontra usuário no banco de dados via e-mail. Retorna uma string JSON com os dados obtidos.
     findByEmail(email) {
@@ -48,8 +66,15 @@ class UsuarioRepository {
             return JSON.stringify(userR);
         });
     }
-    //Método simples que permite modificar o nome
-    update(email, nome) {
+    //Consulta todos os usuarios do banco de dados. Utilizado em getUsuarios() de UsuarioService
+    consultarUsuarios() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const usuarios = JSON.stringify(yield index_1.prisma.$queryRawUnsafe(`SELECT * FROM Usuario`));
+            return usuarios;
+        });
+    }
+    //Método simples que permite modificar o nome do Usuário
+    updateByEmail(email, nome) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield index_1.prisma.usuario.update({
@@ -66,7 +91,8 @@ class UsuarioRepository {
             }
         });
     }
-    delete(email) {
+    //Método que permite deletar algum usuario via email.
+    deleteByEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield index_1.prisma.usuario.delete({

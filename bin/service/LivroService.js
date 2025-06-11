@@ -43,9 +43,10 @@ class LivroService {
     }
     //Busca um Livro no banco de dados, a partir do ID.
     //Necessário tratar retorno nulo nos métodos que o implementarem.
+    //Utilizado em InterfaceEmprestimo //Livro
     getLivroByISBN(isbn) {
         return __awaiter(this, void 0, void 0, function* () {
-            const livro = JSON.parse(yield livRep.findByISBN(isbn));
+            const livro = yield livRep.findByISBN(isbn);
             return livro;
         });
     }

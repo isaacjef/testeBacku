@@ -50,16 +50,6 @@ class LivroRepository {
             return JSON.stringify(livro);
         });
     }
-    //Utilizado em consulta
-    /*async findFirstTitulo(titulo: string): Promise<string> {
-        const livro = await prisma.livro.findFirst({
-            where: {
-                titulo: titulo,
-            },
-        });
-
-        return JSON.stringify(livro);
-    }*/
     //Consulta todos os livros do banco de dados. Utilizado em getLivros() de LivroService
     consultarLivros() {
         return __awaiter(this, void 0, void 0, function* () {

@@ -1,14 +1,20 @@
 import { TipoUsuario } from "../enumeracao/TipoUsuario"
 import { ModeloBase } from "./ModeloBase"
-import { simples } from '../index';
+import { name, logAt } from '../log';
 
-@simples
+@name('Usuario')
 export class Usuario {
+	@logAt
     private _id: number;
+    @logAt
     private _nome: string;
+    @logAt
     private _senha: string;
+    @logAt
     private _email: string;
+    @logAt
     private _tipo: TipoUsuario;
+    @logAt
     livrosEmprestados?: string[];
 	
     constructor(id: number, nome: string, senha: string, email: string, tipo: TipoUsuario) {

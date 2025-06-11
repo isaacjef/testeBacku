@@ -22,6 +22,22 @@ export class UsuarioRepository implements IUsuarioRepository {
 		}
 	}
 	
+	//Salvar bibliotecário no banco de dados.
+	async saveBiblio(nome: string, senha: string, email: string): Promise<void> {
+		try {
+			await prisma.usuario.create({
+            	data: {
+                	nome: `${nome}`,
+                	senha: `${senha}`,
+                	email: `${email}`,
+                	tipo: TipoUsuario.BIBLIO,
+            	},
+        	})
+        } catch (error: any) {
+			console.log("Usuário não inserido: " + error.message);
+		}
+	}
+	
 	//Tratar possível retorno nulo em UsuarioService, ou em InterfaceUsuario
 	//Encontra usuário no banco de dados via e-mail. Retorna uma string JSON com os dados obtidos.
 	async findByEmail(email: string): Promise<string> {
@@ -38,8 +54,14 @@ export class UsuarioRepository implements IUsuarioRepository {
 		return JSON.stringify(userR);
     }
     
-    //Método simples que permite modificar o nome
-	async update(email: string, nome: string): Promise<void> {
+    //Consulta todos os usuarios do banco de dados. Utilizado em getUsuarios() de UsuarioService
+    async consultarUsuarios(): Promise<string> {
+		const usuarios = JSON.stringify(await prisma.$queryRawUnsafe(`SELECT * FROM Usuario`));
+		return usuarios;
+	}
+    
+    //Método simples que permite modificar o nome do Usuário
+	async updateByEmail(email: string, nome: string): Promise<void> {
 		try {
 			await prisma.usuario.update({
 				where: {
@@ -54,7 +76,8 @@ export class UsuarioRepository implements IUsuarioRepository {
 		}
 	}
 	
-	async delete(email: string): Promise<void> {
+	//Método que permite deletar algum usuario via email.
+	async deleteByEmail(email: string): Promise<void> {
 		try {
 			await prisma.usuario.delete({
 				where: {

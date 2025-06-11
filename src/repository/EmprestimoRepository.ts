@@ -102,4 +102,10 @@ export class EmprestimoRepository implements IEmprestimoRepository {
 			},
 		})
 	}
+	
+	//Não recomendado, por causa de Injection SQL
+	async consultarLivroParamn(paramn: string): Promise<string> {
+		const livro = await prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%${paramn}%' LIMIT 1`);
+		return JSON.stringify(livro);
+	}
 }

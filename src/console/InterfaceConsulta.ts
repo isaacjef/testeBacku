@@ -13,21 +13,22 @@ export class InterfaceConsulta {
 	livros: Livro[] = [];
 	
 	homeConsulta(): void {
+		console.clear();
 		console.log(`|------------------ Consulta -----------------|`)
 		console.log(`|                                             |`)
 		console.log(`|              [0] Retornar                   |`)		
 		console.log(`|              [1] Consulta Variada           |`)
-		console.log(`|              [2] Consulta Única             |`)
+		//console.log(`|              [2] Consulta Única             |`)
 		console.log(`|---------------------------------------------|`)
-		const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 2], limitMessage:  'Opção incorreta! Digite novamente: '});
+		const resp = readlineSync.questionInt(`|~~> `, {limit: [0, 1], limitMessage:  'Opção incorreta! Digite novamente: '});
 		if (resp == 0) {
 			//Retorna o usuário ao método home() de InterfaceUsuario
 			form.home();
-		} else if (resp == 1) {
-			this.consultaVariada();
 		} else {
+			this.consultaVariada();
+		} /*else {
 			//this.consultaUnica();
-		}
+		}*/
 	}
 	
     async consultaVariada(): Promise<void> {
@@ -44,7 +45,7 @@ export class InterfaceConsulta {
 		
 		try {
 			do {
-				const num = readlineSync.questionInt(`|~~> `, {limit: [0, 1, 9], limitMessage:  'Opção incorreta! Digite novamente: '});
+				const num = readlineSync.questionInt(`|~~> [0 | 1 | 9 ]`, {limit: [0, 1, 9], limitMessage:  'Opção incorreta! Digite novamente: '});
 				if (i == 2 && num == 0 || num == 1) {
 					const q1 = readlineSync.question(`| Digite sua consulta: `);
 					result = con.consultaInicial(this.categorias[num], q1);
@@ -55,13 +56,12 @@ export class InterfaceConsulta {
 					i = 0;
 					break;
 				}
-				//console.log(await result);
 				i--;
 			} while (i > 0);
 		} catch (error: any) {
 			console.log("Erro: ", error.message)
+			this.homeConsulta();
 		}
-		
 	}
 	
 	/*async consultaUnica(email: string): Promise<void> {

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 const TipoUsuario_1 = require("../enumeracao/TipoUsuario");
-const index_1 = require("../index");
+const log_1 = require("../log");
 let Usuario = class Usuario {
     constructor(id, nome, senha, email, tipo) {
         this._id = id;
@@ -38,8 +38,32 @@ let Usuario = class Usuario {
     }
 };
 exports.Usuario = Usuario;
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", Number)
+], Usuario.prototype, "_id", void 0);
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", String)
+], Usuario.prototype, "_nome", void 0);
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", String)
+], Usuario.prototype, "_senha", void 0);
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", String)
+], Usuario.prototype, "_email", void 0);
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", String)
+], Usuario.prototype, "_tipo", void 0);
+__decorate([
+    log_1.logAt,
+    __metadata("design:type", Array)
+], Usuario.prototype, "livrosEmprestados", void 0);
 exports.Usuario = Usuario = __decorate([
-    index_1.simples,
+    (0, log_1.name)('Usuario'),
     __metadata("design:paramtypes", [Number, String, String, String, String])
 ], Usuario);
 /* Exemplo de setter;

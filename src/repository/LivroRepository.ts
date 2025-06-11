@@ -41,17 +41,6 @@ export class LivroRepository implements ILivroRepository {
         return JSON.stringify(livro);
     }
     
-    //Utilizado em consulta
-    /*async findFirstTitulo(titulo: string): Promise<string> {
-    	const livro = await prisma.livro.findFirst({ 
-    		where: { 
-    			titulo: titulo,
-    		},
-    	});
-
-        return JSON.stringify(livro);
-    }*/
-    
     //Consulta todos os livros do banco de dados. Utilizado em getLivros() de LivroService
     async consultarLivros(): Promise<string> {
 		const livros = JSON.stringify(await prisma.$queryRawUnsafe(`SELECT * FROM Livro`));

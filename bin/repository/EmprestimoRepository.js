@@ -37,7 +37,7 @@ class EmprestimoRepository {
     }
     //Busca no BD por um empréstimo que contenha o ID de Livro e Usuario passados via parâmetro.
     //Converte o retorno do BD em uma string JSON.
-    //Método utilizado em adicionarEmprestimo da classe EmprestimoService.
+    //Método utilizado em adicionarEmprestimo da classe EmprestimoService. Utilizado em validarEmprestimo.
     //Diminuímos a chance de ocorrer erro de ID, ao verificarmos se existe Usuario e Livro antes de o utilizarmos.
     findEmprestimo(livroId, usuarioId) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -47,6 +47,23 @@ class EmprestimoRepository {
                         livroID: livroId,
                         usuarioID: usuarioId,
                     },
+                },
+            });
+            return JSON.stringify(emprestimo);
+        });
+    }
+    //Busca no BD por um empréstimo que contenha o ID de Livro e Usuario passados via parâmetro. E esteja Ativo.
+    //Converte o retorno do BD em uma string JSON.
+    //Utilizado em validarEmprestimo da classe EmprestimoService.
+    findEmprestimoAtivo(livroId, usuarioId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const emprestimo = yield index_1.prisma.emprestimo.findUnique({
+                where: {
+                    livroID_usuarioID: {
+                        livroID: livroId,
+                        usuarioID: usuarioId,
+                    },
+                    status: 'Ativo',
                 },
             });
             return JSON.stringify(emprestimo);
@@ -94,6 +111,13 @@ class EmprestimoRepository {
                     status: 'Devolvido',
                 },
             });
+        });
+    }
+    //Não recomendado, por causa de Injection SQL
+    consultarLivroParamn(paramn) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const livro = yield index_1.prisma.$queryRawUnsafe(`SELECT * FROM Livro WHERE titulo LIKE '%${paramn}%' LIMIT 1`);
+            return JSON.stringify(livro);
         });
     }
 }

@@ -44,6 +44,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InterfaceLivro = void 0;
 const index_1 = require("../index");
+const index_2 = require("../index");
 const readlineSync = __importStar(require("readline-sync"));
 const LivroService_1 = require("../service/LivroService");
 const CategoriaLivro_1 = require("../enumeracao/CategoriaLivro");
@@ -60,8 +61,9 @@ class InterfaceLivro {
             console.log(`| . . . . . . [2] Listar Livros   . . . . . . . |`);
             console.log(`| . . . . . . [3] Alterar Titulo  . . . . . . . |`);
             console.log(`| . . . . . . [4] Excluir Livro   . . . . . . . |`);
+            console.log(`| . . . . . . [5] Retornar        . . . . . . . |`);
             try {
-                const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2, 3, 4], limitMessage: 'Opção incorreta! Digite novamente: ' });
+                const resp = readlineSync.questionInt(`|~~> `, { limit: [0, 1, 2, 3, 4, 5], limitMessage: 'Opção incorreta! Digite novamente: ' });
                 switch (resp) {
                     case 0:
                         return index_1.form.desconectar();
@@ -73,6 +75,8 @@ class InterfaceLivro {
                         return this.alterarTitulo();
                     case 4:
                         return this.deletarLivro();
+                    case 5:
+                        return index_2.interfaceBiblio.homeAdmin();
                 }
             }
             catch (error) {
@@ -88,10 +92,26 @@ class InterfaceLivro {
             try {
                 const titulo = readlineSync.question(`| Título: `);
                 const isbn = readlineSync.question(`| ISBN: `);
-                const categoria = [CategoriaLivro_1.CategoriaLivro.FICCAO, CategoriaLivro_1.CategoriaLivro.CIENCIA, CategoriaLivro_1.CategoriaLivro.HISTORIA, CategoriaLivro_1.CategoriaLivro.TECNOLOGIA, CategoriaLivro_1.CategoriaLivro.OUTRO];
-                const index = readlineSync.keyInSelect(categoria, "| Selecione a categoria: ");
+                console.log(`| Categorias: 1- ${CategoriaLivro_1.CategoriaLivro.FICCAO}; 2- ${CategoriaLivro_1.CategoriaLivro.CIENCIA}; 3- ${CategoriaLivro_1.CategoriaLivro.HISTORIA}; 4- ${CategoriaLivro_1.CategoriaLivro.TECNOLOGIA}; 5- ${CategoriaLivro_1.CategoriaLivro.OUTRO}`);
+                const num = readlineSync.questionInt(`| Selecione a categoria: `);
+                let categoria;
+                if (num == 1) {
+                    categoria = CategoriaLivro_1.CategoriaLivro.FICCAO;
+                }
+                else if (num == 2) {
+                    categoria = CategoriaLivro_1.CategoriaLivro.CIENCIA;
+                }
+                else if (num == 3) {
+                    categoria = CategoriaLivro_1.CategoriaLivro.HISTORIA;
+                }
+                else if (num == 4) {
+                    categoria = CategoriaLivro_1.CategoriaLivro.TECNOLOGIA;
+                }
+                else {
+                    categoria = CategoriaLivro_1.CategoriaLivro.OUTRO;
+                }
                 const anoPublicacao = readlineSync.question("Ano de publicação: ");
-                if (yield livS.adicionarLivro(titulo, isbn, categoria[index], anoPublicacao)) {
+                if (yield livS.adicionarLivro(titulo, isbn, categoria, anoPublicacao)) {
                     console.log("Livro cadastrado com sucesso");
                     this.gerenciarLivro();
                 }
@@ -140,7 +160,6 @@ class InterfaceLivro {
                 else {
                     console.log("Título não foi alterado.");
                 }
-                console.log("Título alterado com sucesso.");
                 this.gerenciarLivro();
             }
             catch (error) {
@@ -148,6 +167,7 @@ class InterfaceLivro {
             }
         });
     }
+    //Página para deletar livros
     deletarLivro() {
         return __awaiter(this, void 0, void 0, function* () {
             console.clear();
@@ -160,7 +180,6 @@ class InterfaceLivro {
                 else {
                     console.log("Livro deletado com sucesso.");
                 }
-                console.log("Livro deletado com sucesso.");
                 this.gerenciarLivro();
             }
             catch (error) {

@@ -32,7 +32,7 @@ export class InterfaceDevolucao {
 			} else if (resp == 1) {
 				this.listarDevolucoes();
 			} else if (resp == 2) {
-				//this.realizarEmprestimo();
+				this.realizarDevolucao();
 			} else {
 				form.desconectar();
 			}
@@ -70,37 +70,31 @@ export class InterfaceDevolucao {
 		console.clear()
         console.log(`|-------------- Realizar Devolucao -------------|`)
 		console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`)
-		console.log(`| . . . . . . . . [0] Retornar  . . . . . . . . |`)
-		const resp = readlineSync.questionInt(`|~~> `, {limit: [0], limitMessage:  'Opção incorreta! Digite novamente: '});
 		
 		//Busca dados de usuário no banco.
 		const usuario = await userS.getUsuario(Sessao.email);
 		try {
-			if (resp == 0) {
-				this.devolucao();
-				const isbn = readlineSync.question(`| Digite o ISBN: `);
-				
-				//Busca livro via ISBN no banco.
-    			const livro = await livS.getLivroByISBN(isbn);
-    			
-    			if (livro !== null) {
-    				//Verifica se há algum empréstimo do livro pelo usuário.
-    				if (await empS.validarEmprestimo(livro.id, usuario.id)) {
-    					console.log("Devolvendo livro...")
-    					
-    					empRep.updateStatus(livro.id, usuario.id);
-    					this.devolucao()
-    				} else {
-    					console.log("Não há nenhum empréstimo feito com este livro.")
-    					
-    					this.devolucao();
-    				}
+			const isbn = readlineSync.question(`| Digite o ISBN: `);
+			
+			//Busca livro via ISBN no banco.
+    		const livro = JSON.parse(await livS.getLivroByISBN(isbn));
+    		
+    		if (livro !== null && usuario !== null) {
+    			//Verifica se há algum empréstimo do livro pelo usuário.
+    			if (await empS.validarEmprestimo(livro.id, usuario.id)) {
+    				console.log("Devolvendo livro...")
+    				
+    				empRep.updateStatus(livro.id, usuario.id);
+    				this.devolucao()
     			} else {
-    				console.log("O empréstimo falhou! O livro não existe!");
+    				console.log("Não há nenhum empréstimo feito com este livro.")
+    				
+    				this.devolucao();
     			}
     		} else {
-    			console.log("Usuário nulo!");
-    		} 
+    			console.log("O empréstimo falhou! O livro não existe!");
+    		}
+
 		} catch (error: any) {
         	console.error("Erro:", error.message);
     	}

@@ -49,10 +49,12 @@ const index_2 = require("../index");
 const UsuarioService_1 = require("../service/UsuarioService");
 const LivroService_1 = require("../service/LivroService");
 const EmprestimoService_1 = require("../service/EmprestimoService");
+const EmprestimoRepository_1 = require("../repository/EmprestimoRepository");
 //Instância de UsuarioService destinada a ser utilizada em todos os métodos da classe.
 const empS = new EmprestimoService_1.EmprestimoService();
 const userS = new UsuarioService_1.UsuarioService();
 const livS = new LivroService_1.LivroService();
+const empRep = new EmprestimoRepository_1.EmprestimoRepository();
 class InterfaceDevolucao {
     //Página home de devoluções
     devolucao() {
@@ -73,7 +75,7 @@ class InterfaceDevolucao {
                 this.listarDevolucoes();
             }
             else if (resp == 2) {
-                //this.realizarEmprestimo();
+                this.realizarDevolucao();
             }
             else {
                 index_1.form.desconectar();
@@ -99,6 +101,41 @@ class InterfaceDevolucao {
                 }
                 else {
                     index_1.form.desconectar();
+                }
+            }
+            catch (error) {
+                console.error("Erro:", error.message);
+            }
+        });
+    }
+    //Se der tempo, fazer método RealizarDevoluções
+    //Antes de realizar a Devolução, o Usuário precisa informar o Livro.
+    //O usuário deve informar um ISBN válido, para o sistema buscar o livro.
+    realizarDevolucao() {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.clear();
+            console.log(`|-------------- Realizar Devolucao -------------|`);
+            console.log(`| . . . . . . . . . . . . . . . . . . . . . . . |`);
+            //Busca dados de usuário no banco.
+            const usuario = yield userS.getUsuario(index_2.Sessao.email);
+            try {
+                const isbn = readlineSync.question(`| Digite o ISBN: `);
+                //Busca livro via ISBN no banco.
+                const livro = JSON.parse(yield livS.getLivroByISBN(isbn));
+                if (livro !== null && usuario !== null) {
+                    //Verifica se há algum empréstimo do livro pelo usuário.
+                    if (yield empS.validarEmprestimo(livro.id, usuario.id)) {
+                        console.log("Devolvendo livro...");
+                        empRep.updateStatus(livro.id, usuario.id);
+                        this.devolucao();
+                    }
+                    else {
+                        console.log("Não há nenhum empréstimo feito com este livro.");
+                        this.devolucao();
+                    }
+                }
+                else {
+                    console.log("O empréstimo falhou! O livro não existe!");
                 }
             }
             catch (error) {
