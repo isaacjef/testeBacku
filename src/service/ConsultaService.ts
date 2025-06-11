@@ -21,7 +21,7 @@ export class ConsultaService {
     	const livro = await livRep.findByISBN(isbn);
         
         //VErifica se o livro é nulo.
-        if (verificacao) {
+        if (livro !== null) {
         	return true;
         } else {
         	livRep.save(titulo, isbn);
